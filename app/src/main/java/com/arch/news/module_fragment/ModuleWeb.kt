@@ -2,6 +2,9 @@ package com.arch.news.module_fragment
 
 import com.arch.domain.web.WebUseCase
 import com.arch.news.scope.FragmentScope
+import com.arch.portdomain.StateFlowListener
+import com.arch.portdomain.SubjectState
+import com.arch.portdomain.model.StateFlow
 import com.arch.portdomain.web.IWebUseCase
 import com.arch.presentation.fragment.web.IWeb
 import com.arch.presentation.fragment.web.WebFragment
@@ -22,4 +25,8 @@ abstract class ModuleWeb {
     @FragmentScope
     @Binds
     abstract fun bindWebUseCase(usecase : WebUseCase) : IWebUseCase.UseCaseWeb
+
+    @FragmentScope
+    @Binds
+    abstract fun bindStateFlow(stateFlow: SubjectState) : StateFlowListener
 }

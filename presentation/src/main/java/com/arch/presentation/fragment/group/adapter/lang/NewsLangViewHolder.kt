@@ -25,7 +25,7 @@ class NewsLangViewHolder(val context : Context, view : View,val presenter: INews
                 )
                 presenter.onClickLanguage(langValue)
             }
-            Timber.tag(NewsLangViewHolder::class.simpleName).e(Language.flag)
+            Timber.tag(NewsLangViewHolder::class.simpleName.toString()).e(Language.flag)
             it.tvItemLanguage.setBackgroundColor(
                 if (Language.isSelectLang(langKey)) context.resources
                     .getColor(R.color.select_language_ok,null) else context.resources

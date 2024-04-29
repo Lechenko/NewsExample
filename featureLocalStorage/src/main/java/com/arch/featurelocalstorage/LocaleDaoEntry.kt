@@ -26,8 +26,8 @@ interface LocaleDaoEntry {
     @Query("DELETE FROM entry")
     fun deleteTable() : Completable
 
-    @Query("DELETE FROM entry WHERE id = :id")
-    fun deleteEntry(id: Long) : Single<Int>
+//    @Query("DELETE FROM entry WHERE id = :id")
+//    fun deleteEntry(id: Long) : Single<Int>
 
     @Delete
     fun deleteEntry(entry: Entry) : Int

@@ -108,7 +108,10 @@ object Depend {
 
     const val guava = "com.google.guava:guava:31.1-jre"
     // Test unit testImplementation
-    const val testUnit = "junit:junit:${Versions.TestLibraries.junit}"
+     val testUnit = arrayOf(
+        "androidx.test.ext:junit:${Versions.TestLibraries.junitAndroidX}",
+        "junit:junit:${Versions.TestLibraries.junit}"
+    )
 //androidTestImplementation
      val testRunner = arrayOf(
     "androidx.test:runner:${Versions.TestLibraries.runner}",

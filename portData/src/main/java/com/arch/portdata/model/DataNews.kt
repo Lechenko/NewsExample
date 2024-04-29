@@ -9,4 +9,11 @@ data class DataNews(val name: String?,
                     val publishedAt: String?) {
      var id: Long = 0
 
+    override fun toString(): String = "DataNews(name = $name" +
+            "                      author = $author" +
+            "                      title = $title" +
+            "                      description = $description" +
+            "                      url = $url" +
+            "                      urlToImage = $urlToImage" +
+            "                      publishedAt = $publishedAt)"
 }

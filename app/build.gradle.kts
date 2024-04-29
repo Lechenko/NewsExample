@@ -38,7 +38,6 @@ android {
         buildConfigField ("String", "VERSION_NAME","\"${versionName}\"")
         buildConfigField ("String", "APP_NAME","\"${appName}\"")
         setProperty("archivesBaseName", appName + "_" + versionName)
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
     }
 
@@ -97,7 +96,7 @@ dependencies {
     //Log
     implementation(Depend.timberJava)
 
-
+    implementation(Depend.gson)
 //    //Module
     api(project(path = ":comm"))
     implementation(project(path = ":portData"))
@@ -108,8 +107,6 @@ dependencies {
     implementation(project(path = ":domain"))
     implementation(project(path = ":featureLocalStorage"))
     implementation(project(path = ":featureRemoteApi"))
-    testImplementation(Depend.testUnit)
-    Depend.testRunner.forEach { androidTestImplementation(it) }
 }
 kapt {
     mapDiagnosticLocations = true // include the Kotlin files into error reports

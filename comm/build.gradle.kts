@@ -15,8 +15,6 @@ android {
         minSdk = Versions.minSdk
         val sharedName = Versions.sharedName
         buildConfigField ("String", "SHARED_NAME","\"${sharedName}\"")
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
     }
     buildTypes {

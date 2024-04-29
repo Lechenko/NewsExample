@@ -14,7 +14,6 @@ android {
 
     defaultConfig {
         minSdk = Versions.minSdk
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         val baseUrl = Versions.base_url
         val apiKey = Versions.api_key
         buildConfigField ("String", "BASE_URL","\"${baseUrl}\"")
@@ -66,6 +65,5 @@ dependencies {
 
     //Log
     implementation(Depend.timberJava)
-    testImplementation(Depend.testUnit)
-    Depend.testRunner.forEach { androidTestImplementation(it) }
+
 }

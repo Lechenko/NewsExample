@@ -14,7 +14,6 @@ android {
 
     defaultConfig {
         minSdk = Versions.minSdk
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         val daoName = Versions.dao_name
         buildConfigField ("String", "DAO_NAME","\"${daoName}\"")
         consumerProguardFiles("consumer-rules.pro")
@@ -62,9 +61,7 @@ dependencies {
     kapt(Depend.roomAnnotationProcessor)
     //Log
     implementation(Depend.timberJava)
-    //TEST
-    testImplementation(Depend.testUnit)
-    Depend.testRunner.forEach { androidTestImplementation(it) }
+
 }
 kapt {
     mapDiagnosticLocations = true

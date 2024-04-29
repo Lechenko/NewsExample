@@ -19,6 +19,10 @@ class Entry(
 ) {
 
     override fun toString(): String {
-        return if (BuildConfig.DEBUG) super.toString() else ""
+        return if (BuildConfig.DEBUG)  "DataNews(name = $name" +
+                "                      author = $author" +
+                "                      title = $title" +
+                "                      description = $description" +
+                "                      url = $url"  else ""
     }
 }

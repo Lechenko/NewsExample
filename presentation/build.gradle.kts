@@ -14,9 +14,7 @@ android {
     defaultConfig {
         Versions.appliccationId
         minSdk = Versions.minSdk
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
     }
 
@@ -72,11 +70,6 @@ dependencies {
     implementation(Depend.timberJava)
     implementation(Depend.glide)
     kapt(Depend.glideAnnotationProcessor)
-    //TEST
-    testImplementation(Depend.testUnit)
-    Depend.testRunner.forEach { androidTestImplementation(it) }
-    androidTestImplementation(Depend.testEspresso)
-
 }
 kapt {
     mapDiagnosticLocations = true

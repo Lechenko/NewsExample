@@ -1,6 +1,5 @@
 package com.arch.featureremoteapi.api
 
-import android.util.Config
 import com.arch.featureremoteapi.BuildConfig
 import com.google.gson.FieldNamingPolicy
 import com.google.gson.Gson
@@ -18,7 +17,7 @@ class HttpService() {
 
     private fun okHttpClient(): OkHttpClient {
         val builder = OkHttpClient.Builder()
-        if (Config.DEBUG) {
+        if (BuildConfig.DEBUG) {
             val logging = HttpLoggingInterceptor()
             logging.setLevel(HttpLoggingInterceptor.Level.BODY)
             builder.addInterceptor(logging)

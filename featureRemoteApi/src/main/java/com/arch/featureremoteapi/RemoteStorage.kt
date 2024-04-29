@@ -13,8 +13,8 @@ class RemoteStorage : IRemoteStorage{
     private val api : ApiService = HttpService().apiService
     override fun newsLanguage(language: String): Single<ResponseCategory> =
          api.requestLanguage(language)
-             .doOnError {Timber.tag(RemoteStorage::class.simpleName).e("error ".plus(it))  }
-             .doOnSuccess { Timber.tag(RemoteStorage::class.simpleName).e(it.sources.size.toString())  }
+             .doOnError { RemoteStorage::class.simpleName?.let { it1 -> Timber.tag(it1).e("error ".plus(it)) } }
+             .doOnSuccess { RemoteStorage::class.simpleName?.let { it1 -> Timber.tag(it1).e(it.sources.size.toString()) } }
 
     override fun newsSearch(search: String,dataStart: String,dataEnd: String)
     : Single<ResponseNews> = api.requestSearch(search,dataStart,dataEnd,BuildConfig.API_KEY)

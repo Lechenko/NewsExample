@@ -41,7 +41,7 @@ class WebFragment : BaseFragment<FragmentWebBinding>(),IWeb.View {
         binding.event = presenter
         if (arguments != null) {
 
-            val newsModel = arguments?.getParcelable<NewsModel>(TAG) as NewsModel
+            val newsModel = arguments?.getParcelable(TAG,NewsModel::class.java)
             if (newsModel != null) {
                 binding.item = newsModel
                 if (newsModel.id != 0L) binding.ivWebFavorites.visibility = View.GONE

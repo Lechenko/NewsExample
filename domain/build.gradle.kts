@@ -13,7 +13,6 @@ android {
 
     defaultConfig {
         minSdk = Versions.minSdk
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
     }
 
@@ -59,10 +58,7 @@ dependencies {
     Depend.rxAndroid.forEach { implementation(it) }
     //Log
     implementation(Depend.timberJava)
-    implementation(project(mapOf("path" to ":presentation")))
-    //TEST
-    testImplementation(Depend.testUnit)
-    Depend.testRunner.forEach { androidTestImplementation(it) }
+
     implementation(Depend.glide)
     kapt(Depend.glideAnnotationProcessor)
 }

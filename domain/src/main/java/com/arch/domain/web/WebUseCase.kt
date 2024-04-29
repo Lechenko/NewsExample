@@ -30,7 +30,7 @@ class WebUseCase @Inject constructor(private val repositoryDao : IRepositoryDAO)
                 if (::presenterListener.isInitialized)presenterListener
                     .onMessage("save ok")
             },{
-                Timber.tag(NewsUseCase::class.simpleName).e(it)
+                Timber.tag(WebUseCase::class.simpleName.toString()).e(it)
                 if (::presenterListener.isInitialized)presenterListener
                     .onMessage(
                         ErrorType.ERROR.type.plus(" ")

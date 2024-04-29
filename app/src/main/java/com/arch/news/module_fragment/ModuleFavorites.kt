@@ -2,7 +2,11 @@ package com.arch.news.module_fragment
 
 import com.arch.domain.favorites.FavoritesUseCase
 import com.arch.news.scope.FragmentScope
+import com.arch.portdomain.Interactor
+import com.arch.portdomain.StateFlowListener
+import com.arch.portdomain.SubjectState
 import com.arch.portdomain.favorites.IFavoritesUseCase
+import com.arch.portdomain.model.StateFlow
 import com.arch.presentation.fragment.favorites.IFavoritesNews
 import com.arch.presentation.fragment.favorites.NewsFavorites
 import com.arch.presentation.fragment.favorites.NewsFavoritesPresenter
@@ -22,4 +26,9 @@ abstract class ModuleFavorites {
     @FragmentScope
     @Binds
     abstract fun bindFavoritesUseCase(useCase: FavoritesUseCase) : IFavoritesUseCase.UseCaseFavorites
+
+    @FragmentScope
+    @Binds
+    abstract fun bindStateFlow(stateFlow: SubjectState) : StateFlowListener
+
 }

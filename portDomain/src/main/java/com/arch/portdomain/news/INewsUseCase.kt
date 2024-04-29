@@ -6,8 +6,6 @@ import com.arch.portdomain.model.NewsModel
 interface INewsUseCase {
 
     interface UseCaseNews : Interactor{
-        fun initListener(listener : INewsUseCase.PresenterListener)
-
         fun loadNewsChannel(newsChannel: String)
 
         fun loadNewsCountry(country: String)

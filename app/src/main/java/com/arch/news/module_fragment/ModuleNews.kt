@@ -2,6 +2,9 @@ package com.arch.news.module_fragment
 
 import com.arch.domain.news.NewsUseCase
 import com.arch.news.scope.FragmentScope
+import com.arch.portdomain.StateFlowListener
+import com.arch.portdomain.SubjectState
+import com.arch.portdomain.model.StateFlow
 import com.arch.portdomain.news.INewsUseCase
 import com.arch.presentation.fragment.news.INews
 import com.arch.presentation.fragment.news.News
@@ -22,4 +25,8 @@ abstract class ModuleNews {
     @FragmentScope
     @Binds
     abstract fun bindNewsUseCase(useCase: NewsUseCase) : INewsUseCase.UseCaseNews
+
+    @FragmentScope
+    @Binds
+    abstract fun bindStateFlow(stateFlow: SubjectState) : StateFlowListener
 }

@@ -14,7 +14,6 @@ android {
 
     defaultConfig {
         minSdk = Versions.minSdk
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
     }
 
@@ -61,11 +60,9 @@ dependencies {
     Depend.rxAndroid.forEach { implementation(it) }
     //Apache
     Depend.apache.forEach { implementation(it) }
+    implementation(Depend.gson)
     //Log
     implementation(Depend.timberJava)
-    //TEST
-    testImplementation(Depend.testUnit)
-    Depend.testRunner.forEach { androidTestImplementation(it) }
 }
 kapt {
     mapDiagnosticLocations = true

@@ -1,5 +1,5 @@
  object Versions {
-    const val varsionJava = 18
+    const val varsionJava = 17
     const val versionName = "1.0"
     const val versionCode = 1
     const val appName = "News"
@@ -60,7 +60,8 @@
         // Gson
         const val gson = "2.10.1"
         // Timber
-        const val timber = "4.7.1"
+            // const val timber = "4.7.1"
+        const val timber = "5.0.1"
         // Glide
         const val glide = "4.14.2"
 
@@ -74,8 +75,9 @@
     }
     object TestLibraries{
         const val junit = "4.13.2"
+        const val junitAndroidX = "1.1.5"
         const val runner = "1.4.0"
         const val ext = "1.1.3"
-        const val espresso = "3.2.0"
+        const val espresso = "3.5.1"
     }
 }

@@ -2,6 +2,7 @@ package com.arch.presentation.activity
 
 import android.os.Bundle
 import android.view.View
+import androidx.drawerlayout.widget.DrawerLayout
 import com.arch.presentation.R
 import com.arch.presentation.base.BaseActivity
 import com.arch.presentation.base.BasePresenter
@@ -15,8 +16,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(),
     IMainView.View {
     @Inject
     lateinit var presenter: IMainView.Presenter
-    @Inject
-    lateinit var router : IRouter
 
     override val layoutRes: Int = R.layout.activity_main
 
@@ -25,9 +24,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>(),
     }
 
     override fun createActivity(savedInstanceState: Bundle?) {
-        binding.router = router
-        router.init(binding.drawerLayout)
-        router.transaction(ConstRouter.NEWS_GROUP_FRAGMENT.route)
+        binding.router = presenter.funBindingRouter()
+        presenter.initDrawerLayout(binding.drawerLayout)
     }
 
     override fun stopActivity() {
@@ -52,6 +50,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(),
 
     override fun getPresenter(): BasePresenter = presenter
 
+
     override fun setAppBarText(name: String) {
 
     }
@@ -61,7 +60,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(),
     }
 
     override fun onMessage(message: String) {
-
+        super.toastLong(message)
     }
 
     override fun isProgress(flag: Boolean) {
