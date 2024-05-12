@@ -5,17 +5,23 @@ import android.view.View
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.lifecycle.viewModelScope
 import com.arch.presentation.R
 import com.arch.presentation.base.BaseActivity
 import com.arch.presentation.databinding.ActivityMainBinding
+import io.reactivex.rxjava3.disposables.CompositeDisposable
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 import javax.inject.Inject
 
 class MainActivity : BaseActivity<ActivityMainBinding>(),
     IMainView.View {
+    private var disposable : CompositeDisposable? = CompositeDisposable()
+
     @Inject
     lateinit var viewModel: MainViewModel
+
 //    private val viewModel by lazy{
 //        ViewModelProvider(this, factory)[MainViewModel::class.java]
 //    }
@@ -32,6 +38,16 @@ class MainActivity : BaseActivity<ActivityMainBinding>(),
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.startFragmentMain()
+                disposable?.add(viewModel.state().subscribe({
+
+                }, {
+                    Timber.tag(MainActivity::class.java.name)
+                        .e("error viewModel.state() ".plus(it.message))
+                }))
+            }
+            repeatOnLifecycle(Lifecycle.State.DESTROYED) {
+               viewModel.onDestroyView()
+               disposable?.clear()
             }
         }
     }
@@ -57,7 +73,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(),
     }
 
 
-
     override fun setAppBarText(name: String) {
 
     }
@@ -71,7 +86,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(),
     }
 
     override fun isProgress(flag: Boolean) {
-        binding.progressBar.visibility = if(flag) View.VISIBLE else View.INVISIBLE
+        binding.progressBar.visibility = if (flag) View.VISIBLE else View.INVISIBLE
     }
 
     override fun hideBottomNavigation(flag: Boolean) {

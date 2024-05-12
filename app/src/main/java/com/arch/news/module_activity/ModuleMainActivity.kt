@@ -6,6 +6,8 @@ import androidx.lifecycle.ViewModelProvider
 import com.arch.news.scope.ActivityScope
 import com.arch.domain.main.MainUseCase
 import com.arch.news.scope.ViewModelKey
+import com.arch.portdomain.StateFlowListener
+import com.arch.portdomain.SubjectState
 import com.arch.portdomain.ViewModelFactory
 import com.arch.portdomain.main.IMainUseCase
 import com.arch.presentation.activity.MainActivity
@@ -42,13 +44,12 @@ abstract class ModuleMainActivity {
         @ViewModelKey(MainViewModel::class)
         fun bindMyViewModel(factory:  ViewModelFactory,activity : MainActivity): ViewModel =
             ViewModelProvider(activity, factory)[MainViewModel::class.java]
-
-
     }
 
     @ActivityScope
     @Binds
     abstract fun bindMainUseCase(useCase: MainUseCase): IMainUseCase
 
-
+    @Binds
+    abstract fun bindStateFlow(stateFlow: SubjectState) : StateFlowListener
 }
