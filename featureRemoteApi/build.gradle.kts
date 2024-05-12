@@ -9,11 +9,10 @@ plugins {
 
 android {
     namespace = "com.arch.featureremoteapi"
-    compileSdk = Versions.targetSdk
-
 
     defaultConfig {
         minSdk = Versions.minSdk
+        compileSdk = Versions.compileSdk
         val baseUrl = Versions.base_url
         val apiKey = Versions.api_key
         buildConfigField ("String", "BASE_URL","\"${baseUrl}\"")

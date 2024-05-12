@@ -9,10 +9,8 @@ plugins {
 
 android {
     namespace = "com.arch.data"
-    compileSdk = Versions.targetSdk
-
-
     defaultConfig {
+        compileSdk = Versions.compileSdk
         minSdk = Versions.minSdk
         consumerProguardFiles("consumer-rules.pro")
     }

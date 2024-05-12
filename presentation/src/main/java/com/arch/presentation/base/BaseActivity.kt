@@ -43,10 +43,10 @@ abstract class BaseActivity<Binding : ViewDataBinding> : DaggerAppCompatActivity
     protected abstract fun pauseActivity()
     protected abstract fun resumeActivity()
     protected abstract fun destroyActivity()
-    protected abstract fun getPresenter(): BasePresenter
+   // protected abstract fun getPresenter(): BasePresenter
 
     override fun onDestroy() {
-        getPresenter().destroyView()
+     //   getPresenter().destroyView()
         destroyActivity()
         if (::binding.isInitialized) binding.unbind()
         super.onDestroy()
@@ -74,19 +74,19 @@ abstract class BaseActivity<Binding : ViewDataBinding> : DaggerAppCompatActivity
 
     override fun onStart() {
         super.onStart()
-        getPresenter().startView()
+    //    getPresenter().startView()
         startActivity()
     }
 
 
     override fun onStop() {
-        getPresenter().stopView()
+      //  getPresenter().stopView()
         stopActivity()
         super.onStop()
     }
 
     override fun onPause() {
-        getPresenter().pauseView()
+       // getPresenter().pauseView()
         pauseActivity()
         super.onPause()
     }

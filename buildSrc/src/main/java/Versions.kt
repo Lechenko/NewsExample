@@ -3,7 +3,7 @@
     const val versionName = "1.0"
     const val versionCode = 1
     const val appName = "News"
-    const val appliccationId = "com.arch.news"
+    const val applicationId = "com.arch.news"
     const val base_url = "https://newsapi.org"
     const val api_key = "7b2e2d90925644038c883f86e18b1fe2"
     const val base_url_wws = "ws://"
@@ -26,6 +26,10 @@
         const val worker = "2.8"
         const val androidWindow = "1.1.0"
     }
+     object ComponentJetPackVM{
+         const val lifecycle_version = "2.7.0"
+     }
+
     object CameraX{
        // const val cameraView = "1.2.0"
         const val cameraView = "1.0.2"

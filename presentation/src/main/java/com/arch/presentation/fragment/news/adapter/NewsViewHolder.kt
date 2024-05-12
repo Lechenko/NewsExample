@@ -16,7 +16,7 @@ class NewsViewHolder constructor(val context : Context,val view : View,
         binding?.let { it.event = presenter }
     }
 
-    fun bind(item : NewsModel, position : Int){
+    fun bind(item: NewsModel){
         binding?.let {
             item.urlToImage?.let {urlToImage ->
                 GlideApp.with(view)

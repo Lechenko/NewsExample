@@ -18,7 +18,7 @@ class NewsAdapter(val presenter : INews.Presenter) : RecyclerView.Adapter<NewsVi
     override fun getItemCount(): Int = mList.size
 
     override fun onBindViewHolder(holder: NewsViewHolder, position: Int) {
-       if (mList.size > 0)holder.bind(mList[position],position)
+       if (mList.size > 0)holder.bind(mList[position])
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -28,10 +28,11 @@ class NewsAdapter(val presenter : INews.Presenter) : RecyclerView.Adapter<NewsVi
     }
 
     fun deleteItem(position : Int){
-
+        //TODO no used inprogress
     }
 
-    fun addItem(item : NewsModel){
 
+    fun addItem(item : NewsModel){
+        //TODO no used inprogress
     }
 }

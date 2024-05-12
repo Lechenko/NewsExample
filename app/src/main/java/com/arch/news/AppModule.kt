@@ -49,6 +49,4 @@ object AppModule {
         @Singleton
         @Provides
         fun provideRepositoryApi() : IRepositoryApi = RepositoryApi()
-
-
 }

@@ -23,6 +23,12 @@ class Router @Inject constructor(
 
     }
 
+//    fun <T> binding(klass : T){
+//        when(klass::class.java.name){
+//
+//        }
+//    }
+
     override fun onStartView() {
 
     }

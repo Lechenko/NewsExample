@@ -24,6 +24,8 @@ import java.io.File
 import java.util.Objects
 import kotlin.math.min
 
+
+
 abstract class BaseFragment<Binding : ViewDataBinding> : DaggerFragment() {
     protected abstract fun getPresenter(): BasePresenter
     protected lateinit var binding: Binding
@@ -176,10 +178,25 @@ abstract class BaseFragment<Binding : ViewDataBinding> : DaggerFragment() {
         Objects.requireNonNull(imm)
             .showSoftInput(requireActivity().window.decorView, InputMethodManager.SHOW_IMPLICIT)
     }
-
+    @Suppress("DEPRECATION")
     protected open fun getDimension(): Int {
         val point = Point()
         requireActivity().windowManager.defaultDisplay.getSize(point)
         return min(point.x, point.y)
+    }
+
+
+
+
+    fun getDimensionA(): Int {
+       var size = 0
+       activity?.let {
+           val windowMetrics =
+               WindowMetricsCalculator.getOrCreate().computeCurrentWindowMetrics(it)
+           val height: Int = windowMetrics.bounds.height()
+           val width: Int = windowMetrics.bounds.width()
+           size =  min(height, width)
+       }
+        return size
     }
 }

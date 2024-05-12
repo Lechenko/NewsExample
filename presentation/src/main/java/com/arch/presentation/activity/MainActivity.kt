@@ -2,20 +2,23 @@ package com.arch.presentation.activity
 
 import android.os.Bundle
 import android.view.View
-import androidx.drawerlayout.widget.DrawerLayout
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.arch.presentation.R
 import com.arch.presentation.base.BaseActivity
-import com.arch.presentation.base.BasePresenter
 import com.arch.presentation.databinding.ActivityMainBinding
-import com.arch.presentation.router.ConstRouter
-import com.arch.presentation.router.IRouter
+import kotlinx.coroutines.launch
 
 import javax.inject.Inject
 
 class MainActivity : BaseActivity<ActivityMainBinding>(),
     IMainView.View {
     @Inject
-    lateinit var presenter: IMainView.Presenter
+    lateinit var viewModel: MainViewModel
+//    private val viewModel by lazy{
+//        ViewModelProvider(this, factory)[MainViewModel::class.java]
+//    }
 
     override val layoutRes: Int = R.layout.activity_main
 
@@ -24,8 +27,13 @@ class MainActivity : BaseActivity<ActivityMainBinding>(),
     }
 
     override fun createActivity(savedInstanceState: Bundle?) {
-        binding.router = presenter.funBindingRouter()
-        presenter.initDrawerLayout(binding.drawerLayout)
+        binding.router = viewModel.funBindingRouter()
+        viewModel.initDrawerLayout(binding.drawerLayout)
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.startFragmentMain()
+            }
+        }
     }
 
     override fun stopActivity() {
@@ -48,7 +56,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(),
 
     }
 
-    override fun getPresenter(): BasePresenter = presenter
 
 
     override fun setAppBarText(name: String) {

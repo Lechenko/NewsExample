@@ -9,7 +9,12 @@ object Depend {
         "androidx.window:window:${Versions.SupportAndroidLibs.androidWindow}",
         "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
     )
-
+    const val lifecycleKpt = "androidx.lifecycle:lifecycle-compiler:${Versions.ComponentJetPackVM.lifecycle_version}"
+    val lifecycle_viewmodel = arrayOf(
+       "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.ComponentJetPackVM.lifecycle_version}",
+        "androidx.lifecycle:lifecycle-service:${Versions.ComponentJetPackVM.lifecycle_version}",
+        "androidx.lifecycle:lifecycle-process:${Versions.ComponentJetPackVM.lifecycle_version}",
+        "androidx.lifecycle:lifecycle-reactivestreams-ktx:${Versions.ComponentJetPackVM.lifecycle_version}")
     val androidCameraX = arrayOf(
         "androidx.camera:camera-core:${Versions.CameraX.cameraView}",
         "androidx.camera:camera-view:1.0.0-alpha30",

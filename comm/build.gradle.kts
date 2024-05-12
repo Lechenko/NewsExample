@@ -9,9 +9,8 @@ plugins {
 
 android {
     namespace = "com.arch.comm"
-    compileSdk = Versions.compileSdk
-
     defaultConfig {
+        compileSdk = Versions.compileSdk
         minSdk = Versions.minSdk
         val sharedName = Versions.sharedName
         buildConfigField ("String", "SHARED_NAME","\"${sharedName}\"")

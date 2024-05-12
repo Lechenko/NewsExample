@@ -9,10 +9,8 @@ plugins {
 
 android {
     namespace = "com.arch.featurelocalstorage"
-    compileSdk = Versions.targetSdk
-
-
     defaultConfig {
+        compileSdk = Versions.compileSdk
         minSdk = Versions.minSdk
         val daoName = Versions.dao_name
         buildConfigField ("String", "DAO_NAME","\"${daoName}\"")

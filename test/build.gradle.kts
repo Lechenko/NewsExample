@@ -9,18 +9,16 @@ plugins {
 
 android {
     namespace = "com.arch.test"
-    compileSdk = 33
-    compileSdk = Versions.compileSdk
     testOptions.unitTests.isIncludeAndroidResources = true
     defaultConfig {
-        Versions.appliccationId
+        compileSdk = Versions.compileSdk
         minSdk = Versions.minSdk
         val apiKey = Versions.api_key
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField ("String", "API_KEY","\"${apiKey}\"")
         testFunctionalTest = true
         testHandleProfiling = true
-        testApplicationId = "test111"
+      //  testApplicationId = "test_news"
     }
     buildTypes {
         getByName("debug") {

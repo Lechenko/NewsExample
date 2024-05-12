@@ -39,7 +39,7 @@ class News : BaseFragment<FragmentNewsBinding>(), INews.View{
         binding.event = presenter
         displayNewsInit()
             if (arguments != null ) {
-               val argObject = arguments?.getParcelable(TAG, ArgObject::class.java)
+               val argObject = arguments?.getParcelable(TAG,ArgObject::class.java)
                if (argObject != null) presenter.init(argObject)
             }
 

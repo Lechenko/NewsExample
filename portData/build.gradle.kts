@@ -7,9 +7,8 @@ plugins {
 
 android {
     namespace = "com.arch.portdata"
-    compileSdk = Versions.targetSdk
-
     defaultConfig {
+        compileSdk = Versions.compileSdk
         minSdk = Versions.minSdk
         consumerProguardFiles("consumer-rules.pro")
     }

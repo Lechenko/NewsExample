@@ -13,8 +13,8 @@ android {
     }
     compileOptions.incremental = false
     buildFeatures.dataBinding = true
-    namespace = Versions.appliccationId
-    compileSdk = Versions.compileSdk
+    namespace = Versions.applicationId
+    buildFeatures.buildConfig = true
 //    signingConfigs {
 //        create("release") {
 //            storeFile = file("..\\key.jks")
@@ -29,10 +29,11 @@ android {
 //            keyPassword = "PASSWORD"
 //        }
     defaultConfig {
-        applicationId = Versions.appliccationId
+        applicationId = Versions.applicationId
         minSdk = Versions.minSdk
         targetSdk = Versions.targetSdk
         versionCode = Versions.versionCode
+        compileSdk = Versions.compileSdk
         val appName: String = Versions.appName
         val versionName : String = Versions.versionName
         buildConfigField ("String", "VERSION_NAME","\"${versionName}\"")
@@ -40,7 +41,9 @@ android {
         setProperty("archivesBaseName", appName + "_" + versionName)
         vectorDrawables.useSupportLibrary = true
     }
-
+    buildFeatures {
+        buildConfig = true
+    }
     buildTypes {
         getByName("debug") {
             isDebuggable = true

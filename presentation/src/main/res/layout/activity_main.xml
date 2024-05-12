@@ -8,6 +8,9 @@
         <variable
             name="router"
             type="com.arch.presentation.router.IRouter" />
+        <variable
+            name="vm"
+            type="com.arch.presentation.activity.MainViewModel" />
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"

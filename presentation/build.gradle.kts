@@ -9,10 +9,10 @@ plugins {
 
 android {
     namespace = "com.arch.presentation"
-    compileSdk = Versions.compileSdk
     buildFeatures.dataBinding = true
     defaultConfig {
-        Versions.appliccationId
+        Versions.applicationId
+        compileSdk = Versions.compileSdk
         minSdk = Versions.minSdk
         vectorDrawables.useSupportLibrary = true
         consumerProguardFiles("consumer-rules.pro")
@@ -58,6 +58,8 @@ dependencies {
     implementation(project(path = ":comm"))
     implementation(project(path = ":portDomain"))
     Depend.kotlinDependency.forEach { implementation(it) }
+    Depend.lifecycle_viewmodel.forEach { implementation(it) }
+    kapt(Depend.lifecycleKpt)
 
     Depend.supportAndroidLibs.forEach { implementation(it) }
     // Dagger
