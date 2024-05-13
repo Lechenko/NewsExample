@@ -9,6 +9,7 @@ import com.arch.presentation.router.ConstRouter
 import com.arch.presentation.router.IRouter
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.schedulers.Schedulers
 import javax.inject.Inject
 
 class NewsFavoritesVM @Inject constructor(
@@ -18,7 +19,8 @@ class NewsFavoritesVM @Inject constructor(
     fun state(): Observable<StateFlow> = Observable.defer {
         Observable.merge(
             publisherStateView(), useCase.stateDomain()
-        ).map { state ->
+        )}.compose(applyObservableSchedulers())
+        .map { state ->
             if (
                 EnumStateFlow.STATUS_OK_NEWS.const == state.status ||
                 EnumStateFlow.STATUS_MGS.const == state.status) {
@@ -26,7 +28,6 @@ class NewsFavoritesVM @Inject constructor(
             }
             state
         }
-    }.observeOn(AndroidSchedulers.mainThread())
 
     init {
         useCase.startCase()

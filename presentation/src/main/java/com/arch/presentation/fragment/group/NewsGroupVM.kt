@@ -12,42 +12,50 @@ import com.arch.presentation.router.IRouter
 import com.arch.presentation.util.Language
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.schedulers.Schedulers
 import javax.inject.Inject
 
 class NewsGroupVM @Inject constructor(
     private val router: IRouter,
     private val useCase: IGroupsUseCase.UseCaseGroup
-) : BaseVM(){
+) : BaseVM() {
     fun state(): Observable<StateFlow> = Observable.defer {
         Observable.merge(
             publisherStateView(), useCase.stateDomain()
         )
-    }.observeOn(AndroidSchedulers.mainThread())
+    }.compose(applyObservableSchedulers())
 
     init {
         useCase.startCase()
     }
-     fun init() {
+
+    fun init() {
         Language.flag = Language.ALL
         useCase.loadCategory()
     }
 
-     fun selectedItem(model: NewsGroupModel) {
-        model.id?.let { router.transaction(
-            ConstRouter.NEWS_FRAGMENT.route,
-            ArgObject(ConstRouter.ARG_NEWS.route, news = it)
-        )}
+    fun selectedItem(model: NewsGroupModel) {
+        model.id?.let {
+            router.transaction(
+                ConstRouter.NEWS_FRAGMENT.route,
+                ArgObject(ConstRouter.ARG_NEWS.route, news = it)
+            )
+        }
     }
 
-     fun callMenu() {
+    fun callMenu() {
         router.openDrawer()
     }
 
-     fun onClickLanguage(lang: String) {
+    fun onClickLanguage(lang: String) {
         if (lang == Language.ALL) useCase.loadCategory()
         else useCase.selectLanguage(lang)
-         onNext(StateFlow(EnumStateFlow.STATUS_EVENT.const,
-             message = EventState.UPDATE_ADAPTER.const))
+        onNext(
+            StateFlow(
+                EnumStateFlow.STATUS_EVENT.const,
+                message = EventState.UPDATE_ADAPTER.const
+            )
+        )
     }
 
     override fun onCleared() {

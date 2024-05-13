@@ -12,7 +12,7 @@ class SearchVM @Inject constructor(
 
     fun state(): Observable<StateFlow> = Observable.defer {
         publisherStateView()
-    }
+    }.compose(applyObservableSchedulers())
 
      fun onClickDataFrom() {
 

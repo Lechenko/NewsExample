@@ -24,7 +24,6 @@ class FavoritesUseCase @Inject constructor(private val repositoryDao : IReposito
        disposable.add(Single.defer { repositoryDao.getFavorites() }
            .subscribeOn(Schedulers.io())
            .flatMap { mapperNews(it)}
-           .observeOn(AndroidSchedulers.mainThread())
            .doOnSuccess{ onNext(StateFlow(
                status = EnumStateFlow.STATUS_OK_NEWS_LIST.const,
                modelNews = it.toMutableList())) }
@@ -47,7 +46,6 @@ class FavoritesUseCase @Inject constructor(private val repositoryDao : IReposito
         disposable.add(Single.defer { mapperDataNews(news) }
             .subscribeOn(Schedulers.io())
             .flatMap{ repositoryDao.deleteFavorites(it) }
-            .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
                 onNext(StateFlow(
                     status = EnumStateFlow.STATUS_OK_NEWS.const,

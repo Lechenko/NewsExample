@@ -42,7 +42,7 @@ class NewsFavorites : BaseFragment<FragmentNewsFavoritesBinding, NewsFavoritesVM
 
     override fun startFragment() {
         if (disposable?.isDisposed != true) disposable?.clear()
-        val subscribeState = viewModel.state().observeOn(AndroidSchedulers.mainThread())
+        val subscribeState = viewModel.state()
         disposable?.add(subscribeState.subscribe({
             when (it.status) {
                 EnumStateFlow.STATUS_OK_NEWS.const -> {

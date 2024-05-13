@@ -25,7 +25,6 @@ class WebUseCase @Inject constructor(
         disposable?.add(Single.defer { mapperDataNews(news) }
             .subscribeOn(Schedulers.io())
             .flatMapCompletable { repositoryDao.saveFavorites(it) }
-            .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
                 onNext(
                     StateFlow(

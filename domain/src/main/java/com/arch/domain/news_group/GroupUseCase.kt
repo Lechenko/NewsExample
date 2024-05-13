@@ -27,7 +27,6 @@ class GroupUseCase @Inject constructor(private val repositoryApi: IRepositoryApi
         disposable?.add(Single.defer { repositoryApi.loadCategory() }
             .subscribeOn(Schedulers.io())
             .flatMap { mapperGroup(it) }
-            .observeOn(AndroidSchedulers.mainThread())
             .doOnSuccess{ onNext(
                 StateFlow(
                     status = EnumStateFlow.STATUS_OK_GROUP_LIST.const,
@@ -54,7 +53,6 @@ class GroupUseCase @Inject constructor(private val repositoryApi: IRepositoryApi
         disposable?.add(Single.defer { repositoryApi.newsLanguage(language) }
             .subscribeOn(Schedulers.io())
             .flatMap { mapperGroup(it) }
-            .observeOn(AndroidSchedulers.mainThread())
             .doOnSuccess{onNext(
                 StateFlow(
                     status = EnumStateFlow.STATUS_OK_GROUP_LIST.const,

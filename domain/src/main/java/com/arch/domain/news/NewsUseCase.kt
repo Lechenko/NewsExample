@@ -26,7 +26,6 @@ class NewsUseCase @Inject constructor(
         disposable.add(Single.defer { repositoryApi.newsChannel(newsChannel) }
             .subscribeOn(Schedulers.io())
             .flatMap { mapperNews(it) }
-            .observeOn(AndroidSchedulers.mainThread())
             .doOnSuccess{ onNext(
                 StateFlow(
                 status = EnumStateFlow.STATUS_OK_NEWS_LIST.const,
@@ -53,7 +52,6 @@ class NewsUseCase @Inject constructor(
         disposable.add(Single.defer { repositoryApi.newsCountry(country)}
             .subscribeOn(Schedulers.io())
             .flatMap { mapperNews(it) }
-            .observeOn(AndroidSchedulers.mainThread())
             .doOnSuccess{onNext(StateFlow(
                 status = EnumStateFlow.STATUS_OK_NEWS_LIST.const,
                 modelNews = it.toMutableList())) }
@@ -76,7 +74,6 @@ class NewsUseCase @Inject constructor(
         disposable.add(Single.defer { repositoryApi.newsSearch(newSearch,dateFrom,dateTo)}
             .subscribeOn(Schedulers.io())
             .flatMap { mapperNews(it) }
-            .observeOn(AndroidSchedulers.mainThread())
             .doOnSuccess{ onNext(StateFlow(
                 status = EnumStateFlow.STATUS_OK_NEWS_LIST.const,
                 modelNews = it.toMutableList())) }
@@ -99,7 +96,6 @@ class NewsUseCase @Inject constructor(
         disposable.add(Single.defer{mapperDataNews(news)}
             .subscribeOn(Schedulers.io())
             .flatMapCompletable { repositoryDao.saveFavorites(it) }
-            .observeOn(AndroidSchedulers.mainThread())
             .doOnEvent{ onNext(StateFlow(
                 status = EnumStateFlow.STATUS_OK_NEWS_LIST.const,
                 message = "save ok")) }
