@@ -5,7 +5,6 @@ import com.arch.portdomain.model.NewsModel
 
 interface IWebUseCase {
     interface UseCaseWeb : Interactor{
-        fun initListener(listener : IWebUseCase.PresenterListener)
         fun saveNews(news: NewsModel)
     }
 

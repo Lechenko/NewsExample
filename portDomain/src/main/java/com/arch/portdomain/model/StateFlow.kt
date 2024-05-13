@@ -15,5 +15,11 @@ enum class EnumStateFlow(val const : Int) {
     STATUS_OK_GROUP_LIST(103),
     STATUS_OK_NEWS(104),
     STATUS_OK_NEWS_LIST(105),
-    STATUS_MGS(201)
+    STATUS_MGS(201),
+    STATUS_LINK(202),
+    STATUS_EVENT(301)
+}
+
+enum class EventState(val const: String){
+    UPDATE_ADAPTER("UPDATE_ADAPTER")
 }

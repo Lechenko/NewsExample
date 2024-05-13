@@ -6,8 +6,6 @@ import androidx.lifecycle.ViewModelProvider
 import com.arch.news.scope.ActivityScope
 import com.arch.domain.main.MainUseCase
 import com.arch.news.scope.ViewModelKey
-import com.arch.portdomain.StateFlowListener
-import com.arch.portdomain.SubjectState
 import com.arch.portdomain.ViewModelFactory
 import com.arch.portdomain.main.IMainUseCase
 import com.arch.presentation.activity.MainActivity
@@ -22,12 +20,10 @@ import dagger.multibindings.IntoMap
 
 @Module
 abstract class ModuleMainActivity {
-    //    @ActivityScope
-//    @Binds
-//    abstract fun bindsMainView(view : MainActivity) : IMainView.View
-//    @ActivityScope
-//    @Binds
-//    abstract fun bindsMainPresenter(presenter : MainPresenter) : IMainView.Presenter
+
+    @ActivityScope
+    @Binds
+    abstract fun bindMainUseCase(useCase: MainUseCase): IMainUseCase
     companion object {
         @ActivityScope
         @Provides
@@ -38,6 +34,7 @@ abstract class ModuleMainActivity {
         @Provides
         fun providePermissions(activity: MainActivity): RxPermissions = RxPermissions(activity)
 
+
         @ActivityScope
         @Provides
         @IntoMap
@@ -46,10 +43,5 @@ abstract class ModuleMainActivity {
             ViewModelProvider(activity, factory)[MainViewModel::class.java]
     }
 
-    @ActivityScope
-    @Binds
-    abstract fun bindMainUseCase(useCase: MainUseCase): IMainUseCase
 
-    @Binds
-    abstract fun bindStateFlow(stateFlow: SubjectState) : StateFlowListener
 }

@@ -1,47 +1,66 @@
 package com.arch.presentation.fragment.favorites
 
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.arch.portdomain.model.EnumStateFlow
 import com.arch.portdomain.model.NewsModel
 import com.arch.presentation.R
 import com.arch.presentation.base.BaseFragment
-import com.arch.presentation.base.BasePresenter
 import com.arch.presentation.databinding.FragmentNewsFavoritesBinding
 import com.arch.presentation.fragment.favorites.adapter.FavoritesAdapter
-import javax.inject.Inject
+import com.arch.presentation.fragment.news.News
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import timber.log.Timber
 
 
-class NewsFavorites : BaseFragment<FragmentNewsFavoritesBinding>(), IFavoritesNews.View {
-   private lateinit var adapter : FavoritesAdapter
-   @Inject
-   lateinit var presenter: IFavoritesNews.Presenter
+class NewsFavorites : BaseFragment<FragmentNewsFavoritesBinding, NewsFavoritesVM>(){
+    private lateinit var adapter: FavoritesAdapter
+
     companion object {
         @JvmStatic
         fun newInstance() = NewsFavorites()
     }
 
-    override fun getPresenter(): BasePresenter = presenter
 
     override val layoutRes: Int = R.layout.fragment_news_favorites
 
     override fun initFragmentView() {
-       binding.event = presenter
-       initAdapter()
-       presenter.init()
+        binding?.event = viewModel
+        initAdapter()
+        viewModel.init()
     }
 
-   private fun initAdapter(){
-    binding.rvFavoritesDisplay.layoutManager =
-     LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-    adapter = FavoritesAdapter(presenter)
-    binding.rvFavoritesDisplay.adapter = adapter
-   }
+    private fun initAdapter() {
+        binding?.rvFavoritesDisplay?.layoutManager =
+            LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+        adapter = FavoritesAdapter(viewModel)
+        binding?.rvFavoritesDisplay?.adapter = adapter
+    }
 
     override fun attachFragment() {
 
     }
 
     override fun startFragment() {
-
+        if (disposable?.isDisposed != true) disposable?.clear()
+        val subscribeState = viewModel.state().observeOn(AndroidSchedulers.mainThread())
+        disposable?.add(subscribeState.subscribe({
+            when (it.status) {
+                EnumStateFlow.STATUS_OK_NEWS.const -> {
+                    adapter.deleteItem(it.modelNews[0])
+                    showMessage("delete ok")
+                }
+                EnumStateFlow.STATUS_OK_NEWS_LIST.const -> {
+                    adapter.updateListAdapter(it.modelNews)
+                }
+                EnumStateFlow.STATUS_MGS.const -> {
+                    showMessage(it.message)
+                }
+            }
+        },{
+            Timber.tag(News::class.java.name.toString())
+                .i("error observationState : ".plus(it.message.toString()))
+            showMessage("error ".plus(it.message))
+        }))
     }
 
     override fun stopFragment() {
@@ -49,7 +68,7 @@ class NewsFavorites : BaseFragment<FragmentNewsFavoritesBinding>(), IFavoritesNe
     }
 
     override fun destroyFragment() {
-
+        viewModel.onDestroyView()
     }
 
     override fun pauseFragment() {
@@ -59,14 +78,4 @@ class NewsFavorites : BaseFragment<FragmentNewsFavoritesBinding>(), IFavoritesNe
     override fun resume() {
 
     }
-
- override fun updateListAdapter(list: List<NewsModel>) {
-    adapter.updateListAdapter(list)
- }
-
- override fun deleteItemAdapter(item: NewsModel) {
-   adapter.deleteItem(item)
- }
-
-
 }

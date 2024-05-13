@@ -15,12 +15,12 @@ import timber.log.Timber
 
 import javax.inject.Inject
 
-class MainActivity : BaseActivity<ActivityMainBinding>(),
+class MainActivity : BaseActivity<ActivityMainBinding,MainViewModel>(),
     IMainView.View {
     private var disposable : CompositeDisposable? = CompositeDisposable()
 
-    @Inject
-    lateinit var viewModel: MainViewModel
+//    @Inject
+//    lateinit var viewModel: MainViewModel
 
 //    private val viewModel by lazy{
 //        ViewModelProvider(this, factory)[MainViewModel::class.java]
@@ -33,8 +33,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>(),
     }
 
     override fun createActivity(savedInstanceState: Bundle?) {
-        binding.router = viewModel.funBindingRouter()
-        viewModel.initDrawerLayout(binding.drawerLayout)
+        binding?.let {
+            it.router = viewModel.funBindingRouter()
+            viewModel.initDrawerLayout(it.drawerLayout)
+        }
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.startFragmentMain()
@@ -86,7 +88,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>(),
     }
 
     override fun isProgress(flag: Boolean) {
-        binding.progressBar.visibility = if (flag) View.VISIBLE else View.INVISIBLE
+        binding?.let {
+            it.progressBar.visibility = if (flag) View.VISIBLE else View.INVISIBLE
+        }
     }
 
     override fun hideBottomNavigation(flag: Boolean) {

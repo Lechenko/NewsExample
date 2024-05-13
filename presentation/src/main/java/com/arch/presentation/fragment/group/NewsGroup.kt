@@ -2,38 +2,39 @@ package com.arch.presentation.fragment.group
 
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.arch.portdomain.model.NewsGroupModel
+import com.arch.portdomain.model.EnumStateFlow
+import com.arch.portdomain.model.EventState
 import com.arch.presentation.R
 import com.arch.presentation.base.BaseFragment
-import com.arch.presentation.base.BasePresenter
 import com.arch.presentation.databinding.FragmentNewsGroupBinding
 import com.arch.presentation.fragment.group.adapter.lang.NewsLanguageAdapter
 import com.arch.presentation.fragment.group.adapter.news.NewsGroupAdapter
-import javax.inject.Inject
+import com.arch.presentation.fragment.news.News
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import timber.log.Timber
 
-class NewsGroup : BaseFragment<FragmentNewsGroupBinding>(), INewsGroup.View {
+class NewsGroup : BaseFragment<FragmentNewsGroupBinding,NewsGroupVM>() {
     private lateinit var adapterNewsGroup : NewsGroupAdapter
     private lateinit var adapterLanguage : NewsLanguageAdapter
 
-    @Inject
-    lateinit var presenter: INewsGroup.Presenter
     companion object {
         @JvmStatic
         fun newInstance() = NewsGroup()
     }
 
-    override fun getPresenter(): BasePresenter = presenter
 
     override val layoutRes: Int = R.layout.fragment_news_group
 
     override fun initFragmentView() {
-        binding.event = presenter
-        displayLanguage()
-        displayGroup()
-        presenter.init()
-        binding.swipeRefreshRv.setOnRefreshListener {
-            presenter.init()
-            binding.swipeRefreshRv.isRefreshing = false
+        binding?.let {
+            it.event = viewModel
+            displayLanguage()
+            displayGroup()
+            viewModel.init()
+            it.swipeRefreshRv.setOnRefreshListener {
+                viewModel.init()
+                it.swipeRefreshRv.isRefreshing = false
+            }
         }
     }
 
@@ -42,7 +43,26 @@ class NewsGroup : BaseFragment<FragmentNewsGroupBinding>(), INewsGroup.View {
     }
 
     override fun startFragment() {
-
+        if (disposable?.isDisposed != true) disposable?.clear()
+        val subscribeState = viewModel.state().observeOn(AndroidSchedulers.mainThread())
+        disposable?.add(subscribeState.subscribe({
+            when (it.status) {
+                EnumStateFlow.STATUS_OK_GROUP_LIST.const -> {
+                    adapterNewsGroup.updateAdapter(it.modelGroup)
+                }
+                EnumStateFlow.STATUS_MGS.const -> {
+                    it.message.let {msg -> showMessage(msg)}
+                }
+                EnumStateFlow.STATUS_EVENT.const -> {
+                    it.message.let {msg -> if (EventState.UPDATE_ADAPTER.const == msg)
+                        adapterLanguage.updateAdapter() }
+                }
+            }
+        },{
+            Timber.tag(News::class.java.name.toString())
+                .i("error observationState : ".plus(it.message.toString()))
+            showMessage("error ".plus(it.message))
+        }))
     }
 
     override fun stopFragment() {
@@ -61,25 +81,23 @@ class NewsGroup : BaseFragment<FragmentNewsGroupBinding>(), INewsGroup.View {
 
     }
 
-    private fun displayGroup() {
-        binding.rvNewsCategoriesDisplay.layoutManager =
-            GridLayoutManager(context, resources.getInteger(R.integer.category_grid_count))
-        adapterNewsGroup = NewsGroupAdapter(presenter)
-        binding.rvNewsCategoriesDisplay.adapter = adapterNewsGroup
-    }
+    private fun displayGroup() =
+        binding?.let {
+            it.rvNewsCategoriesDisplay.layoutManager =
+                GridLayoutManager(context, resources.getInteger(R.integer.category_grid_count))
+            adapterNewsGroup = NewsGroupAdapter(viewModel)
+            it.rvNewsCategoriesDisplay.adapter = adapterNewsGroup
+        }
 
-    override fun updateItemAdapter(list: List<NewsGroupModel>) {
-        adapterNewsGroup.updateAdapter(list)
-    }
 
-    override fun updateAdapterLang() {
-        adapterLanguage.updateAdapter()
-    }
 
-    override fun displayLanguage() {
-        binding.rvNewsCategoryLanguage.layoutManager =
-            LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-        adapterLanguage = NewsLanguageAdapter(presenter)
-        binding.rvNewsCategoryLanguage.adapter = adapterLanguage
-    }
+
+   private  fun displayLanguage() =
+         binding?.let {
+             it.rvNewsCategoryLanguage.layoutManager =
+                 LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+             adapterLanguage = NewsLanguageAdapter(viewModel)
+             it.rvNewsCategoryLanguage.adapter = adapterLanguage
+         }
+
 }

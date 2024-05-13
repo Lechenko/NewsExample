@@ -17,8 +17,6 @@ abstract class BaseDialogFragment<Binding : ViewDataBinding> : DaggerAppCompatDi
     protected var binding: Binding? = null
         private set
     private var emitter: SingleEmitter<Int>? = null
-
-    protected abstract fun getPresenter(): BasePresenter
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -37,18 +35,15 @@ abstract class BaseDialogFragment<Binding : ViewDataBinding> : DaggerAppCompatDi
     protected abstract fun initDialogView()
     protected abstract fun createDialog()
     override fun onDestroy() {
-        getPresenter().stopView()
         detachFragment()
         super.onDestroy()
     }
 
     override fun onStop() {
-        getPresenter().stopView()
         super.onStop()
     }
 
     override fun onDetach() {
-        getPresenter().destroyView()
         detachFragment()
         super.onDetach()
     }

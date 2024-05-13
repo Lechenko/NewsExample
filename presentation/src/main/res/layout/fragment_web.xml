@@ -6,7 +6,7 @@
     <data>
         <variable
             name="event"
-            type="com.arch.presentation.fragment.web.IWeb.Presenter"/>
+            type="com.arch.presentation.fragment.web.WebVM"/>
         <variable
             name="item"
             type="com.arch.portdomain.model.NewsModel"/>

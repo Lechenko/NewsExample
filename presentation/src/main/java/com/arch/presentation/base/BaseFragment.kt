@@ -17,38 +17,39 @@ import androidx.annotation.LayoutRes
 import androidx.core.content.FileProvider
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
+import androidx.lifecycle.ViewModel
 import androidx.window.layout.WindowMetrics
 import androidx.window.layout.WindowMetricsCalculator
 import dagger.android.support.DaggerFragment
+import io.reactivex.rxjava3.disposables.CompositeDisposable
 import java.io.File
 import java.util.Objects
+import javax.inject.Inject
 import kotlin.math.min
 
 
 
-abstract class BaseFragment<Binding : ViewDataBinding> : DaggerFragment() {
-    protected abstract fun getPresenter(): BasePresenter
-    protected lateinit var binding: Binding
-
+abstract class BaseFragment<Binding : ViewDataBinding,VIEW_MODEL : ViewModel> : DaggerFragment() {
+    protected var disposable : CompositeDisposable? = CompositeDisposable()
+    protected  var binding: Binding ? = null
+    @Inject
+    lateinit var viewModel: VIEW_MODEL
     override fun onAttach(context: Context) {
         super.onAttach(context)
         attachFragment()
     }
 
     override fun onStop() {
-        getPresenter().stopView()
         stopFragment()
         super.onStop()
     }
 
     override fun onStart() {
         super.onStart()
-        getPresenter().startView()
         startFragment()
     }
 
     override fun onPause() {
-        getPresenter().pauseView()
         pauseFragment()
         super.onPause()
     }
@@ -67,7 +68,7 @@ abstract class BaseFragment<Binding : ViewDataBinding> : DaggerFragment() {
     ): View? {
         binding = DataBindingUtil.inflate(inflater, layoutRes, container, false)
         initFragmentView()
-        return binding.root
+        return binding?.root
     }
 
     private fun toastShort(message: String) {
@@ -92,8 +93,11 @@ abstract class BaseFragment<Binding : ViewDataBinding> : DaggerFragment() {
     protected abstract fun pauseFragment()
     protected abstract fun resume()
     override fun onDestroy() {
-        getPresenter().destroyView()
-        if (::binding.isInitialized) binding.unbind()
+      //  getPresenter().destroyView()
+        binding?.unbind()
+        destroyFragment()
+        disposable?.dispose()
+        disposable = null
         super.onDestroy()
     }
 

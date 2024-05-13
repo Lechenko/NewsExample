@@ -1,34 +1,36 @@
 package com.arch.news.module_fragment
 
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import com.arch.domain.favorites.FavoritesUseCase
 import com.arch.news.scope.FragmentScope
-import com.arch.portdomain.Interactor
-import com.arch.portdomain.StateFlowListener
-import com.arch.portdomain.SubjectState
+import com.arch.news.scope.ViewModelKey
+import com.arch.portdomain.ViewModelFactory
 import com.arch.portdomain.favorites.IFavoritesUseCase
-import com.arch.portdomain.model.StateFlow
-import com.arch.presentation.fragment.favorites.IFavoritesNews
-import com.arch.presentation.fragment.favorites.NewsFavorites
-import com.arch.presentation.fragment.favorites.NewsFavoritesPresenter
+import com.arch.presentation.fragment.favorites.NewsFavoritesVM
+import com.arch.presentation.fragment.news.News
 import dagger.Binds
 import dagger.Module
+import dagger.Provides
+import dagger.multibindings.IntoMap
 
 @Module
 abstract class ModuleFavorites {
-    @FragmentScope
-    @Binds
-    abstract fun bindFavoritesView(view : NewsFavorites) : IFavoritesNews.View
 
-    @FragmentScope
-    @Binds
-    abstract fun bindFavoritesPresenter(presenter: NewsFavoritesPresenter) : IFavoritesNews.Presenter
 
     @FragmentScope
     @Binds
     abstract fun bindFavoritesUseCase(useCase: FavoritesUseCase) : IFavoritesUseCase.UseCaseFavorites
 
-    @FragmentScope
-    @Binds
-    abstract fun bindStateFlow(stateFlow: SubjectState) : StateFlowListener
+
+    companion object {
+        @FragmentScope
+        @Provides
+        @IntoMap
+        @ViewModelKey(NewsFavoritesVM::class)
+        fun bindMyViewModel(factory: ViewModelFactory, fragment: News): ViewModel =
+            ViewModelProvider(fragment, factory)[NewsFavoritesVM::class.java]
+    }
+
 
 }

@@ -5,15 +5,15 @@ import android.view.View
 import com.arch.portdomain.model.NewsModel
 import com.arch.presentation.base.BaseViewHolder
 import com.arch.presentation.databinding.ItemNewsBinding
-import com.arch.presentation.fragment.news.INews
+import com.arch.presentation.fragment.news.NewsViewModel
 import com.arch.presentation.glide.GlideApp
 import com.arch.presentation.util.StringUtils
 
 class NewsViewHolder constructor(val context : Context,val view : View,
-                                 val presenter: INews.Presenter)
+                                 val viewModel: NewsViewModel)
     : BaseViewHolder<ItemNewsBinding>(view) {
     init {
-        binding?.let { it.event = presenter }
+        binding?.let { it.event = viewModel }
     }
 
     fun bind(item: NewsModel){
@@ -28,13 +28,13 @@ class NewsViewHolder constructor(val context : Context,val view : View,
             item.publishedAt?.let {publishedAt ->
                 it.tvNewsTime.text = StringUtils.dateFormat(publishedAt)}
             it.clNewItem.setOnClickListener{
-                presenter.selectedNews(item)
+                viewModel.selectedNews(item)
             }
             it.ivItemNewsFavorites.setOnClickListener {
-                presenter.saveNews(item)
+                viewModel.saveNews(item)
             }
             it.ivNewsShare.setOnClickListener {
-                presenter.shareContent(item)
+                viewModel.shareContent(item)
             }
         }
     }

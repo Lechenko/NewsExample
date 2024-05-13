@@ -6,14 +6,14 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.arch.portdomain.model.NewsModel
 import com.arch.presentation.R
-import com.arch.presentation.fragment.favorites.IFavoritesNews
+import com.arch.presentation.fragment.favorites.NewsFavoritesVM
 
-class FavoritesAdapter constructor(private val presenter: IFavoritesNews.Presenter)
+class FavoritesAdapter constructor(private val viewModel: NewsFavoritesVM)
     : RecyclerView.Adapter<FavoritesViewHolder>(){
     private var mList  = mutableListOf<NewsModel>()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavoritesViewHolder {
         return FavoritesViewHolder(LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_favorites, parent, false), presenter)
+            .inflate(R.layout.item_favorites, parent, false), viewModel)
     }
 
     override fun getItemCount(): Int = mList.size

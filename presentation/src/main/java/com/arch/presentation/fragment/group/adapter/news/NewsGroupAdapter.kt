@@ -6,16 +6,16 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.arch.portdomain.model.NewsGroupModel
 import com.arch.presentation.R
-import com.arch.presentation.fragment.group.INewsGroup
+import com.arch.presentation.fragment.group.NewsGroupVM
 
-class NewsGroupAdapter (val presenter: INewsGroup.Presenter)
+class NewsGroupAdapter (val viewModel: NewsGroupVM)
     : RecyclerView.Adapter<NewsGroupViewHolder>() {
     private var mList  = mutableListOf<NewsGroupModel>()
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewsGroupViewHolder {
         return NewsGroupViewHolder(parent.context, LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_group, parent, false), presenter)
+            .inflate(R.layout.item_group, parent, false), viewModel)
     }
 
     override fun getItemCount(): Int = mList.size

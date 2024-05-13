@@ -2,17 +2,14 @@ package com.arch.domain.news
 
 import com.arch.comm.ErrorType
 import com.arch.domain.BaseInteractor
-import com.arch.domain.favorites.FavoritesUseCase
 import com.arch.portdata.IRepositoryApi
 import com.arch.portdata.IRepositoryDAO
-import com.arch.portdomain.StateFlowListener
 import com.arch.portdomain.model.EnumStateFlow
 import com.arch.portdomain.model.NewsModel
 import com.arch.portdomain.model.StateFlow
 import com.arch.portdomain.news.INewsUseCase
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.reactivex.rxjava3.core.Completable
-import io.reactivex.rxjava3.core.CompletableSource
+import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.schedulers.Schedulers
@@ -21,8 +18,7 @@ import javax.inject.Inject
 
 class NewsUseCase @Inject constructor(
     private val repositoryApi: IRepositoryApi,
-    private val repositoryDao: IRepositoryDAO,
-    private val stateFlow : StateFlowListener
+    private val repositoryDao: IRepositoryDAO
 ) : BaseInteractor(), INewsUseCase.UseCaseNews {
     private val disposable = CompositeDisposable()
 
@@ -31,13 +27,13 @@ class NewsUseCase @Inject constructor(
             .subscribeOn(Schedulers.io())
             .flatMap { mapperNews(it) }
             .observeOn(AndroidSchedulers.mainThread())
-            .doOnSuccess{ stateFlow.onNext(
+            .doOnSuccess{ onNext(
                 StateFlow(
                 status = EnumStateFlow.STATUS_OK_NEWS_LIST.const,
                 modelNews = it.toMutableList())
             ) }
             .doOnError {
-                stateFlow.onNext(
+                onNext(
                     StateFlow(
                     status = EnumStateFlow.STATUS_MGS.const,
                     message = ErrorType.ERROR.type.plus(" ")
@@ -58,11 +54,11 @@ class NewsUseCase @Inject constructor(
             .subscribeOn(Schedulers.io())
             .flatMap { mapperNews(it) }
             .observeOn(AndroidSchedulers.mainThread())
-            .doOnSuccess{ stateFlow.onNext(StateFlow(
+            .doOnSuccess{onNext(StateFlow(
                 status = EnumStateFlow.STATUS_OK_NEWS_LIST.const,
                 modelNews = it.toMutableList())) }
             .doOnError {
-                stateFlow.onNext(StateFlow(
+               onNext(StateFlow(
                     status = EnumStateFlow.STATUS_MGS.const,
                     message = ErrorType.ERROR.type.plus(" ")
                         .plus(it.message)))
@@ -81,11 +77,11 @@ class NewsUseCase @Inject constructor(
             .subscribeOn(Schedulers.io())
             .flatMap { mapperNews(it) }
             .observeOn(AndroidSchedulers.mainThread())
-            .doOnSuccess{ stateFlow.onNext(StateFlow(
+            .doOnSuccess{ onNext(StateFlow(
                 status = EnumStateFlow.STATUS_OK_NEWS_LIST.const,
                 modelNews = it.toMutableList())) }
             .doOnError {
-                stateFlow.onNext(StateFlow(
+                onNext(StateFlow(
                     status = EnumStateFlow.STATUS_MGS.const,
                     message = ErrorType.ERROR.type.plus(" ")
                         .plus(it.message)))
@@ -104,11 +100,11 @@ class NewsUseCase @Inject constructor(
             .subscribeOn(Schedulers.io())
             .flatMapCompletable { repositoryDao.saveFavorites(it) }
             .observeOn(AndroidSchedulers.mainThread())
-            .doOnEvent{ stateFlow.onNext(StateFlow(
+            .doOnEvent{ onNext(StateFlow(
                 status = EnumStateFlow.STATUS_OK_NEWS_LIST.const,
                 message = "save ok")) }
             .doOnError {
-                stateFlow.onNext(StateFlow(
+               onNext(StateFlow(
                     status = EnumStateFlow.STATUS_MGS.const,
                     message = ErrorType.ERROR.type.plus(" ")
                         .plus(it.message)))
@@ -130,4 +126,7 @@ class NewsUseCase @Inject constructor(
     override fun stopCase() {
          if (!disposable.isDisposed) disposable.dispose()
     }
+
+    override fun stateDomain(): Observable<StateFlow> = observationState()
+
 }

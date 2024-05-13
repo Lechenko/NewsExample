@@ -11,14 +11,19 @@ import androidx.annotation.LayoutRes
 import androidx.core.content.FileProvider
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
+import androidx.lifecycle.ViewModel
+import com.arch.presentation.activity.MainViewModel
 import dagger.android.support.DaggerAppCompatActivity
 import java.io.File
 import java.util.Objects
+import javax.inject.Inject
 
 
-abstract class BaseActivity<Binding : ViewDataBinding> : DaggerAppCompatActivity() {
-    protected lateinit var binding: Binding
+abstract class BaseActivity<Binding : ViewDataBinding,VIEW_MODEL : ViewModel> : DaggerAppCompatActivity() {
+    protected  var binding: Binding? = null
         private set
+    @Inject
+    lateinit var viewModel: VIEW_MODEL
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,7 +53,8 @@ abstract class BaseActivity<Binding : ViewDataBinding> : DaggerAppCompatActivity
     override fun onDestroy() {
      //   getPresenter().destroyView()
         destroyActivity()
-        if (::binding.isInitialized) binding.unbind()
+        binding?.unbind()
+        binding = null
         super.onDestroy()
     }
 
@@ -86,7 +92,7 @@ abstract class BaseActivity<Binding : ViewDataBinding> : DaggerAppCompatActivity
     }
 
     override fun onPause() {
-       // getPresenter().pauseView()
+
         pauseActivity()
         super.onPause()
     }

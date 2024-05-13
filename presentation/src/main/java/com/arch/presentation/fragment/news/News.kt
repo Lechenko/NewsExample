@@ -4,20 +4,17 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.arch.portdomain.model.ArgObject
-import com.arch.portdomain.model.NewsModel
+import com.arch.portdomain.model.EnumStateFlow
 import com.arch.presentation.R
 import com.arch.presentation.base.BaseFragment
-import com.arch.presentation.base.BasePresenter
 import com.arch.presentation.databinding.FragmentNewsBinding
 import com.arch.presentation.fragment.news.adapter.NewsAdapter
-import javax.inject.Inject
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import timber.log.Timber
 
 
-class News : BaseFragment<FragmentNewsBinding>(), INews.View{
-    private lateinit var adapter : NewsAdapter
-    @Inject
-    lateinit var presenter: INews.Presenter
-
+class News : BaseFragment<FragmentNewsBinding,NewsViewModel>(){
+    private var adapter : NewsAdapter ? = null
     companion object {
         const val TAG = "tag"
         @JvmStatic
@@ -28,37 +25,54 @@ class News : BaseFragment<FragmentNewsBinding>(), INews.View{
                 }
             }
     }
-
-    override fun getPresenter(): BasePresenter = presenter
-
-
     override val layoutRes: Int = R.layout.fragment_news
 
     @SuppressLint("NewApi")
     override fun initFragmentView() {
-        binding.event = presenter
-        displayNewsInit()
-            if (arguments != null ) {
-               val argObject = arguments?.getParcelable(TAG,ArgObject::class.java)
-               if (argObject != null) presenter.init(argObject)
+        binding?.let { bind ->
+            bind.event = viewModel
+            adapter = NewsAdapter(viewModel)
+            displayNewsInit()
+            if (arguments != null) {
+                val argObject = arguments?.getParcelable(TAG, ArgObject::class.java)
+                argObject?.let { viewModel.init(it) }
             }
-
+        }
     }
 
-    override fun attachFragment() {
-
-    }
+    override fun attachFragment() {}
 
     override fun startFragment() {
-
+        if (disposable?.isDisposed != true) disposable?.clear()
+        val subscribeState = viewModel.state().observeOn(AndroidSchedulers.mainThread())
+        disposable?.add(subscribeState.subscribe({
+            when (it.status) {
+                EnumStateFlow.STATUS_OK_NEWS_LIST.const -> {
+                    adapter?.updateList(it.modelNews)
+                }
+                EnumStateFlow.STATUS_MGS.const -> {
+                    showMessage(it.message)
+                }
+                EnumStateFlow.STATUS_LINK.const ->{
+                    shareFile(it.message)
+                }
+            }
+        },{
+            Timber.tag(News::class.java.name.toString())
+                .i("error observationState : ".plus(it.message.toString()))
+            showMessage("error ".plus(it.message))
+        }))
     }
 
     override fun stopFragment() {
-
+        disposable?.clear()
     }
 
     override fun destroyFragment() {
-
+        disposable?.dispose()
+        disposable = null
+        adapter = null
+        viewModel.onDestroyView()
     }
 
     override fun pauseFragment() {
@@ -70,15 +84,11 @@ class News : BaseFragment<FragmentNewsBinding>(), INews.View{
     }
 
      private fun displayNewsInit() {
-         binding.rvNewsDisplay.layoutManager =
+         binding?.rvNewsDisplay?.layoutManager =
              LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-         adapter = NewsAdapter(presenter)
-         binding.rvNewsDisplay.adapter = adapter
+         binding?.rvNewsDisplay?.adapter = adapter
     }
 
-    override fun updateAdapterList(newsList: List<NewsModel>) {
-       adapter.updateList(newsList)
-    }
 
 
 }

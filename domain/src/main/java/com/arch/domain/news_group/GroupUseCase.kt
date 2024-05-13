@@ -2,22 +2,19 @@ package com.arch.domain.news_group
 
 import com.arch.comm.ErrorType
 import com.arch.domain.BaseInteractor
-import com.arch.domain.news.NewsUseCase
-
 import com.arch.portdata.IRepositoryApi
-import com.arch.portdomain.StateFlowListener
 import com.arch.portdomain.model.EnumStateFlow
 import com.arch.portdomain.model.StateFlow
 import com.arch.portdomain.news_group.IGroupsUseCase
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.schedulers.Schedulers
 import timber.log.Timber
 import javax.inject.Inject
 
-class GroupUseCase @Inject constructor(private val repositoryApi: IRepositoryApi,
-                                       private val stateFlow : StateFlowListener) :
+class GroupUseCase @Inject constructor(private val repositoryApi: IRepositoryApi) :
     BaseInteractor(),
     IGroupsUseCase.UseCaseGroup {
 
@@ -31,13 +28,13 @@ class GroupUseCase @Inject constructor(private val repositoryApi: IRepositoryApi
             .subscribeOn(Schedulers.io())
             .flatMap { mapperGroup(it) }
             .observeOn(AndroidSchedulers.mainThread())
-            .doOnSuccess{ stateFlow.onNext(
+            .doOnSuccess{ onNext(
                 StateFlow(
                     status = EnumStateFlow.STATUS_OK_GROUP_LIST.const,
                     modelGroup = it.toMutableList())
             ) }
             .doOnError {
-                stateFlow.onNext(
+                onNext(
                     StateFlow(
                         status = EnumStateFlow.STATUS_MGS.const,
                         message = ErrorType.ERROR.type.plus(" ")
@@ -58,13 +55,13 @@ class GroupUseCase @Inject constructor(private val repositoryApi: IRepositoryApi
             .subscribeOn(Schedulers.io())
             .flatMap { mapperGroup(it) }
             .observeOn(AndroidSchedulers.mainThread())
-            .doOnSuccess{ stateFlow.onNext(
+            .doOnSuccess{onNext(
                 StateFlow(
                     status = EnumStateFlow.STATUS_OK_GROUP_LIST.const,
                     modelGroup = it.toMutableList())
             ) }
             .doOnError {
-                stateFlow.onNext(
+                onNext(
                     StateFlow(
                         status = EnumStateFlow.STATUS_MGS.const,
                         message = ErrorType.ERROR.type.plus(" ")
@@ -81,11 +78,13 @@ class GroupUseCase @Inject constructor(private val repositoryApi: IRepositoryApi
     }
 
     override fun startCase() {
-        stateFlow.reset()
+        //stateFlow.reset()
     }
 
     override fun stopCase() {
        disposable?.dispose()
        disposable = null
     }
+
+    override fun stateDomain(): Observable<StateFlow> = observationState()
 }

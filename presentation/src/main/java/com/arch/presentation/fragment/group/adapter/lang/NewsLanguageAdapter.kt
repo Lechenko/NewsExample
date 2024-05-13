@@ -5,17 +5,16 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.arch.presentation.R
-import com.arch.presentation.fragment.group.INewsGroup
+import com.arch.presentation.fragment.group.NewsGroupVM
 import com.arch.presentation.util.Language
-import java.util.TreeMap
 
-class NewsLanguageAdapter(val presenter: INewsGroup.Presenter)
+class NewsLanguageAdapter(val viewModel: NewsGroupVM)
     : RecyclerView.Adapter<NewsLangViewHolder>() {
     private var mList  = Language.listLanguage
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewsLangViewHolder {
         return NewsLangViewHolder(parent.context, LayoutInflater.from(parent.context)
-                .inflate(R.layout.item_lang, parent, false), presenter)
+                .inflate(R.layout.item_lang, parent, false), viewModel)
     }
 
     override fun getItemCount(): Int = mList.size
