@@ -43,7 +43,7 @@ class News : BaseFragment<FragmentNewsBinding,NewsViewModel>(){
     override fun attachFragment() {}
 
     override fun startFragment() {
-        if (disposable?.isDisposed != true) disposable?.clear()
+        disposable?.clear()
         val subscribeState = viewModel.state()
         disposable?.add(subscribeState.subscribe({
             when (it.status) {
@@ -83,12 +83,10 @@ class News : BaseFragment<FragmentNewsBinding,NewsViewModel>(){
 
     }
 
-     private fun displayNewsInit() {
-         binding?.rvNewsDisplay?.layoutManager =
-             LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-         binding?.rvNewsDisplay?.adapter = adapter
-    }
-
-
-
+     private fun displayNewsInit() =
+         binding?.let {
+             it.rvNewsDisplay?.layoutManager =
+                 LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+             it.rvNewsDisplay?.adapter = adapter
+         }
 }

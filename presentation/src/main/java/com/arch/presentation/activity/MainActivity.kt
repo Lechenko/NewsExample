@@ -17,14 +17,7 @@ import javax.inject.Inject
 
 class MainActivity : BaseActivity<ActivityMainBinding,MainViewModel>(),
     IMainView.View {
-    private var disposable : CompositeDisposable? = CompositeDisposable()
-
-//    @Inject
-//    lateinit var viewModel: MainViewModel
-
-//    private val viewModel by lazy{
-//        ViewModelProvider(this, factory)[MainViewModel::class.java]
-//    }
+    private var disposable : CompositeDisposable = CompositeDisposable()
 
     override val layoutRes: Int = R.layout.activity_main
 
@@ -40,7 +33,7 @@ class MainActivity : BaseActivity<ActivityMainBinding,MainViewModel>(),
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.startFragmentMain()
-                disposable?.add(viewModel.state().subscribe({
+                disposable.add(viewModel.state().subscribe({
 
                 }, {
                     Timber.tag(MainActivity::class.java.name)
@@ -49,7 +42,7 @@ class MainActivity : BaseActivity<ActivityMainBinding,MainViewModel>(),
             }
             repeatOnLifecycle(Lifecycle.State.DESTROYED) {
                viewModel.onDestroyView()
-               disposable?.clear()
+               disposable.clear()
             }
         }
     }
@@ -71,7 +64,7 @@ class MainActivity : BaseActivity<ActivityMainBinding,MainViewModel>(),
     }
 
     override fun destroyActivity() {
-
+        disposable?.clear()
     }
 
 
