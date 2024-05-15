@@ -59,6 +59,10 @@ android {
             )
            // signingConfig = signingConfigs.getByName("debug")
         }
+        create("auto_test") {
+            isDebuggable = true
+            isJniDebuggable = true
+        }
         getByName("release") {
             isDebuggable = false
             isMinifyEnabled = true
@@ -72,6 +76,7 @@ android {
             )
           //  signingConfig = signingConfigs.getByName("release")
         }
+
     }
     java.toolchain {
         languageVersion.set(JavaLanguageVersion.of(Versions.varsionJava))

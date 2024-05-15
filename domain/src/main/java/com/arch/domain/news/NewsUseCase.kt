@@ -8,11 +8,9 @@ import com.arch.portdomain.model.EnumStateFlow
 import com.arch.portdomain.model.NewsModel
 import com.arch.portdomain.model.StateFlow
 import com.arch.portdomain.news.INewsUseCase
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.disposables.CompositeDisposable
-import io.reactivex.rxjava3.schedulers.Schedulers
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -24,15 +22,16 @@ class NewsUseCase @Inject constructor(
 
     override fun loadNewsChannel(newsChannel: String) {
         disposable.add(Single.defer { repositoryApi.newsChannel(newsChannel) }
-            .subscribeOn(Schedulers.io())
+            .subscribeOn(provideSchedulersIO())
             .flatMap { mapperNews(it) }
-            .doOnSuccess{ onNext(
+            .doOnSuccess{
+                stateOnNext(
                 StateFlow(
                 status = EnumStateFlow.STATUS_OK_NEWS_LIST.const,
                 modelNews = it.toMutableList())
             ) }
             .doOnError {
-                onNext(
+                stateOnNext(
                     StateFlow(
                     status = EnumStateFlow.STATUS_MGS.const,
                     message = ErrorType.ERROR.type.plus(" ")
@@ -50,13 +49,14 @@ class NewsUseCase @Inject constructor(
 
     override fun loadNewsCountry(country: String) {
         disposable.add(Single.defer { repositoryApi.newsCountry(country)}
-            .subscribeOn(Schedulers.io())
+            .subscribeOn(provideSchedulersIO())
             .flatMap { mapperNews(it) }
-            .doOnSuccess{onNext(StateFlow(
+            .doOnSuccess{
+                stateOnNext(StateFlow(
                 status = EnumStateFlow.STATUS_OK_NEWS_LIST.const,
                 modelNews = it.toMutableList())) }
             .doOnError {
-               onNext(StateFlow(
+               stateOnNext(StateFlow(
                     status = EnumStateFlow.STATUS_MGS.const,
                     message = ErrorType.ERROR.type.plus(" ")
                         .plus(it.message)))
@@ -72,13 +72,13 @@ class NewsUseCase @Inject constructor(
 
     override fun loadNewsSearch(newSearch: String, dateFrom: String, dateTo: String) {
         disposable.add(Single.defer { repositoryApi.newsSearch(newSearch,dateFrom,dateTo)}
-            .subscribeOn(Schedulers.io())
+            .subscribeOn(provideSchedulersIO())
             .flatMap { mapperNews(it) }
-            .doOnSuccess{ onNext(StateFlow(
+            .doOnSuccess{ stateOnNext(StateFlow(
                 status = EnumStateFlow.STATUS_OK_NEWS_LIST.const,
                 modelNews = it.toMutableList())) }
             .doOnError {
-                onNext(StateFlow(
+                stateOnNext(StateFlow(
                     status = EnumStateFlow.STATUS_MGS.const,
                     message = ErrorType.ERROR.type.plus(" ")
                         .plus(it.message)))
@@ -94,13 +94,14 @@ class NewsUseCase @Inject constructor(
 
     override fun saveNews(news: NewsModel) {
         disposable.add(Single.defer{mapperDataNews(news)}
-            .subscribeOn(Schedulers.io())
+            .subscribeOn(provideSchedulersIO())
             .flatMapCompletable { repositoryDao.saveFavorites(it) }
-            .doOnEvent{ onNext(StateFlow(
+            .doOnEvent{
+                stateOnNext(StateFlow(
                 status = EnumStateFlow.STATUS_OK_NEWS_LIST.const,
                 message = "save ok")) }
             .doOnError {
-               onNext(StateFlow(
+               stateOnNext(StateFlow(
                     status = EnumStateFlow.STATUS_MGS.const,
                     message = ErrorType.ERROR.type.plus(" ")
                         .plus(it.message)))

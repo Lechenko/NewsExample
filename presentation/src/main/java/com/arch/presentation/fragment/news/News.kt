@@ -27,7 +27,6 @@ class News : BaseFragment<FragmentNewsBinding,NewsViewModel>(){
     }
     override val layoutRes: Int = R.layout.fragment_news
 
-    @SuppressLint("NewApi")
     override fun initFragmentView() {
         binding?.let { bind ->
             bind.event = viewModel
@@ -85,8 +84,8 @@ class News : BaseFragment<FragmentNewsBinding,NewsViewModel>(){
 
      private fun displayNewsInit() =
          binding?.let {
-             it.rvNewsDisplay?.layoutManager =
+             it.rvNewsDisplay.layoutManager =
                  LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-             it.rvNewsDisplay?.adapter = adapter
+             it.rvNewsDisplay.adapter = adapter
          }
 }

@@ -28,5 +28,4 @@ include(":portDomain")
 include(":featureLocalStorage")
 include(":comm")
 include(":featureRemoteApi")
-
-//include(":test")
+include(":test")

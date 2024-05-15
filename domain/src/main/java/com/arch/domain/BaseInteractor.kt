@@ -2,7 +2,6 @@ package com.arch.domain
 
 import com.arch.portdata.model.DataGroup
 import com.arch.portdata.model.DataNews
-import com.arch.portdomain.Interactor
 import com.arch.portdomain.model.EnumStateFlow
 import com.arch.portdomain.model.NewsGroupModel
 import com.arch.portdomain.model.NewsModel
@@ -21,8 +20,12 @@ import io.reactivex.rxjava3.subjects.PublishSubject
 
 abstract class BaseInteractor  {
     private val publish : PublishSubject<StateFlow> = PublishSubject.create()
-    private var jobThread: Scheduler = Schedulers.io()
-    private var observeThread: Scheduler = AndroidSchedulers.mainThread()
+    private var jobThread: Scheduler = if (!BuildConfig.TEST_MODE_SCHEDULERS)Schedulers.io()
+    else Schedulers.trampoline()
+    private var observeThread: Scheduler = if (!BuildConfig.TEST_MODE_SCHEDULERS) AndroidSchedulers.mainThread()
+    else Schedulers.trampoline()
+
+    protected open fun provideSchedulersIO() : Scheduler = jobThread
 
     protected open fun <T : Any> applySingleSchedulers(): SingleTransformer<T, T> =
         SingleTransformer {
@@ -103,7 +106,7 @@ abstract class BaseInteractor  {
             data.id = it.id
             return@map data
         }
-    fun onNext(state : StateFlow) = publish.onNext(state)
+    fun stateOnNext(state : StateFlow) = publish.onNext(state)
 
     fun onError(state : StateFlow) = state.message.let {publish.onError(Throwable(it))}
 
@@ -111,6 +114,7 @@ abstract class BaseInteractor  {
 
      fun observationState(): Observable<StateFlow> =
         Observable.defer{publish}
+            .subscribeOn(provideSchedulersIO())
             .filter{it.status != 0}
 
 

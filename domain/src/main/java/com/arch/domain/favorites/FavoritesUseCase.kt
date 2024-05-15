@@ -7,11 +7,9 @@ import com.arch.portdomain.favorites.IFavoritesUseCase
 import com.arch.portdomain.model.EnumStateFlow
 import com.arch.portdomain.model.NewsModel
 import com.arch.portdomain.model.StateFlow
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.disposables.CompositeDisposable
-import io.reactivex.rxjava3.schedulers.Schedulers
 import timber.log.Timber
 import java.util.Collections
 import javax.inject.Inject
@@ -22,13 +20,13 @@ class FavoritesUseCase @Inject constructor(private val repositoryDao : IReposito
 
     override fun loadLocalNews() {
        disposable.add(Single.defer { repositoryDao.getFavorites() }
-           .subscribeOn(Schedulers.io())
+           .subscribeOn(provideSchedulersIO())
            .flatMap { mapperNews(it)}
-           .doOnSuccess{ onNext(StateFlow(
+           .doOnSuccess{ stateOnNext(StateFlow(
                status = EnumStateFlow.STATUS_OK_NEWS_LIST.const,
                modelNews = it.toMutableList())) }
            .doOnError {
-              onNext(StateFlow(
+              stateOnNext(StateFlow(
                    status = EnumStateFlow.STATUS_MGS.const,
                    message = ErrorType.ERROR.type.plus(" ")
                        .plus(it.message)))
@@ -44,15 +42,15 @@ class FavoritesUseCase @Inject constructor(private val repositoryDao : IReposito
 
     override fun deleteFavoritesLocale(news: NewsModel) {
         disposable.add(Single.defer { mapperDataNews(news) }
-            .subscribeOn(Schedulers.io())
+            .subscribeOn(provideSchedulersIO())
             .flatMap{ repositoryDao.deleteFavorites(it) }
             .subscribe({
-                onNext(StateFlow(
+                stateOnNext(StateFlow(
                     status = EnumStateFlow.STATUS_OK_NEWS.const,
                     modelNews = Collections.singletonList(news)
                 ))
             },{
-                onNext(StateFlow(
+                stateOnNext(StateFlow(
                     status = EnumStateFlow.STATUS_MGS.const,
                     message = ErrorType.ERROR.type.plus(" ")
                         .plus(it.message)))

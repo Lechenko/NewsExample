@@ -29,11 +29,11 @@ import kotlin.math.min
 
 
 
-abstract class BaseFragment<Binding : ViewDataBinding,VIEW_MODEL : ViewModel> : DaggerFragment() {
+abstract class BaseFragment<Binding : ViewDataBinding,ViewModelType : ViewModel> : DaggerFragment() {
     protected var disposable : CompositeDisposable? = CompositeDisposable()
     protected  var binding: Binding ? = null
     @Inject
-    lateinit var viewModel: VIEW_MODEL
+    lateinit var viewModel: ViewModelType
     override fun onAttach(context: Context) {
         super.onAttach(context)
         attachFragment()

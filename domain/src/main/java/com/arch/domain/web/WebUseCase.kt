@@ -7,11 +7,9 @@ import com.arch.portdomain.model.EnumStateFlow
 import com.arch.portdomain.model.NewsModel
 import com.arch.portdomain.model.StateFlow
 import com.arch.portdomain.web.IWebUseCase
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.disposables.CompositeDisposable
-import io.reactivex.rxjava3.schedulers.Schedulers
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -23,10 +21,10 @@ class WebUseCase @Inject constructor(
 
     override fun saveNews(news: NewsModel) {
         disposable?.add(Single.defer { mapperDataNews(news) }
-            .subscribeOn(Schedulers.io())
+            .subscribeOn(provideSchedulersIO())
             .flatMapCompletable { repositoryDao.saveFavorites(it) }
             .subscribe({
-                onNext(
+                stateOnNext(
                     StateFlow(
                         status = EnumStateFlow.STATUS_MGS.const,
                         message = ErrorType.ERROR.type.plus(" ")
@@ -35,7 +33,7 @@ class WebUseCase @Inject constructor(
                 )
             }, {
                 Timber.tag(WebUseCase::class.simpleName.toString()).e(it)
-                onNext(
+                stateOnNext(
                     StateFlow(
                         status = EnumStateFlow.STATUS_MGS.const,
                         message = ErrorType.ERROR.type.plus(" ")

@@ -8,17 +8,7 @@ interface IRouter {
 
     fun onStartView()
 
-    fun activeBackStack(flag: Boolean)
-
     fun onBackPressed()
-
-    fun dialogTransaction(cmd : String) : Single<Int>
-
-    fun setAppBarText(name: String)
-
-    fun hideAppBar(state: Boolean)
-
-    fun hideBottomNavigation(flag: Boolean)
 
     fun onStopView()
 
@@ -40,7 +30,8 @@ interface IRouter {
 
     fun popBackStack()
 
-    fun finishActivity()
-
-
+    interface IRouterActivity{
+         fun isProgress(flag: Boolean)
+         fun onMessage(message: String)
+    }
 }

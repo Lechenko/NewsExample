@@ -4,7 +4,7 @@ import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.arch.portdomain.model.ArgObject
 import com.arch.portdomain.model.NewsModel
-import com.arch.presentation.base.BaseViewActivityContract
+import com.arch.presentation.base.IRouterActivity
 import com.arch.presentation.fragment.favorites.NewsFavorites
 import com.arch.presentation.fragment.group.NewsGroup
 import com.arch.presentation.fragment.news.News
@@ -15,7 +15,7 @@ import io.reactivex.rxjava3.core.Single
 import javax.inject.Inject
 
 class Router @Inject constructor(
-    private val view: BaseViewActivityContract,
+    private val view: IRouter.IRouterActivity,
     activity: DaggerAppCompatActivity) : BaseRouter(activity), IRouter {
     private lateinit var mDrawerLayout: DrawerLayout
     override fun init(drawerLayout: DrawerLayout) {
@@ -23,33 +23,14 @@ class Router @Inject constructor(
 
     }
 
-//    fun <T> binding(klass : T){
-//        when(klass::class.java.name){
-//
-//        }
-//    }
 
     override fun onStartView() {
 
     }
 
-    override fun activeBackStack(flag: Boolean) {
-
-    }
 
     override fun onBackPressed() = super.backPressedRouter()
 
-
-
-    override fun dialogTransaction(cmd: String): Single<Int> {
-        return TODO("Not Used")
-    }
-
-    override fun setAppBarText(name: String) = view.setAppBarText(name)
-
-    override fun hideAppBar(state: Boolean) = view.hideAppBar(state)
-
-    override fun hideBottomNavigation(flag: Boolean) = view.hideBottomNavigation(flag)
 
     override fun onStopView() {
 
@@ -88,9 +69,7 @@ class Router @Inject constructor(
 
     override fun openDrawer() = mDrawerLayout.openDrawer(GravityCompat.START)
 
-    override fun closeDrawer() = mDrawerLayout.closeDrawers().also {
-
-    }
+    override fun closeDrawer() = mDrawerLayout.closeDrawers()
 
     override fun navDrawer(cmd: String) {
         closeDrawer()
@@ -102,6 +81,7 @@ class Router @Inject constructor(
     }
 
     override fun popBackStack() {
+        closeDrawer()
         super.popBackStackRouter()
     }
 

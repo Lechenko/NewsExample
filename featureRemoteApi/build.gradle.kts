@@ -44,6 +44,10 @@ android {
                 "proguard-rules.pro"
             )
         }
+        create("auto_test"){
+            isMinifyEnabled = false
+            isJniDebuggable = true
+        }
     }
     java.toolchain {
         languageVersion.set(JavaLanguageVersion.of(Versions.varsionJava))

@@ -27,6 +27,10 @@ android {
         getByName("release") {
             isMinifyEnabled = false
         }
+        create("auto_test"){
+            isMinifyEnabled = false
+            isJniDebuggable = true
+        }
     }
 
     java.toolchain {

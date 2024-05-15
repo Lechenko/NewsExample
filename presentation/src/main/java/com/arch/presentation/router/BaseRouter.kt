@@ -75,6 +75,7 @@ abstract class BaseRouter(private val activity: DaggerAppCompatActivity) {
         }
 
     protected fun backPressedRouter() {
+
         val manager = activity.supportFragmentManager
         if (manager.backStackEntryCount == 1) {
         } else {

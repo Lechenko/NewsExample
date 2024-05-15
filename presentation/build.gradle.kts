@@ -42,6 +42,10 @@ android {
                 "proguard-rules.pro"
             )
         }
+        create("auto_test"){
+            isMinifyEnabled = false
+            isJniDebuggable = true
+        }
     }
     defaultConfig {
         vectorDrawables.useSupportLibrary = true

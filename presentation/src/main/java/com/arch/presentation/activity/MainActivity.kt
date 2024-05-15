@@ -9,14 +9,14 @@ import androidx.lifecycle.viewModelScope
 import com.arch.presentation.R
 import com.arch.presentation.base.BaseActivity
 import com.arch.presentation.databinding.ActivityMainBinding
+import com.arch.presentation.router.IRouter
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
 import javax.inject.Inject
 
-class MainActivity : BaseActivity<ActivityMainBinding,MainViewModel>(),
-    IMainView.View {
+class MainActivity : BaseActivity<ActivityMainBinding,MainViewModel>(),IRouter.IRouterActivity{
     private var disposable : CompositeDisposable = CompositeDisposable()
 
     override val layoutRes: Int = R.layout.activity_main
@@ -64,16 +64,7 @@ class MainActivity : BaseActivity<ActivityMainBinding,MainViewModel>(),
     }
 
     override fun destroyActivity() {
-        disposable?.clear()
-    }
-
-
-    override fun setAppBarText(name: String) {
-
-    }
-
-    override fun hideAppBar(visible: Boolean) {
-
+        disposable.clear()
     }
 
     override fun onMessage(message: String) {
@@ -86,7 +77,4 @@ class MainActivity : BaseActivity<ActivityMainBinding,MainViewModel>(),
         }
     }
 
-    override fun hideBottomNavigation(flag: Boolean) {
-
-    }
 }

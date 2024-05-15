@@ -6,11 +6,9 @@ import com.arch.portdata.IRepositoryApi
 import com.arch.portdomain.model.EnumStateFlow
 import com.arch.portdomain.model.StateFlow
 import com.arch.portdomain.news_group.IGroupsUseCase
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.disposables.CompositeDisposable
-import io.reactivex.rxjava3.schedulers.Schedulers
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -25,15 +23,15 @@ class GroupUseCase @Inject constructor(private val repositoryApi: IRepositoryApi
 
     override fun loadCategory() {
         disposable?.add(Single.defer { repositoryApi.loadCategory() }
-            .subscribeOn(Schedulers.io())
+            .subscribeOn(provideSchedulersIO())
             .flatMap { mapperGroup(it) }
-            .doOnSuccess{ onNext(
+            .doOnSuccess{ stateOnNext(
                 StateFlow(
                     status = EnumStateFlow.STATUS_OK_GROUP_LIST.const,
                     modelGroup = it.toMutableList())
             ) }
             .doOnError {
-                onNext(
+                stateOnNext(
                     StateFlow(
                         status = EnumStateFlow.STATUS_MGS.const,
                         message = ErrorType.ERROR.type.plus(" ")
@@ -51,15 +49,15 @@ class GroupUseCase @Inject constructor(private val repositoryApi: IRepositoryApi
 
     override fun selectLanguage(language: String) {
         disposable?.add(Single.defer { repositoryApi.newsLanguage(language) }
-            .subscribeOn(Schedulers.io())
+            .subscribeOn(provideSchedulersIO())
             .flatMap { mapperGroup(it) }
-            .doOnSuccess{onNext(
+            .doOnSuccess{stateOnNext(
                 StateFlow(
                     status = EnumStateFlow.STATUS_OK_GROUP_LIST.const,
                     modelGroup = it.toMutableList())
             ) }
             .doOnError {
-                onNext(
+                stateOnNext(
                     StateFlow(
                         status = EnumStateFlow.STATUS_MGS.const,
                         message = ErrorType.ERROR.type.plus(" ")
