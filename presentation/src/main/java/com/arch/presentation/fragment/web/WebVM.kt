@@ -10,9 +10,9 @@ import io.reactivex.rxjava3.core.Observable
 import javax.inject.Inject
 
 class WebVM @Inject constructor(
-    private val router : IRouter,
-    private val useCase : IWebUseCase.UseCaseWeb
-): BaseVM() {
+    private val router: IRouter,
+    private val useCase: IWebUseCase.UseCaseWeb
+) : BaseVM() {
 
     fun state(): Observable<StateFlow> = Observable.defer {
         Observable.merge(
@@ -20,20 +20,22 @@ class WebVM @Inject constructor(
         )
     }.observeOn(provideSchedulersMain())
 
-     fun menu() {
+    fun menu() {
         router.openDrawer()
     }
 
-     fun saveNews(item : NewsModel) {
+    fun saveNews(item: NewsModel) {
         useCase.saveNews(item)
     }
 
-//     fun successSave() {
+    //     fun successSave() {
 //        view.showMessage("save ok")
 //    }
 //
 //     fun onMessage(message: String) {
 //        view.showMessage(message)
 //    }
-
+    fun onDestroyView() {
+        useCase.stopCase()
+    }
 }

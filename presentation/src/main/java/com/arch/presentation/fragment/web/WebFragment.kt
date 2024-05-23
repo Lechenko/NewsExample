@@ -131,7 +131,7 @@ class WebFragment : BaseFragment<FragmentWebBinding,WebVM>() {
     }
 
     override fun destroyFragment() {
-
+        viewModel.onDestroyView()
     }
 
     override fun pauseFragment() {

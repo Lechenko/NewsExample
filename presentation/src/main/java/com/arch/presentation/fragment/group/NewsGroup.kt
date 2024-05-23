@@ -79,7 +79,7 @@ class NewsGroup : BaseFragment<FragmentNewsGroupBinding,NewsGroupVM>() {
     }
 
     override fun destroyFragment() {
-
+        viewModel.onDestroyView()
     }
 
     override fun pauseFragment() {
