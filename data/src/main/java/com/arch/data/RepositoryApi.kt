@@ -9,10 +9,7 @@ import io.reactivex.rxjava3.core.Single
 import timber.log.Timber
 
 class RepositoryApi : BaseRepApi(), IRepositoryApi {
-    private val remoteStorage : IRemoteStorage
-    init {
-        remoteStorage = RemoteStorage()
-    }
+    private val remoteStorage : IRemoteStorage   = RemoteStorage()
     override fun newsLanguage(language: String): Single<List<DataGroup>> =
         remoteStorage.newsLanguage(language)
             .flatMap {mapperFromGroup(it)}
@@ -25,6 +22,8 @@ class RepositoryApi : BaseRepApi(), IRepositoryApi {
 
     override fun loadCategory(): Single<List<DataGroup>> = remoteStorage.loadCategory()
         .flatMap {mapperFromGroup(it)}
+        .doOnSuccess{Timber.tag(RepositoryApi::class.java.name.toString())
+                .i("loadCategory list size : ".plus(it.size))}
         .doOnError{Timber.tag(RepositoryApi::class.simpleName.toString()).e(it)}
 
     override fun newsChannel(newsChannel: String): Single<List<DataNews>> =

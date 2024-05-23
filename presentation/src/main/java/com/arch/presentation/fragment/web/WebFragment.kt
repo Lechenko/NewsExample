@@ -2,16 +2,20 @@ package com.arch.presentation.fragment.web
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
+import android.os.Parcelable
 import android.view.View
 import android.webkit.WebChromeClient
 import android.webkit.WebSettings
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import androidx.annotation.RequiresApi
 import com.arch.portdomain.model.NewsModel
 import com.arch.presentation.R
 import com.arch.presentation.base.BaseFragment
 import com.arch.presentation.databinding.FragmentWebBinding
+import timber.log.Timber
 
 
 class WebFragment : BaseFragment<FragmentWebBinding,WebVM>() {
@@ -28,14 +32,28 @@ class WebFragment : BaseFragment<FragmentWebBinding,WebVM>() {
     }
 
     override val layoutRes: Int = R.layout.fragment_web
+    @Suppress("DEPRECATION")
+    inline fun <reified T : Parcelable> Intent.getParcelable(key: String): T? {
+        Timber.d("intentextras parce")
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            this.getParcelableExtra(key, T::class.java)
+        } else {
+            this.getParcelableExtra(key)
+        }
+    }
 
-    @SuppressLint("NewApi")
+
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
+    @Suppress("DEPRECATION")
     override fun initFragmentView() {
         binding?.let {bind ->
             bind.event = viewModel
             if (arguments != null) {
-
-                val newsModel = arguments?.getParcelable(TAG, NewsModel::class.java)
+                val newsModel = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                    arguments?.getParcelable(TAG, NewsModel::class.java)
+                    } else {
+                        arguments?.getParcelable(TAG)
+                    }
                 if (newsModel != null) {
                     bind.item = newsModel
                     if (newsModel.id != 0L) bind.ivWebFavorites.visibility = View.GONE
@@ -54,17 +72,34 @@ class WebFragment : BaseFragment<FragmentWebBinding,WebVM>() {
         }
     }
 
+    @SuppressLint("SetJavaScriptEnabled")
     private fun setupBrowser(url: String) {
-        binding?.let { bind ->{
-            val webSettings: WebSettings = bind.wvsWeb.settings
+//        binding?.let { bind ->{
+//            val webSettings: WebSettings = bind.wvsWeb.settings
+//            webSettings.allowContentAccess = true
+//            webSettings.cacheMode = WebSettings.LOAD_NO_CACHE
+//            bind.wvsWeb.setLayerType(View.LAYER_TYPE_HARDWARE, null)
+//            bind.wvsWeb.setLayerType(View.LAYER_TYPE_HARDWARE, null)
+//            bind.wvsWeb.webViewClient = WebViewClient()
+//            webChrome()
+//            bind.wvsWeb.loadUrl(url)
+//        } }
+        binding?.let {
+            val webSettings = it.wvsWeb.settings
+            webSettings.javaScriptEnabled = true
             webSettings.javaScriptCanOpenWindowsAutomatically
-            bind.wvsWeb.setLayerType(View.LAYER_TYPE_HARDWARE, null)
+            webSettings.setRenderPriority(WebSettings.RenderPriority.HIGH)
+            it.wvsWeb.setLayerType(View.LAYER_TYPE_HARDWARE, null)
             webSettings.cacheMode = WebSettings.LOAD_NO_CACHE
-            bind.wvsWeb.setLayerType(View.LAYER_TYPE_HARDWARE, null)
-            bind.wvsWeb.webViewClient = WebViewClient()
+            it.wvsWeb.setLayerType(View.LAYER_TYPE_HARDWARE, null)
+            it.wvsWeb.webViewClient = WebViewClient()
             webChrome()
-            bind.wvsWeb.loadUrl(url)
-        } }
+            Timber.tag(WebFragment::class.simpleName.toString())
+                .e("URL NEWS : ".plus(url))
+            it.wvsWeb.loadUrl(url)
+        }
+       //
+
     }
 
     private fun webChrome() {
@@ -104,6 +139,10 @@ class WebFragment : BaseFragment<FragmentWebBinding,WebVM>() {
     }
 
     override fun resume() {
+
+    }
+
+    private fun stateVMListener(){
 
     }
 }

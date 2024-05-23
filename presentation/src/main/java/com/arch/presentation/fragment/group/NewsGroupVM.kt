@@ -10,9 +10,7 @@ import com.arch.presentation.base.BaseVM
 import com.arch.presentation.router.ConstRouter
 import com.arch.presentation.router.IRouter
 import com.arch.presentation.util.Language
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
-import io.reactivex.rxjava3.schedulers.Schedulers
 import javax.inject.Inject
 
 class NewsGroupVM @Inject constructor(
@@ -23,7 +21,7 @@ class NewsGroupVM @Inject constructor(
         Observable.merge(
             publisherStateView(), useCase.stateDomain()
         )
-    }.compose(applyObservableSchedulers())
+    }.observeOn(provideSchedulersMain())
 
     init {
         useCase.startCase()

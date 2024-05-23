@@ -27,12 +27,6 @@ abstract class BaseActivity<Binding : ViewDataBinding,VIEW_MODEL : ViewModel> : 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        if (!BuildConfig.DEBUG) {
-//            window.setFlags(
-//                WindowManager.LayoutParams.FLAG_SECURE,
-//                WindowManager.LayoutParams.FLAG_SECURE
-//            )
-//        }
         initOnCreate()
         binding = DataBindingUtil.setContentView(this, layoutRes)
         createActivity(savedInstanceState)

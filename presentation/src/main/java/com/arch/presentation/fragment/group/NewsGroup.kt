@@ -23,9 +23,35 @@ class NewsGroup : BaseFragment<FragmentNewsGroupBinding,NewsGroupVM>() {
     }
 
 
+
+    private fun stateVMListener(){
+        if (disposable?.isDisposed != true) disposable?.clear()
+       // val subscribeState = viewModel.state()
+        disposable?.add(viewModel.state().subscribe({
+            when (it.status) {
+                EnumStateFlow.STATUS_OK_GROUP_LIST.const -> {
+                    adapterNewsGroup.updateAdapter(it.modelGroup)
+                }
+                EnumStateFlow.STATUS_MGS.const -> {
+                    showMessage(it.message)
+                }
+                EnumStateFlow.STATUS_EVENT.const -> {
+                    it.message.let {msg -> if (EventState.UPDATE_ADAPTER.const == msg)
+                        adapterLanguage.updateAdapter() }
+                }
+            }
+        },{
+            Timber.tag(News::class.java.name.toString())
+                .i("error observationState : ".plus(it.message.toString()))
+            showMessage("error ".plus(it.message))
+        }))
+    }
+
+
     override val layoutRes: Int = R.layout.fragment_news_group
 
     override fun initFragmentView() {
+        stateVMListener()
         binding?.let {
             it.event = viewModel
             displayLanguage()
@@ -43,30 +69,13 @@ class NewsGroup : BaseFragment<FragmentNewsGroupBinding,NewsGroupVM>() {
     }
 
     override fun startFragment() {
-        if (disposable?.isDisposed != true) disposable?.clear()
-        val subscribeState = viewModel.state()
-        disposable?.add(subscribeState.subscribe({
-            when (it.status) {
-                EnumStateFlow.STATUS_OK_GROUP_LIST.const -> {
-                    adapterNewsGroup.updateAdapter(it.modelGroup)
-                }
-                EnumStateFlow.STATUS_MGS.const -> {
-                    it.message.let {msg -> showMessage(msg)}
-                }
-                EnumStateFlow.STATUS_EVENT.const -> {
-                    it.message.let {msg -> if (EventState.UPDATE_ADAPTER.const == msg)
-                        adapterLanguage.updateAdapter() }
-                }
-            }
-        },{
-            Timber.tag(News::class.java.name.toString())
-                .i("error observationState : ".plus(it.message.toString()))
-            showMessage("error ".plus(it.message))
-        }))
+     disposable?.let {
+         if (it.size() == 0) stateVMListener()
+     }
     }
 
     override fun stopFragment() {
-
+        disposable?.clear()
     }
 
     override fun destroyFragment() {

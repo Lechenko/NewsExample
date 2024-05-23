@@ -25,25 +25,23 @@ class GroupUseCase @Inject constructor(private val repositoryApi: IRepositoryApi
         disposable?.add(Single.defer { repositoryApi.loadCategory() }
             .subscribeOn(provideSchedulersIO())
             .flatMap { mapperGroup(it) }
-            .doOnSuccess{ stateOnNext(
-                StateFlow(
-                    status = EnumStateFlow.STATUS_OK_GROUP_LIST.const,
-                    modelGroup = it.toMutableList())
-            ) }
-            .doOnError {
+            .subscribe({
+                Timber.tag(GroupUseCase::class.java.name.toString())
+                    .i("list size newModule".plus(it.size))
+                stateOnNext(
+                    StateFlow(
+                        status = EnumStateFlow.STATUS_OK_GROUP_LIST.const,
+                        modelGroup = it.toMutableList())
+                )
+            },{
+                Timber.tag(GroupUseCase::class.java.name.toString())
+                    .i("error loadLocalNews ".plus(it.message.toString()))
                 stateOnNext(
                     StateFlow(
                         status = EnumStateFlow.STATUS_MGS.const,
                         message = ErrorType.ERROR.type.plus(" ")
                             .plus(it.message))
                 )
-            }
-            .subscribe({
-                Timber.tag(GroupUseCase::class.java.name.toString())
-                    .i("list size newModule".plus(it.size))
-            },{
-                Timber.tag(GroupUseCase::class.java.name.toString())
-                    .i("error loadLocalNews ".plus(it.message.toString()))
             }))
     }
 
@@ -51,25 +49,28 @@ class GroupUseCase @Inject constructor(private val repositoryApi: IRepositoryApi
         disposable?.add(Single.defer { repositoryApi.newsLanguage(language) }
             .subscribeOn(provideSchedulersIO())
             .flatMap { mapperGroup(it) }
-            .doOnSuccess{stateOnNext(
-                StateFlow(
-                    status = EnumStateFlow.STATUS_OK_GROUP_LIST.const,
-                    modelGroup = it.toMutableList())
-            ) }
+            .doOnSuccess{
+             }
             .doOnError {
+
+            }
+            .subscribe({
+                Timber.tag(GroupUseCase::class.java.name.toString())
+                    .i("list size newModule".plus(it.size))
+                stateOnNext(
+                    StateFlow(
+                        status = EnumStateFlow.STATUS_OK_GROUP_LIST.const,
+                        modelGroup = it.toMutableList())
+                )
+            },{
+                Timber.tag(GroupUseCase::class.java.name.toString())
+                    .i("error loadLocalNews ".plus(it.message.toString()))
                 stateOnNext(
                     StateFlow(
                         status = EnumStateFlow.STATUS_MGS.const,
                         message = ErrorType.ERROR.type.plus(" ")
                             .plus(it.message))
                 )
-            }
-            .subscribe({
-                Timber.tag(GroupUseCase::class.java.name.toString())
-                    .i("list size newModule".plus(it.size))
-            },{
-                Timber.tag(GroupUseCase::class.java.name.toString())
-                    .i("error loadLocalNews ".plus(it.message.toString()))
             }))
     }
 

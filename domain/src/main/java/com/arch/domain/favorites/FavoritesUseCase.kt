@@ -22,21 +22,19 @@ class FavoritesUseCase @Inject constructor(private val repositoryDao : IReposito
        disposable.add(Single.defer { repositoryDao.getFavorites() }
            .subscribeOn(provideSchedulersIO())
            .flatMap { mapperNews(it)}
-           .doOnSuccess{ stateOnNext(StateFlow(
-               status = EnumStateFlow.STATUS_OK_NEWS_LIST.const,
-               modelNews = it.toMutableList())) }
-           .doOnError {
-              stateOnNext(StateFlow(
-                   status = EnumStateFlow.STATUS_MGS.const,
-                   message = ErrorType.ERROR.type.plus(" ")
-                       .plus(it.message)))
-           }
            .subscribe({
                Timber.tag(FavoritesUseCase::class.java.name.toString())
                    .i("list size newModule".plus(it.size))
+               stateOnNext(StateFlow(
+                   status = EnumStateFlow.STATUS_OK_NEWS_LIST.const,
+                   modelNews = it.toMutableList()))
            },{
                Timber.tag(FavoritesUseCase::class.java.name.toString())
                    .i("error loadLocalNews ".plus(it.message.toString()))
+               stateOnNext(StateFlow(
+                   status = EnumStateFlow.STATUS_MGS.const,
+                   message = ErrorType.ERROR.type.plus(" ")
+                       .plus(it.message)))
            }))
     }
 

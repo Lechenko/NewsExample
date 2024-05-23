@@ -20,7 +20,7 @@ class MainViewModel @Inject constructor(
      fun initDrawerLayout(drawer: DrawerLayout) = router.init(drawer)
 
      fun state() : Observable<StateFlow> = useCase.stateDomain()
-          .compose(applyObservableSchedulers())
+          .observeOn(provideSchedulersMain())
 
      fun startFragmentMain() = router.transaction(ConstRouter.NEWS_GROUP_FRAGMENT.route)
 

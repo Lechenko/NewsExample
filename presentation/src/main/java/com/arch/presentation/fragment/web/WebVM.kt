@@ -6,9 +6,7 @@ import com.arch.portdomain.model.StateFlow
 import com.arch.portdomain.web.IWebUseCase
 import com.arch.presentation.base.BaseVM
 import com.arch.presentation.router.IRouter
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
-import io.reactivex.rxjava3.schedulers.Schedulers
 import javax.inject.Inject
 
 class WebVM @Inject constructor(
@@ -20,7 +18,7 @@ class WebVM @Inject constructor(
         Observable.merge(
             publisherStateView(), useCase.stateDomain()
         )
-    }.compose(applyObservableSchedulers())
+    }.observeOn(provideSchedulersMain())
 
      fun menu() {
         router.openDrawer()

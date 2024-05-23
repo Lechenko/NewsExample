@@ -1,6 +1,5 @@
 package com.arch.test
 
-import android.annotation.SuppressLint
 import android.content.Context
 import androidx.test.platform.app.InstrumentationRegistry
 import com.arch.data.RepositoryApi
@@ -11,7 +10,6 @@ import com.arch.portdata.IRepositoryDAO
 import com.arch.portdomain.model.StateFlow
 import com.arch.portdomain.news.INewsUseCase
 import io.reactivex.rxjava3.android.plugins.RxAndroidPlugins
-import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.observers.TestObserver
 import io.reactivex.rxjava3.plugins.RxJavaPlugins
 import io.reactivex.rxjava3.schedulers.Schedulers
@@ -34,15 +32,11 @@ class TestNews {
 
     companion object {
         var appContext: Context? = null
-        var disposable: CompositeDisposable? = null
-
         @JvmStatic
         @BeforeClass
         fun stepUp() {
             Timber.plant(Timber.DebugTree())
-//            RxAndroidPlugins.setInitMainThreadSchedulerHandler {  Schedulers.trampoline() }
             appContext = InstrumentationRegistry.getInstrumentation().targetContext
-            disposable = CompositeDisposable()
         }
 
         @JvmStatic
@@ -50,8 +44,6 @@ class TestNews {
         fun stepDown() {
             RxAndroidPlugins.reset()
             RxJavaPlugins.reset()
-            disposable?.dispose()
-            disposable = null
             appContext = null
 
         }
@@ -62,10 +54,6 @@ class TestNews {
         RxAndroidPlugins.reset()
         RxJavaPlugins.reset()
         val immediate = Schedulers.trampoline()
-//        RxJavaPlugins.setInitIoSchedulerHandler { immediate }
-//        RxJavaPlugins.setInitComputationSchedulerHandler { immediate }
-//        RxJavaPlugins.setInitNewThreadSchedulerHandler { immediate }
-//        RxJavaPlugins.setInitSingleSchedulerHandler { immediate }
         RxAndroidPlugins.setInitMainThreadSchedulerHandler { immediate }
         val repositoryApi: IRepositoryApi = RepositoryApi()
         val repositoryDAO: IRepositoryDAO = appContext?.let {
@@ -82,9 +70,25 @@ class TestNews {
     fun stopTest() {
         RxAndroidPlugins.reset()
         RxJavaPlugins.reset()
-        disposable?.clear()
     }
+    @Test
+    fun testLoadGroupNews() {
+        domain?.let {dom ->
+            val subscriber: TestObserver<StateFlow> = TestObserver.create()
+            dom.loadNewsChannel("abc-news")
+            dom.stateDomain()
+                .observeOn(Schedulers.trampoline())
+                .doOnNext { Timber.tag("TestNews")
+                    .e("value status : " + it.status + " value size: " + it.modelNews.size) }
+                .subscribe(subscriber)
+            subscriber.awaitDone(5,TimeUnit.SECONDS)
+            subscriber.assertValue{it.modelNews.size == 10}
+            subscriber.assertValue{it.status == 105}
+            subscriber.onComplete()
+            subscriber.assertComplete()
 
+        }
+    }
 
     @Test
     fun testLoadNewsChannel() {
@@ -97,28 +101,11 @@ class TestNews {
                     .e("value status : " + it.status + " value size: " + it.modelNews.size) }
                 .subscribe(subscriber)
             subscriber.awaitDone(5,TimeUnit.SECONDS)
-            subscriber.assertValue{it.modelNews.size > 0}
+            subscriber.assertValue{it.modelNews.size == 10}
+            subscriber.assertValue{it.status == 105}
             subscriber.onComplete()
             subscriber.assertComplete()
 
         }
     }
-
-
-//            val transaction = Completable.fromAction { domain?.loadNewsChannel("abc-news") }
-//                .toSingle {}
-//              return@defer Single.zip(
-//                    state
-//                    .doOnSuccess { Log.e("testLoadNewsChannel publish doOnSuccess ", it.toString()) }
-//                    .doOnError {it.message?.let { msg -> Log.e("testLoadNewsChannel publish doOnError ", msg) }},
-//                    transaction
-//                        .doOnSuccess { Log.e("testLoadNewsChannel transaction doOnSuccess ", it.toString()) }
-//                        .doOnError {it.message?.let { msg -> Log.e("testLoadNewsChannel transaction doOnError ", msg) }
-//                        }
-//                ) { list, _ -> list }.observeOn(Schedulers.trampoline())
-//            }
-//            .doOnSuccess { Log.e("testLoadNewsChannel zip doOnSuccess ", it.toString()) }
-//            .doOnError { it.message?.let { msg -> Log.e("testLoadNewsChannel zip doOnError ", msg) } }
-//            .test()
-
 }
