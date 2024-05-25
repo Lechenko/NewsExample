@@ -11,4 +11,8 @@ data class NewsGroupModel(
     val description : String?,
     val language : String?,
     val name : String?,
-    val url : String?) : Parcelable
+    val url : String?) : StateEntity,Parcelable {
+    @Suppress("UNCHECKED_CAST")
+    override fun <NewsGroupModel> getModel(): NewsGroupModel = this as NewsGroupModel
+
+}

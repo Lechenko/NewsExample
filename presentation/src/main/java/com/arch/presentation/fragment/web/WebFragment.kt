@@ -142,7 +142,7 @@ class WebFragment : BaseFragment<FragmentWebBinding,WebVM>() {
 
     }
 
-    private fun stateVMListener(){
+    override fun stateVMListener(){
 
     }
 }

@@ -20,8 +20,14 @@ import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.ViewModel
 import androidx.window.layout.WindowMetrics
 import androidx.window.layout.WindowMetricsCalculator
+import com.arch.portdomain.model.StateFlow
+import com.arch.presentation.fragment.news.News
 import dagger.android.support.DaggerFragment
+import io.reactivex.rxjava3.core.FlowableTransformer
+import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.core.ObservableTransformer
 import io.reactivex.rxjava3.disposables.CompositeDisposable
+import timber.log.Timber
 import java.io.File
 import java.util.Objects
 import javax.inject.Inject
@@ -38,6 +44,8 @@ abstract class BaseFragment<Binding : ViewDataBinding,ViewModelType : ViewModel>
         super.onAttach(context)
         attachFragment()
     }
+
+
 
     override fun onStop() {
         stopFragment()
@@ -59,7 +67,25 @@ abstract class BaseFragment<Binding : ViewDataBinding,ViewModelType : ViewModel>
         resume()
     }
 
+    protected abstract fun  stateVMListener()
 
+    @FunctionalInterface
+    protected interface ActionState<V>{
+        fun <T : V>action(model: T)
+    }
+
+    @FunctionalInterface
+    protected interface ActionError{
+        fun error(msg : String)
+    }
+   protected open fun <T> subscribeStateVM(viewModel: IState, actionState: ActionState<T>,actionError : ActionError) {
+       disposable?.add(viewModel.state().subscribe({ actionState.action(it as T) },{
+           actionError.error(it.message.toString())
+           Timber.tag(News::class.java.name.toString())
+               .i("error observationState : ".plus(it.message.toString()))
+           showMessage("error ".plus(it.message))
+       }))
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -203,4 +229,5 @@ abstract class BaseFragment<Binding : ViewDataBinding,ViewModelType : ViewModel>
        }
         return size
     }
+
 }

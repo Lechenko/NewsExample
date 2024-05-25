@@ -5,11 +5,16 @@ import com.arch.presentation.base.BaseFragment
 import com.arch.presentation.databinding.FragmentSearchBinding
 
 
+
 class Search : BaseFragment<FragmentSearchBinding,SearchVM>(){
 
     companion object {
         @JvmStatic
         fun newInstance() = Search()
+    }
+
+    override fun stateVMListener() {
+
     }
 
     override val layoutRes: Int = R.layout.fragment_search

@@ -7,6 +7,7 @@ import com.arch.portdomain.model.NewsGroupModel
 import com.arch.portdomain.model.StateFlow
 import com.arch.portdomain.news_group.IGroupsUseCase
 import com.arch.presentation.base.BaseVM
+import com.arch.presentation.base.IState
 import com.arch.presentation.router.ConstRouter
 import com.arch.presentation.router.IRouter
 import com.arch.presentation.util.Language
@@ -16,8 +17,8 @@ import javax.inject.Inject
 class NewsGroupVM @Inject constructor(
     private val router: IRouter,
     private val useCase: IGroupsUseCase.UseCaseGroup
-) : BaseVM() {
-    fun state(): Observable<StateFlow> = Observable.defer {
+) : BaseVM(), IState {
+    override fun state(): Observable<StateFlow> = Observable.defer {
         Observable.merge(
             publisherStateView(), useCase.stateDomain()
         )

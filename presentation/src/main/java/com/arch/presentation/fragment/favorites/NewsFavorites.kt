@@ -6,9 +6,11 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.arch.portdomain.model.EnumStateFlow
 import com.arch.portdomain.model.NewsModel
+import com.arch.portdomain.model.StateFlow
 import com.arch.presentation.R
 import com.arch.presentation.activity.MainActivity
 import com.arch.presentation.base.BaseFragment
+import com.arch.presentation.base.IState
 import com.arch.presentation.databinding.FragmentNewsFavoritesBinding
 import com.arch.presentation.fragment.favorites.adapter.FavoritesAdapter
 import com.arch.presentation.fragment.news.News
@@ -23,6 +25,32 @@ class NewsFavorites : BaseFragment<FragmentNewsFavoritesBinding, NewsFavoritesVM
     companion object {
         @JvmStatic
         fun newInstance() = NewsFavorites()
+    }
+
+    override fun stateVMListener() {
+        disposable?.clear()
+        subscribeStateVM(viewModel as IState, object : ActionState<StateFlow> {
+            override fun <T : StateFlow> action(model: T) {
+                when (model.status) {
+                    EnumStateFlow.STATUS_OK_NEWS.const -> {
+                        adapter.deleteItem(model.modelNews[0])
+                        showMessage("delete ok")
+                    }
+
+                    EnumStateFlow.STATUS_OK_NEWS_LIST.const -> {
+                        adapter.updateListAdapter(model.modelNews)
+                    }
+
+                    EnumStateFlow.STATUS_MGS.const -> {
+                        showMessage(model.message)
+                    }
+                }
+            }
+        }, object : ActionError {
+            override fun error(msg: String) {
+                showMessage("error ".plus(msg))
+            }
+        })
     }
 
 
@@ -70,27 +98,6 @@ class NewsFavorites : BaseFragment<FragmentNewsFavoritesBinding, NewsFavoritesVM
     }
 
     override fun resume() {
-        if (disposable?.isDisposed != true) disposable?.clear()
-        val subscribeState = viewModel.state()
-        disposable?.add(subscribeState.subscribe({
-            when (it.status) {
-                EnumStateFlow.STATUS_OK_NEWS.const -> {
-                    adapter.deleteItem(it.modelNews[0])
-                    showMessage("delete ok")
-                }
 
-                EnumStateFlow.STATUS_OK_NEWS_LIST.const -> {
-                    adapter.updateListAdapter(it.modelNews)
-                }
-
-                EnumStateFlow.STATUS_MGS.const -> {
-                    showMessage(it.message)
-                }
-            }
-        }, {
-            Timber.tag(News::class.java.name.toString())
-                .i("error observationState : ".plus(it.message.toString()))
-            showMessage("error ".plus(it.message))
-        }))
     }
 }
