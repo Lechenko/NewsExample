@@ -14,7 +14,7 @@ class NewsGroupAdapter (val viewModel: NewsGroupVM)
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewsGroupViewHolder {
-        return NewsGroupViewHolder(parent.context, LayoutInflater.from(parent.context)
+        return NewsGroupViewHolder(LayoutInflater.from(parent.context)
             .inflate(R.layout.item_group, parent, false), viewModel)
     }
 

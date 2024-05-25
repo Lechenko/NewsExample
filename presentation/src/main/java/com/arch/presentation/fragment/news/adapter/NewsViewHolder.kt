@@ -9,7 +9,7 @@ import com.arch.presentation.fragment.news.NewsViewModel
 import com.arch.presentation.glide.GlideApp
 import com.arch.presentation.util.StringUtils
 
-class NewsViewHolder constructor(val context : Context,val view : View,
+class NewsViewHolder constructor(val view : View,
                                  val viewModel: NewsViewModel)
     : BaseViewHolder<ItemNewsBinding>(view) {
     init {
@@ -19,8 +19,9 @@ class NewsViewHolder constructor(val context : Context,val view : View,
     fun bind(item: NewsModel){
         binding?.let {
             item.urlToImage?.let {urlToImage ->
-                GlideApp.with(view)
+                GlideApp.with(view.context)
                     .load(urlToImage)
+                    .fitCenter()
                     .into(it.ivItemNewsImage)
             }
             item.title?.let {title -> it.tvItemNewsTitle.text = title}

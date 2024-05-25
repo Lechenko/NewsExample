@@ -11,7 +11,7 @@ import com.arch.presentation.fragment.news.NewsViewModel
 class NewsAdapter(private val viewModel : NewsViewModel) : RecyclerView.Adapter<NewsViewHolder>() {
     private var mList  = mutableListOf<NewsModel>()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewsViewHolder {
-        return NewsViewHolder(parent.context, LayoutInflater.from(parent.context)
+        return NewsViewHolder(LayoutInflater.from(parent.context)
             .inflate(R.layout.item_news, parent, false), viewModel)
     }
 

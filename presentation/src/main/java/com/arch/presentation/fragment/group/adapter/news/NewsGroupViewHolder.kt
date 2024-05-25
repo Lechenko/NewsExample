@@ -11,7 +11,7 @@ import com.arch.presentation.glide.GlideApp
 
 import timber.log.Timber
 
-class NewsGroupViewHolder(val context : Context, view : View,val viewModel: NewsGroupVM)
+class NewsGroupViewHolder(val  view : View,val viewModel: NewsGroupVM)
     : BaseViewHolder<ItemGroupBinding>(view){
 
     init {
@@ -21,8 +21,9 @@ class NewsGroupViewHolder(val context : Context, view : View,val viewModel: News
     fun bind(item : NewsGroupModel){
         binding?.let {
             item.url?.let { url ->
-                GlideApp.with(context)
+                GlideApp.with(view.context)
                     .load(ConstPresentation.LOGO_DOMAIN.const + url + ConstPresentation.SIZE_ICON.const)
+                    .fitCenter()
                     .circleCrop()
                     .into(it.rivCategoryLogoDomain)
             }
