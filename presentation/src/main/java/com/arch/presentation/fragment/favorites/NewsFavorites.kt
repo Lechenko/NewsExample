@@ -58,6 +58,7 @@ class NewsFavorites : BaseFragment<FragmentNewsFavoritesBinding, NewsFavoritesVM
 
     override fun initFragmentView() {
         binding?.event = viewModel
+        stateVMListener()
         initAdapter()
         viewModel.init()
         lifecycleScope.launch {

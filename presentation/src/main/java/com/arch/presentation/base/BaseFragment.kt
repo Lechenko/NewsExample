@@ -107,7 +107,7 @@ abstract class BaseFragment<Binding : ViewDataBinding,ViewModelType : ViewModel>
     }
 
     fun showMessage(message: String){
-        toastLong(message)
+        toastShort(message)
     }
 
     @get:LayoutRes

@@ -10,5 +10,5 @@ import dagger.android.ContributesAndroidInjector
 abstract class BuildersModuleActivity {
     @ActivityScope
     @ContributesAndroidInjector(modules = [ModuleMainActivity::class, BuildersModuleFragment::class])
-    abstract fun bindMapActivity(): com.arch.presentation.activity.MainActivity
+    abstract fun bindMainActivity(): MainActivity
 }
