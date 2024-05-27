@@ -32,13 +32,13 @@ class NewsUseCase @Inject constructor(
             .subscribe({
                 Timber.tag(NewsUseCase::class.java.name.toString())
                     .i("list size newModule".plus(it.size))
-                stateOnNext(
+                stateFlow(
                     StateFlow(
                         status = EnumStateFlow.STATUS_OK_NEWS_LIST.const,
                         modelNews = it.toMutableList())
                 )
             },{
-                stateOnNext(
+                stateFlow(
                     StateFlow(
                         status = EnumStateFlow.STATUS_MGS.const,
                         message = ErrorType.ERROR.type.plus(" ")
@@ -54,11 +54,11 @@ class NewsUseCase @Inject constructor(
             .subscribeOn(provideSchedulersIO())
             .flatMap { mapperNews(it) }
             .doOnSuccess{
-                stateOnNext(StateFlow(
+                stateFlow(StateFlow(
                 status = EnumStateFlow.STATUS_OK_NEWS_LIST.const,
                 modelNews = it.toMutableList())) }
             .doOnError {
-               stateOnNext(StateFlow(
+               stateFlow(StateFlow(
                     status = EnumStateFlow.STATUS_MGS.const,
                     message = ErrorType.ERROR.type.plus(" ")
                         .plus(it.message)))
@@ -76,11 +76,11 @@ class NewsUseCase @Inject constructor(
         disposable.add(Single.defer { repositoryApi.newsSearch(newSearch,dateFrom,dateTo)}
             .subscribeOn(provideSchedulersIO())
             .flatMap { mapperNews(it) }
-            .doOnSuccess{ stateOnNext(StateFlow(
+            .doOnSuccess{ stateFlow(StateFlow(
                 status = EnumStateFlow.STATUS_OK_NEWS_LIST.const,
                 modelNews = it.toMutableList())) }
             .doOnError {
-                stateOnNext(StateFlow(
+                stateFlow(StateFlow(
                     status = EnumStateFlow.STATUS_MGS.const,
                     message = ErrorType.ERROR.type.plus(" ")
                         .plus(it.message)))
@@ -101,13 +101,13 @@ class NewsUseCase @Inject constructor(
             .subscribe({
                 Timber.tag(NewsUseCase::class.java.name.toString())
                     .i("save ok")
-                stateOnNext(StateFlow(
-                    status = EnumStateFlow.STATUS_OK_NEWS_LIST.const,
+                stateFlow(StateFlow(
+                    status = EnumStateFlow.STATUS_MGS.const,
                     message = "save ok"))
             },{
                 Timber.tag(NewsUseCase::class.java.name.toString())
                     .i("error loadLocalNews ".plus(it.message.toString()))
-                stateOnNext(StateFlow(
+                stateFlow(StateFlow(
                     status = EnumStateFlow.STATUS_MGS.const,
                     message = ErrorType.ERROR.type.plus(" ")
                         .plus(it.message)))

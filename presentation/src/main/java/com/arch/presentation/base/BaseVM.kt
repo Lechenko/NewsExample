@@ -21,5 +21,9 @@ abstract class BaseVM : ViewModel()  {
     protected open fun provideSchedulersMain() : Scheduler = observeThread
     protected fun onNext(stateFlow: StateFlow) = publisher?.onNext(stateFlow)
 
+    protected fun disposePublisher(){
+        publisher?.onComplete()
+        publisher = null
+    }
     protected fun onError(msg : String) = msg.let {publisher?.onError(Throwable(it))}
 }

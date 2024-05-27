@@ -23,6 +23,7 @@ class NewsAdapter(private val viewModel : NewsViewModel) : RecyclerView.Adapter<
 
     @SuppressLint("NotifyDataSetChanged")
     fun updateList(list : List<NewsModel>){
+        mList.clear()
         mList.addAll(list)
         notifyDataSetChanged()
     }

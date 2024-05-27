@@ -33,7 +33,7 @@ class FavoritesAdapter constructor(private val viewModel: NewsFavoritesVM)
     fun deleteItem(item : NewsModel){
         val position = mList.indexOf(item)
         mList.remove(item)
-        if (mList.size > 1) notifyItemRemoved(position)
+        if (mList.size > 0) notifyItemRemoved(position)
         else notifyDataSetChanged()
     }
 }

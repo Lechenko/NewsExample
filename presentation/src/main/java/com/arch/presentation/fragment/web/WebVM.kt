@@ -37,5 +37,6 @@ class WebVM @Inject constructor(
 //    }
     fun onDestroyView() {
         useCase.stopCase()
+        disposePublisher()
     }
 }

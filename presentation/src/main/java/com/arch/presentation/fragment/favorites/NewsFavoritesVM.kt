@@ -16,12 +16,10 @@ class NewsFavoritesVM @Inject constructor(
     private val useCase: IFavoritesUseCase.UseCaseFavorites
 ) : BaseVM(), IState {
     override fun state(): Observable<StateFlow> = Observable.defer {
-        Observable.merge(
-            publisherStateView(), useCase.stateDomain()
-        )}.observeOn(provideSchedulersMain())
+        Observable.merge(publisherStateView(), useCase.stateDomain())
+    }.observeOn(provideSchedulersMain())
         .map { state ->
-            if (
-                EnumStateFlow.STATUS_OK_NEWS.const == state.status ||
+            if (EnumStateFlow.STATUS_OK_NEWS.const == state.status ||
                 EnumStateFlow.STATUS_MGS.const == state.status) {
                 router.isProgress(false)
             }
@@ -52,11 +50,8 @@ class NewsFavoritesVM @Inject constructor(
 
     fun menu() = router.openDrawer()
 
-    override fun onCleared() {
-        router.onStopView()
+    fun onDestroyView() {
         useCase.stopCase()
-        super.onCleared()
+        disposePublisher()
     }
-
-    fun onDestroyView() = useCase.stopCase()
 }

@@ -28,7 +28,7 @@ class GroupUseCase @Inject constructor(private val repositoryApi: IRepositoryApi
             .subscribe({
                 Timber.tag(GroupUseCase::class.java.name.toString())
                     .i("list size newModule".plus(it.size))
-                stateOnNext(
+                stateFlow(
                     StateFlow(
                         status = EnumStateFlow.STATUS_OK_GROUP_LIST.const,
                         modelGroup = it.toMutableList())
@@ -36,7 +36,7 @@ class GroupUseCase @Inject constructor(private val repositoryApi: IRepositoryApi
             },{
                 Timber.tag(GroupUseCase::class.java.name.toString())
                     .i("error loadLocalNews ".plus(it.message.toString()))
-                stateOnNext(
+                stateFlow(
                     StateFlow(
                         status = EnumStateFlow.STATUS_MGS.const,
                         message = ErrorType.ERROR.type.plus(" ")
@@ -57,7 +57,7 @@ class GroupUseCase @Inject constructor(private val repositoryApi: IRepositoryApi
             .subscribe({
                 Timber.tag(GroupUseCase::class.java.name.toString())
                     .i("list size newModule".plus(it.size))
-                stateOnNext(
+                stateFlow(
                     StateFlow(
                         status = EnumStateFlow.STATUS_OK_GROUP_LIST.const,
                         modelGroup = it.toMutableList())
@@ -65,7 +65,7 @@ class GroupUseCase @Inject constructor(private val repositoryApi: IRepositoryApi
             },{
                 Timber.tag(GroupUseCase::class.java.name.toString())
                     .i("error loadLocalNews ".plus(it.message.toString()))
-                stateOnNext(
+                stateFlow(
                     StateFlow(
                         status = EnumStateFlow.STATUS_MGS.const,
                         message = ErrorType.ERROR.type.plus(" ")

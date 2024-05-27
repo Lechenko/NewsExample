@@ -25,7 +25,7 @@ class RepositoryDAO @Inject constructor(context : Context,val gson: Gson) :BaseD
             .flatMapCompletable {storage.daoEntry().insertEntry(it)}
             .doOnError{Timber.tag(RepositoryDAO::class.simpleName.toString()).e(it)}
             .doOnComplete {Timber.tag(RepositoryDAO::class.simpleName.toString())
-                .e("save entry id %s",data.id)}
+                .e("save name id %s",data.name)}
 
     override fun getFavorites(): Single<List<DataNews>> =
         storage.daoEntry().queryEntryList()

@@ -37,4 +37,9 @@ class SearchVM @Inject constructor(
      fun onClickCountry(position: Int) {
 
     }
+
+    fun onDestroyView() {
+       // useCase.stopCase()
+        disposePublisher()
+    }
 }

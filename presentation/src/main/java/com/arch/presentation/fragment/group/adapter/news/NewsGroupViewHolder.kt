@@ -11,7 +11,7 @@ import com.arch.presentation.glide.GlideApp
 
 import timber.log.Timber
 
-class NewsGroupViewHolder(val  view : View,val viewModel: NewsGroupVM)
+class NewsGroupViewHolder(private val  view : View,private val viewModel: NewsGroupVM)
     : BaseViewHolder<ItemGroupBinding>(view){
 
     init {

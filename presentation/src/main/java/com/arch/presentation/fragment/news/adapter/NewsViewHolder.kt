@@ -1,6 +1,5 @@
 package com.arch.presentation.fragment.news.adapter
 
-import android.content.Context
 import android.view.View
 import com.arch.portdomain.model.NewsModel
 import com.arch.presentation.base.BaseViewHolder
@@ -9,8 +8,8 @@ import com.arch.presentation.fragment.news.NewsViewModel
 import com.arch.presentation.glide.GlideApp
 import com.arch.presentation.util.StringUtils
 
-class NewsViewHolder constructor(val view : View,
-                                 val viewModel: NewsViewModel)
+class NewsViewHolder constructor(private val view : View,
+                                 private val viewModel: NewsViewModel)
     : BaseViewHolder<ItemNewsBinding>(view) {
     init {
         binding?.let { it.event = viewModel }

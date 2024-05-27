@@ -86,7 +86,6 @@ abstract class BaseActivity<Binding : ViewDataBinding,VIEW_MODEL : ViewModel> : 
     }
 
     override fun onPause() {
-
         pauseActivity()
         super.onPause()
     }

@@ -59,12 +59,8 @@ class NewsViewModel @Inject constructor(
         router.openDrawer()
     }
 
-    override fun onCleared() {
-        router.onStopView()
-        super.onCleared()
-    }
-
     fun onDestroyView() {
         useCase.stopCase()
+        disposePublisher()
     }
 }

@@ -33,12 +33,6 @@ class MainActivity : BaseActivity<ActivityMainBinding,MainViewModel>(),IRouter.I
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.startFragmentMain()
-                disposable.add(viewModel.state().subscribe({
-
-                }, {
-                    Timber.tag(MainActivity::class.java.name)
-                        .e("error viewModel.state() ".plus(it.message))
-                }))
             }
             repeatOnLifecycle(Lifecycle.State.DESTROYED) {
                viewModel.onDestroyView()
@@ -65,6 +59,7 @@ class MainActivity : BaseActivity<ActivityMainBinding,MainViewModel>(),IRouter.I
 
     override fun destroyActivity() {
         disposable.clear()
+        viewModel.onDestroyView()
     }
 
     override fun onMessage(message: String) {

@@ -63,8 +63,6 @@ class News : BaseFragment<FragmentNewsBinding, NewsViewModel>() {
     }
 
     override fun destroyFragment() {
-        disposable?.dispose()
-        disposable = null
         adapter = null
         viewModel.onDestroyView()
     }

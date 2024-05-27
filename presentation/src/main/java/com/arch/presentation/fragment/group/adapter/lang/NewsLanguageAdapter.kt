@@ -13,7 +13,7 @@ class NewsLanguageAdapter(val viewModel: NewsGroupVM)
     private var mList  = Language.listLanguage
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewsLangViewHolder {
-        return NewsLangViewHolder(parent.context, LayoutInflater.from(parent.context)
+        return NewsLangViewHolder(LayoutInflater.from(parent.context)
                 .inflate(R.layout.item_lang, parent, false), viewModel)
     }
 

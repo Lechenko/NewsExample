@@ -93,6 +93,7 @@ abstract class BaseFragment<Binding : ViewDataBinding,ViewModelType : ViewModel>
         savedInstanceState: Bundle?
     ): View? {
         binding = DataBindingUtil.inflate(inflater, layoutRes, container, false)
+        disposable?.clear()
         initFragmentView()
         return binding?.root
     }
@@ -119,7 +120,6 @@ abstract class BaseFragment<Binding : ViewDataBinding,ViewModelType : ViewModel>
     protected abstract fun pauseFragment()
     protected abstract fun resume()
     override fun onDestroy() {
-      //  getPresenter().destroyView()
         binding?.unbind()
         destroyFragment()
         disposable?.dispose()

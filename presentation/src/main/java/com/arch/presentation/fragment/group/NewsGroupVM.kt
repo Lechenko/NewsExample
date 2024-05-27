@@ -57,11 +57,8 @@ class NewsGroupVM @Inject constructor(
         )
     }
 
-    override fun onCleared() {
-        router.onStopView()
+    fun onDestroyView() {
         useCase.stopCase()
-        super.onCleared()
+        disposePublisher()
     }
-
-    fun onDestroyView() = useCase.stopCase()
 }

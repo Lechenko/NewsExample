@@ -25,13 +25,13 @@ class FavoritesUseCase @Inject constructor(private val repositoryDao : IReposito
            .subscribe({
                Timber.tag(FavoritesUseCase::class.java.name.toString())
                    .i("list size newModule".plus(it.size))
-               stateOnNext(StateFlow(
+               stateFlow(StateFlow(
                    status = EnumStateFlow.STATUS_OK_NEWS_LIST.const,
                    modelNews = it.toMutableList()))
            },{
                Timber.tag(FavoritesUseCase::class.java.name.toString())
                    .i("error loadLocalNews ".plus(it.message.toString()))
-               stateOnNext(StateFlow(
+               stateFlow(StateFlow(
                    status = EnumStateFlow.STATUS_MGS.const,
                    message = ErrorType.ERROR.type.plus(" ")
                        .plus(it.message)))
@@ -43,12 +43,12 @@ class FavoritesUseCase @Inject constructor(private val repositoryDao : IReposito
             .subscribeOn(provideSchedulersIO())
             .flatMap{ repositoryDao.deleteFavorites(it) }
             .subscribe({
-                stateOnNext(StateFlow(
+                stateFlow(StateFlow(
                     status = EnumStateFlow.STATUS_OK_NEWS.const,
                     modelNews = Collections.singletonList(news)
                 ))
             },{
-                stateOnNext(StateFlow(
+                stateFlow(StateFlow(
                     status = EnumStateFlow.STATUS_MGS.const,
                     message = ErrorType.ERROR.type.plus(" ")
                         .plus(it.message)))
