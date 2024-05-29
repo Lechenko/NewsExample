@@ -10,13 +10,11 @@ import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Single
 import timber.log.Timber
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class RepositoryDAO @Inject constructor(context : Context,val gson: Gson) :BaseDAO(),IRepositoryDAO {
-    private val storage : Dao
-
-    init {
-        storage = LocaleStorage(context)
-    }
+    private val storage : Dao = LocaleStorage(context)
 
     override fun saveFavorites(data: DataNews): Completable  =
         mapperToEntry(data)

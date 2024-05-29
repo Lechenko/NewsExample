@@ -16,7 +16,7 @@ class NewsFavoritesVM @Inject constructor(
     private val useCase: IFavoritesUseCase.UseCaseFavorites
 ) : BaseVM(), IState {
     override fun state(): Observable<StateFlow> = Observable.defer {
-        Observable.merge(publisherStateView(), useCase.stateDomain())
+        Observable.merge(publisherStateView(), useCase.byDomain())
     }.observeOn(provideSchedulersMain())
         .map { state ->
             if (EnumStateFlow.STATUS_OK_NEWS.const == state.status ||

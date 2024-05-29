@@ -18,9 +18,9 @@ abstract class BaseInteractor  {
     private var jobThread: Scheduler = if (!BuildConfig.TEST_MODE_SCHEDULERS)Schedulers.io()
     else Schedulers.trampoline()
     protected open fun provideSchedulersIO() : Scheduler = jobThread
-    fun stateFlow(state : StateFlow) = publish.onNext(state)
+    fun onSuccess(state : StateFlow) = publish.onNext(state)
     fun onError(state : StateFlow) = state.message.let {publish.onError(Throwable(it))}
-    abstract fun stateDomain() : Observable<StateFlow>
+    abstract fun byDomain() : Observable<StateFlow>
     fun observationState(): Observable<StateFlow> =
         Observable.defer{publish}
             .subscribeOn(provideSchedulersIO())

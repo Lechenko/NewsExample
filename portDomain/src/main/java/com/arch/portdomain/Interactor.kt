@@ -9,6 +9,6 @@ interface Interactor {
 
     fun stopCase()
 
-    fun stateDomain() : Observable<StateFlow>
+    fun byDomain() : Observable<StateFlow>
 
 }

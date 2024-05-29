@@ -16,6 +16,6 @@ class MainUseCase @Inject constructor() : BaseInteractor(),
 
     }
 
-    override fun stateDomain(): Observable<StateFlow> = observationState()
+    override fun byDomain(): Observable<StateFlow> = observationState()
 
 }

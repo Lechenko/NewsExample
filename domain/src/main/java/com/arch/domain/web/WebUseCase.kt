@@ -24,7 +24,7 @@ class WebUseCase @Inject constructor(
             .subscribeOn(provideSchedulersIO())
             .flatMapCompletable { repositoryDao.saveFavorites(it) }
             .subscribe({
-                stateFlow(
+                onSuccess(
                     StateFlow(
                         status = EnumStateFlow.STATUS_MGS.const,
                         message = ErrorType.ERROR.type.plus(" ")
@@ -33,7 +33,7 @@ class WebUseCase @Inject constructor(
                 )
             }, {
                 Timber.tag(WebUseCase::class.simpleName.toString()).e(it)
-                stateFlow(
+                onError(
                     StateFlow(
                         status = EnumStateFlow.STATUS_MGS.const,
                         message = ErrorType.ERROR.type.plus(" ")
@@ -52,5 +52,5 @@ class WebUseCase @Inject constructor(
         disposable = null
     }
 
-    override fun stateDomain(): Observable<StateFlow> = observationState()
+    override fun byDomain(): Observable<StateFlow> = observationState()
 }

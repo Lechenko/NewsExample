@@ -24,21 +24,16 @@ class NewsUseCase @Inject constructor(
         disposable.add(Single.defer { repositoryApi.newsChannel(newsChannel) }
             .subscribeOn(provideSchedulersIO())
             .flatMap { mapperNews(it) }
-            .doOnSuccess{
-               }
-            .doOnError {
-
-            }
             .subscribe({
                 Timber.tag(NewsUseCase::class.java.name.toString())
                     .i("list size newModule".plus(it.size))
-                stateFlow(
+                onSuccess(
                     StateFlow(
                         status = EnumStateFlow.STATUS_OK_NEWS_LIST.const,
                         modelNews = it.toMutableList())
                 )
             },{
-                stateFlow(
+                onError(
                     StateFlow(
                         status = EnumStateFlow.STATUS_MGS.const,
                         message = ErrorType.ERROR.type.plus(" ")
@@ -54,11 +49,12 @@ class NewsUseCase @Inject constructor(
             .subscribeOn(provideSchedulersIO())
             .flatMap { mapperNews(it) }
             .doOnSuccess{
-                stateFlow(StateFlow(
-                status = EnumStateFlow.STATUS_OK_NEWS_LIST.const,
-                modelNews = it.toMutableList())) }
+                onSuccess(StateFlow(
+                    status = EnumStateFlow.STATUS_OK_NEWS_LIST.const,
+                    modelNews = it.toMutableList()))
+            }
             .doOnError {
-               stateFlow(StateFlow(
+                onError(StateFlow(
                     status = EnumStateFlow.STATUS_MGS.const,
                     message = ErrorType.ERROR.type.plus(" ")
                         .plus(it.message)))
@@ -76,11 +72,13 @@ class NewsUseCase @Inject constructor(
         disposable.add(Single.defer { repositoryApi.newsSearch(newSearch,dateFrom,dateTo)}
             .subscribeOn(provideSchedulersIO())
             .flatMap { mapperNews(it) }
-            .doOnSuccess{ stateFlow(StateFlow(
-                status = EnumStateFlow.STATUS_OK_NEWS_LIST.const,
-                modelNews = it.toMutableList())) }
+            .doOnSuccess{
+                onSuccess(StateFlow(
+                    status = EnumStateFlow.STATUS_OK_NEWS_LIST.const,
+                    modelNews = it.toMutableList()))
+            }
             .doOnError {
-                stateFlow(StateFlow(
+                onError(StateFlow(
                     status = EnumStateFlow.STATUS_MGS.const,
                     message = ErrorType.ERROR.type.plus(" ")
                         .plus(it.message)))
@@ -101,13 +99,13 @@ class NewsUseCase @Inject constructor(
             .subscribe({
                 Timber.tag(NewsUseCase::class.java.name.toString())
                     .i("save ok")
-                stateFlow(StateFlow(
+                onSuccess(StateFlow(
                     status = EnumStateFlow.STATUS_MGS.const,
                     message = "save ok"))
             },{
                 Timber.tag(NewsUseCase::class.java.name.toString())
                     .i("error loadLocalNews ".plus(it.message.toString()))
-                stateFlow(StateFlow(
+                onError(StateFlow(
                     status = EnumStateFlow.STATUS_MGS.const,
                     message = ErrorType.ERROR.type.plus(" ")
                         .plus(it.message)))
@@ -123,6 +121,6 @@ class NewsUseCase @Inject constructor(
          if (!disposable.isDisposed) disposable.dispose()
     }
 
-    override fun stateDomain(): Observable<StateFlow> = observationState()
+    override fun byDomain(): Observable<StateFlow> = observationState()
 
 }

@@ -11,9 +11,6 @@ import com.arch.presentation.base.IState
 import com.arch.presentation.databinding.FragmentNewsGroupBinding
 import com.arch.presentation.fragment.group.adapter.lang.NewsLanguageAdapter
 import com.arch.presentation.fragment.group.adapter.news.NewsGroupAdapter
-import com.arch.presentation.fragment.news.News
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import timber.log.Timber
 
 class NewsGroup : BaseFragment<FragmentNewsGroupBinding,NewsGroupVM>() {
     private lateinit var adapterNewsGroup : NewsGroupAdapter
@@ -28,7 +25,7 @@ class NewsGroup : BaseFragment<FragmentNewsGroupBinding,NewsGroupVM>() {
 
     override fun stateVMListener(){
        disposable?.clear()
-        subscribeStateVM(viewModel as IState, object : ActionState<StateFlow> {
+        byViewModel(viewModel as IState, object : ActionState<StateFlow> {
             override fun <T : StateFlow> action(model: T) {
                 when (model.status) {
                     EnumStateFlow.STATUS_OK_GROUP_LIST.const -> {

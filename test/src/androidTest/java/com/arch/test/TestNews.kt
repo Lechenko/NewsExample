@@ -76,7 +76,7 @@ class TestNews {
         domain?.let {dom ->
             val subscriber: TestObserver<StateFlow> = TestObserver.create()
             dom.loadNewsChannel("abc-news")
-            dom.stateDomain()
+            dom.byDomain()
                 .observeOn(Schedulers.trampoline())
                 .doOnNext { Timber.tag("TestNews")
                     .e("value status : " + it.status + " value size: " + it.modelNews.size) }
@@ -95,7 +95,7 @@ class TestNews {
         domain?.let {dom ->
             val subscriber: TestObserver<StateFlow> = TestObserver.create()
             dom.loadNewsChannel("abc-news")
-            dom.stateDomain()
+            dom.byDomain()
                 .observeOn(Schedulers.trampoline())
                 .doOnNext { Timber.tag("TestNews")
                     .e("value status : " + it.status + " value size: " + it.modelNews.size) }

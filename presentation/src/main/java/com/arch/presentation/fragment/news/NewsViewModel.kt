@@ -19,7 +19,7 @@ class NewsViewModel @Inject constructor(
 ) : BaseVM(), IState {
    override fun state(): Observable<StateFlow> = Observable.defer {
         Observable.merge(
-            publisherStateView(), useCase.stateDomain()
+            publisherStateView(), useCase.byDomain()
         )
     }.observeOn(provideSchedulersMain())
 

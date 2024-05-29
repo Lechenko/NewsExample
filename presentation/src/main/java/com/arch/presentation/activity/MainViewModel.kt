@@ -2,7 +2,6 @@ package com.arch.presentation.activity
 
 
 import androidx.drawerlayout.widget.DrawerLayout
-import androidx.lifecycle.ViewModel
 import com.arch.portdomain.main.IMainUseCase
 import com.arch.portdomain.model.StateFlow
 import com.arch.presentation.base.BaseVM
@@ -19,7 +18,7 @@ class MainViewModel @Inject constructor(
 
      fun initDrawerLayout(drawer: DrawerLayout) = router.init(drawer)
 
-     fun state() : Observable<StateFlow> = useCase.stateDomain()
+     fun state() : Observable<StateFlow> = useCase.byDomain()
           .observeOn(provideSchedulersMain())
 
      fun startFragmentMain() = router.transaction(ConstRouter.NEWS_GROUP_FRAGMENT.route)

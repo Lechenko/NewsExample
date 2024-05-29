@@ -5,14 +5,12 @@ import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.arch.portdomain.model.ArgObject
 import com.arch.portdomain.model.EnumStateFlow
-import com.arch.portdomain.model.NewsModel
 import com.arch.portdomain.model.StateFlow
 import com.arch.presentation.R
 import com.arch.presentation.base.BaseFragment
 import com.arch.presentation.base.IState
 import com.arch.presentation.databinding.FragmentNewsBinding
 import com.arch.presentation.fragment.news.adapter.NewsAdapter
-import timber.log.Timber
 
 
 class News : BaseFragment<FragmentNewsBinding, NewsViewModel>() {
@@ -82,7 +80,7 @@ class News : BaseFragment<FragmentNewsBinding, NewsViewModel>() {
 
     override fun stateVMListener() {
         disposable?.clear()
-        subscribeStateVM(viewModel as IState, object : ActionState<StateFlow> {
+        byViewModel(viewModel as IState, object : ActionState<StateFlow> {
             override fun <T : StateFlow> action(model: T) {
                 when (model.status) {
                     EnumStateFlow.STATUS_OK_NEWS_LIST.const -> {

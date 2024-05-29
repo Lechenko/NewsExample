@@ -25,13 +25,13 @@ class FavoritesUseCase @Inject constructor(private val repositoryDao : IReposito
            .subscribe({
                Timber.tag(FavoritesUseCase::class.java.name.toString())
                    .i("list size newModule".plus(it.size))
-               stateFlow(StateFlow(
+               onSuccess(StateFlow(
                    status = EnumStateFlow.STATUS_OK_NEWS_LIST.const,
                    modelNews = it.toMutableList()))
            },{
                Timber.tag(FavoritesUseCase::class.java.name.toString())
                    .i("error loadLocalNews ".plus(it.message.toString()))
-               stateFlow(StateFlow(
+               onError(StateFlow(
                    status = EnumStateFlow.STATUS_MGS.const,
                    message = ErrorType.ERROR.type.plus(" ")
                        .plus(it.message)))
@@ -43,12 +43,12 @@ class FavoritesUseCase @Inject constructor(private val repositoryDao : IReposito
             .subscribeOn(provideSchedulersIO())
             .flatMap{ repositoryDao.deleteFavorites(it) }
             .subscribe({
-                stateFlow(StateFlow(
+                onSuccess(StateFlow(
                     status = EnumStateFlow.STATUS_OK_NEWS.const,
                     modelNews = Collections.singletonList(news)
                 ))
             },{
-                stateFlow(StateFlow(
+                onError(StateFlow(
                     status = EnumStateFlow.STATUS_MGS.const,
                     message = ErrorType.ERROR.type.plus(" ")
                         .plus(it.message)))
@@ -63,7 +63,7 @@ class FavoritesUseCase @Inject constructor(private val repositoryDao : IReposito
         if (!disposable.isDisposed) disposable.dispose()
     }
 
-    override fun stateDomain(): Observable<StateFlow> = observationState()
+    override fun byDomain(): Observable<StateFlow> = observationState()
 
 
 }
