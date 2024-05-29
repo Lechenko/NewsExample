@@ -63,7 +63,7 @@ abstract class BaseFragment<Binding : ViewDataBinding,ViewModelType : ViewModel>
         resume()
     }
 
-    protected abstract fun  stateVMListener()
+    protected abstract fun  listenerViewModel()
 
     @FunctionalInterface
     protected interface ActionState<V>{

@@ -23,7 +23,7 @@ class NewsGroup : BaseFragment<FragmentNewsGroupBinding,NewsGroupVM>() {
 
 
 
-    override fun stateVMListener(){
+    override fun listenerViewModel(){
        disposable?.clear()
         byViewModel(viewModel as IState, object : ActionState<StateFlow> {
             override fun <T : StateFlow> action(model: T) {
@@ -31,9 +31,11 @@ class NewsGroup : BaseFragment<FragmentNewsGroupBinding,NewsGroupVM>() {
                     EnumStateFlow.STATUS_OK_GROUP_LIST.const -> {
                         adapterNewsGroup.updateAdapter(model.modelGroup)
                     }
+
                     EnumStateFlow.STATUS_MGS.const -> {
                         showMessage(model.message)
                     }
+
                     EnumStateFlow.STATUS_EVENT.const -> {
                         model.message.let {msg -> if (EventState.UPDATE_ADAPTER.const == msg)
                             adapterLanguage.updateAdapter() }
@@ -51,7 +53,7 @@ class NewsGroup : BaseFragment<FragmentNewsGroupBinding,NewsGroupVM>() {
     override val layoutRes: Int = R.layout.fragment_news_group
 
     override fun initFragmentView() {
-        stateVMListener()
+        listenerViewModel()
         binding?.let {
             it.event = viewModel
             displayLanguage()
@@ -70,7 +72,7 @@ class NewsGroup : BaseFragment<FragmentNewsGroupBinding,NewsGroupVM>() {
 
     override fun startFragment() {
      disposable?.let {
-         if (it.size() == 0) stateVMListener()
+         if (it.size() == 0) listenerViewModel()
      }
     }
 

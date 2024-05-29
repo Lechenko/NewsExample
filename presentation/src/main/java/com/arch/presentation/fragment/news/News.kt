@@ -32,7 +32,7 @@ class News : BaseFragment<FragmentNewsBinding, NewsViewModel>() {
 
 
     override fun initFragmentView() {
-        stateVMListener()
+        listenerViewModel()
         binding?.let { bind ->
             bind.event = viewModel
             adapter = NewsAdapter(viewModel)
@@ -52,7 +52,7 @@ class News : BaseFragment<FragmentNewsBinding, NewsViewModel>() {
 
     override fun startFragment() {
         disposable?.let {
-            if (it.size() == 0) stateVMListener()
+            if (it.size() == 0) listenerViewModel()
         }
     }
 
@@ -78,7 +78,7 @@ class News : BaseFragment<FragmentNewsBinding, NewsViewModel>() {
     }
 
 
-    override fun stateVMListener() {
+    override fun listenerViewModel() {
         disposable?.clear()
         byViewModel(viewModel as IState, object : ActionState<StateFlow> {
             override fun <T : StateFlow> action(model: T) {

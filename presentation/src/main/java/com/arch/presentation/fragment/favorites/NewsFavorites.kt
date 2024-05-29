@@ -22,7 +22,7 @@ class NewsFavorites : BaseFragment<FragmentNewsFavoritesBinding, NewsFavoritesVM
         fun newInstance() = NewsFavorites()
     }
 
-    override fun stateVMListener() {
+    override fun listenerViewModel() {
         disposable?.clear()
         byViewModel(viewModel as IState, object : ActionState<StateFlow> {
             override fun <T : StateFlow> action(model: T) {
@@ -53,7 +53,7 @@ class NewsFavorites : BaseFragment<FragmentNewsFavoritesBinding, NewsFavoritesVM
 
     override fun initFragmentView() {
         binding?.event = viewModel
-        stateVMListener()
+        listenerViewModel()
         initAdapter()
         viewModel.init()
         lifecycleScope.launch {

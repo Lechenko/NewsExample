@@ -13,7 +13,7 @@ class Search : BaseFragment<FragmentSearchBinding,SearchVM>(){
         fun newInstance() = Search()
     }
 
-    override fun stateVMListener() {
+    override fun listenerViewModel() {
 
     }
 
