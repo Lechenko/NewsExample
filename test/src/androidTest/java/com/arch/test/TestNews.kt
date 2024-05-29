@@ -56,14 +56,27 @@ class TestNews {
     fun stopTest() {
     }
     @Test
-    fun testLoadGroupNews() {
+    fun testLoadNewsCountry() {
         domain?.let {
-            it.loadNewsChannel("abc-news")
+            it.loadNewsCountry("ru")
             it.byDomain()
                 .test()
                 .awaitDone(5,TimeUnit.SECONDS)
-            .assertValue{model -> model.modelNews.size == 10}
+            .assertValue{model -> model.modelNews.size == 20}
             .assertValue{model -> model.status == 105}
+        }
+    }
+
+    @Test
+    fun testLoadNewsCountryEmpty() {
+        domain?.let {
+            it.loadNewsCountry("")
+            it.byDomain()
+                .test()
+                .awaitDone(5,TimeUnit.SECONDS)
+                .assertError{
+                    it.message == "error HTTP 400 "
+                }
         }
     }
 
