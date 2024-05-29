@@ -1,33 +1,22 @@
 package com.arch.presentation.router
 
-import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
-import com.arch.portdomain.model.ArgObject
-import com.arch.portdomain.model.NewsModel
-import com.arch.presentation.base.IRouterActivity
-import com.arch.presentation.fragment.favorites.NewsFavorites
-import com.arch.presentation.fragment.group.NewsGroup
-import com.arch.presentation.fragment.news.News
-import com.arch.presentation.fragment.search.Search
-import com.arch.presentation.fragment.web.WebFragment
+import com.arch.presentation.router.componentNav.ComponentNav
+import com.arch.presentation.router.componentNav.NavXML
 import dagger.android.support.DaggerAppCompatActivity
-import io.reactivex.rxjava3.core.Single
 import javax.inject.Inject
 
-class Router @Inject constructor(
+ class Router @Inject constructor(
     private val view: IRouter.IRouterActivity,
-    activity: DaggerAppCompatActivity) : BaseRouter(activity), IRouter {
-    private lateinit var mDrawerLayout: DrawerLayout
+    activity: DaggerAppCompatActivity) : BaseRouter(ComponentNav(NavXML(activity))), IRouter {
+
     override fun init(drawerLayout: DrawerLayout) {
-        mDrawerLayout = drawerLayout
+        initDrawer(drawerLayout)
 
     }
-
-
     override fun onStartView() {
 
     }
-
 
     override fun onBackPressed() = super.backPressedRouter()
 
@@ -37,23 +26,11 @@ class Router @Inject constructor(
     }
 
     override fun transaction(cmd: String, obj: Any) {
-        when (cmd) {
-            ConstRouter.NEWS_GROUP_FRAGMENT.route ->
-                super.transactionFragmentWithBackStack(NewsGroup.newInstance(), content())
-            ConstRouter.NEWS_FRAGMENT.route ->
-                if (obj is ArgObject)super.transactionFragmentWithBackStack(News.newInstance(obj), content())
-            ConstRouter.FAVORITES_NEWS_FRAGMENT.route ->
-                super.transactionFragmentWithBackStack(NewsFavorites.newInstance(),content())
-            ConstRouter.SEARCH_FRAGMENT.route ->
-                super.transactionFragmentWithBackStack(Search.newInstance(),content())
-            ConstRouter.WEB_FRAGMENT.route ->
-               if (obj is NewsModel) super.transactionFragmentWithBackStack(WebFragment.newInstance(obj),content())
-
-        }
+        super.byTransaction(cmd,obj)
     }
 
     override fun transaction(cmd: String) {
-        transaction(cmd, "")
+        this.transaction(cmd, "")
     }
 
 
@@ -63,22 +40,17 @@ class Router @Inject constructor(
 
 
     override fun removeAllFrag() {
-        super.removeAllFragment()
+        super.removeAllFrag()
     }
 
 
-    override fun openDrawer() = mDrawerLayout.openDrawer(GravityCompat.START)
+    override fun openDrawer() = super.openDrawer()
 
-    override fun closeDrawer() = mDrawerLayout.closeDrawers()
+    override fun closeDrawer() = super.closeDrawer()
 
-    override fun navDrawer(cmd: String) {
-        closeDrawer()
-        when (cmd) {
-            ConstRouter.MAIN_DRAW.route -> transaction(ConstRouter.NEWS_GROUP_FRAGMENT.route)
-            ConstRouter.FAVORITES_DRAW.route -> transaction(ConstRouter.FAVORITES_NEWS_FRAGMENT.route)
-            ConstRouter.SEARCH_DRAW.route -> transaction(ConstRouter.SEARCH_FRAGMENT.route)
-        }
-    }
+    override fun navDrawer(cmd: String) = super.navDrawer(cmd)
+
+
 
     override fun popBackStack() {
         closeDrawer()

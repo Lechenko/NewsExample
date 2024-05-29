@@ -68,7 +68,7 @@ class TestNews {
                 .doOnNext { Timber.tag("TestNews")
                     .e("value status : " + it.status + " value size: " + it.modelNews.size) }
                 .subscribe(subscriber)
-            subscriber.awaitDone(5,TimeUnit.SECONDS)
+         //   subscriber.awaitDone(5,TimeUnit.SECONDS)
             subscriber.assertValue{it.modelNews.size == 10}
             subscriber.assertValue{it.status == 105}
             subscriber.onComplete()
