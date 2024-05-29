@@ -20,7 +20,7 @@ import dagger.android.support.DaggerFragment
 import io.reactivex.rxjava3.core.Single
 
 
-class NavXML constructor(private val activity: DaggerAppCompatActivity) : IComponentNav {
+class NavXML (private val activity: DaggerAppCompatActivity) : IComponentNav {
     private lateinit var mDrawerLayout: DrawerLayout
 
     private fun <T : BaseDialogFragment<*>> stepDialog(fragment: T): Single<Int> = Single.defer {

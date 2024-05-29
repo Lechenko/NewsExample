@@ -9,9 +9,7 @@ import com.arch.portdata.IRepositoryApi
 import com.arch.portdata.IRepositoryDAO
 import com.arch.portdomain.model.StateFlow
 import com.arch.portdomain.news.INewsUseCase
-import io.reactivex.rxjava3.android.plugins.RxAndroidPlugins
 import io.reactivex.rxjava3.observers.TestObserver
-import io.reactivex.rxjava3.plugins.RxJavaPlugins
 import org.junit.After
 import org.junit.AfterClass
 import org.junit.Before
@@ -37,8 +35,6 @@ class TestNews {
         @JvmStatic
         @AfterClass
         fun stepDown() {
-            RxAndroidPlugins.reset()
-            RxJavaPlugins.reset()
             appContext = null
 
         }
@@ -61,19 +57,13 @@ class TestNews {
     }
     @Test
     fun testLoadGroupNews() {
-        domain?.let {dom ->
-            val subscriber: TestObserver<StateFlow> = TestObserver.create()
-            dom.loadNewsChannel("abc-news")
-            dom.byDomain()
-                .doOnNext { Timber.tag("TestNews")
-                    .e("value status : " + it.status + " value size: " + it.modelNews.size) }
-                .subscribe(subscriber)
-         //   subscriber.awaitDone(5,TimeUnit.SECONDS)
-            subscriber.assertValue{it.modelNews.size == 10}
-            subscriber.assertValue{it.status == 105}
-            subscriber.onComplete()
-            subscriber.assertComplete()
-
+        domain?.let {
+            it.loadNewsChannel("abc-news")
+            it.byDomain()
+                .test()
+                .awaitDone(5,TimeUnit.SECONDS)
+            .assertValue{model -> model.modelNews.size == 10}
+            .assertValue{model -> model.status == 105}
         }
     }
 

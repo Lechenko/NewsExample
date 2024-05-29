@@ -8,7 +8,7 @@ import javax.inject.Inject
 
  class Router @Inject constructor(
     private val view: IRouter.IRouterActivity,
-    activity: DaggerAppCompatActivity) : BaseRouter(ComponentNav(NavXML(activity))), IRouter {
+    activity: DaggerAppCompatActivity) : BaseRouter(component = ComponentNav(NavXML(activity = activity))), IRouter {
 
     override fun init(drawerLayout: DrawerLayout) {
         initDrawer(drawerLayout)

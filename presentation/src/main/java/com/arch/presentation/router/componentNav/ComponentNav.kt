@@ -2,7 +2,7 @@ package com.arch.presentation.router.componentNav
 
 import androidx.drawerlayout.widget.DrawerLayout
 
-class ComponentNav constructor(private val component : IComponentNav) : IComponentNav{
+class ComponentNav(private val component : IComponentNav) : IComponentNav{
     override fun initDrawerLayout(drawerLayout: DrawerLayout) {
         component.initDrawerLayout(drawerLayout)
     }
