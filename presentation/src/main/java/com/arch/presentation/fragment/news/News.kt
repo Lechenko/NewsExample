@@ -73,10 +73,6 @@ class News : BaseFragment<FragmentNewsBinding, NewsViewModel>() {
 
     }
 
-    fun stateVM() {
-
-    }
-
 
     override fun listenerViewModel() {
         disposable?.clear()

@@ -12,21 +12,16 @@ import com.arch.portdomain.news.INewsUseCase
 import io.reactivex.rxjava3.android.plugins.RxAndroidPlugins
 import io.reactivex.rxjava3.observers.TestObserver
 import io.reactivex.rxjava3.plugins.RxJavaPlugins
-import io.reactivex.rxjava3.schedulers.Schedulers
 import org.junit.After
 import org.junit.AfterClass
 import org.junit.Before
 import org.junit.BeforeClass
-import org.junit.Rule
 import org.junit.Test
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
 
 
 class TestNews {
-    @get:Rule
-    val rxSchedulerRule = RxSchedulerRule()
-
     private var domain: INewsUseCase.UseCaseNews? = null
 
 
@@ -51,10 +46,6 @@ class TestNews {
 
     @Before
     fun startTest() {
-        RxAndroidPlugins.reset()
-        RxJavaPlugins.reset()
-        val immediate = Schedulers.trampoline()
-        RxAndroidPlugins.setInitMainThreadSchedulerHandler { immediate }
         val repositoryApi: IRepositoryApi = RepositoryApi()
         val repositoryDAO: IRepositoryDAO = appContext?.let {
             RepositoryDAO(
@@ -62,14 +53,11 @@ class TestNews {
                 gson = DependencyTest.gsonApp()
             )
         } ?: error("context is Null")
-
         domain = NewsUseCase(repositoryApi, repositoryDAO)
     }
 
     @After
     fun stopTest() {
-        RxAndroidPlugins.reset()
-        RxJavaPlugins.reset()
     }
     @Test
     fun testLoadGroupNews() {
@@ -77,7 +65,6 @@ class TestNews {
             val subscriber: TestObserver<StateFlow> = TestObserver.create()
             dom.loadNewsChannel("abc-news")
             dom.byDomain()
-                .observeOn(Schedulers.trampoline())
                 .doOnNext { Timber.tag("TestNews")
                     .e("value status : " + it.status + " value size: " + it.modelNews.size) }
                 .subscribe(subscriber)
@@ -96,7 +83,6 @@ class TestNews {
             val subscriber: TestObserver<StateFlow> = TestObserver.create()
             dom.loadNewsChannel("abc-news")
             dom.byDomain()
-                .observeOn(Schedulers.trampoline())
                 .doOnNext { Timber.tag("TestNews")
                     .e("value status : " + it.status + " value size: " + it.modelNews.size) }
                 .subscribe(subscriber)
