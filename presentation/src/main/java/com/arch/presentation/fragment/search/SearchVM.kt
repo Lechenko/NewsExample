@@ -34,6 +34,7 @@ class SearchVM @Inject constructor(
      router.openDrawer()
     }
 
+    //TODO inprogress
      fun onClickCountry(position: Int) {
 
     }

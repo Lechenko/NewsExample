@@ -51,7 +51,7 @@ android {
 }
 
 dependencies {
-    Depend.dagger.forEach { implementation(it) }
+ //   kapt(Depend.inject)
     //RX
     Depend.rxAndroid.forEach { implementation(it) }
 }

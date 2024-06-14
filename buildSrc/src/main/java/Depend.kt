@@ -21,6 +21,7 @@ object Depend {
         "androidx.camera:camera-lifecycle:${Versions.CameraX.cameraView}",
         "androidx.camera:camera-camera2:${Versions.CameraX.cameraView}"
     )
+   const val inject = "javax.inject:javax.inject:1"
     //Worker
     val workerAndroidLibs = arrayOf(
         "androidx.work:work-runtime:${Versions.SupportAndroidLibs.worker}",
@@ -31,7 +32,7 @@ object Depend {
    const val multidexAndroidLib = "androidx.multidex:multidex:${Versions.SupportAndroidLibs.multiDex}"
 
     // The same here in Kotlin Libraries
-    val kotlinDependency = arrayOf(
+     val kotlinDependency = arrayOf(
         "org.jetbrains.kotlin:kotlin-stdlib:${Versions.KotlinDependency.std}",
         "androidx.core:core-ktx:${Versions.KotlinDependency.std}"
     )

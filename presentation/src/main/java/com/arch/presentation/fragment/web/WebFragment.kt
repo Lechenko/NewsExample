@@ -18,6 +18,7 @@ import com.arch.presentation.databinding.FragmentWebBinding
 import timber.log.Timber
 
 
+@Suppress("DEPRECATION")
 class WebFragment : BaseFragment<FragmentWebBinding,WebVM>() {
 
     companion object {

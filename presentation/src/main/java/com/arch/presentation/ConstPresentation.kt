@@ -6,3 +6,4 @@ enum class ConstPresentation(val const : String){
     COUNTRY_FLAGS("http://www.countryflags.io/"),
     COUNTRY_FLAT("/flat/64.png")
 }
+

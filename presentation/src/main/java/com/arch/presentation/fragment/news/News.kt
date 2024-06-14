@@ -38,10 +38,10 @@ class News : BaseFragment<FragmentNewsBinding, NewsViewModel>() {
             adapter = NewsAdapter(viewModel)
             displayNewsInit()
             if (arguments != null) {
-                val argObject = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                    arguments?.getParcelable(TAG, ArgObject::class.java)
+                @Suppress("DEPRECATION") val argObject = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                     arguments?.getParcelable(TAG, ArgObject::class.java)
                 } else {
-                    arguments?.getParcelable<ArgObject>(TAG)
+                    arguments?.getParcelable(TAG)
                 }
                 argObject?.let { viewModel.init(it) }
             }
@@ -52,7 +52,10 @@ class News : BaseFragment<FragmentNewsBinding, NewsViewModel>() {
 
     override fun startFragment() {
         disposable?.let {
-            if (it.size() == 0) listenerViewModel()
+            if (it.size() == 0) listenerViewModel() else {
+                it.clear()
+                startFragment()
+            }
         }
     }
 

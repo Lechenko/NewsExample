@@ -19,6 +19,7 @@ plugins {
 }
 rootProject.name = "News"
 
+include(":dependency")
 include(":app")
 include(":data")
 include(":portData")

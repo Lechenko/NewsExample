@@ -74,8 +74,9 @@ abstract class BaseFragment<Binding : ViewDataBinding,ViewModelType : ViewModel>
     protected interface ActionError{
         fun error(msg : String)
     }
+   @Suppress("UNCHECKED_CAST")
    protected open fun <T> byViewModel(viewModel: IState, actionState: ActionState<T>, actionError : ActionError) {
-       disposable?.add(viewModel.state().subscribe({ actionState.action(it as T) },{
+       disposable?.add(viewModel.state().subscribe({ actionState.action(model = it as T) },{
            actionError.error(it.message.toString())
            Timber.tag(News::class.java.name.toString())
                .i("error observationState : ".plus(it.message.toString()))

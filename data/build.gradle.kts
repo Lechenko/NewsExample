@@ -57,7 +57,7 @@ dependencies {
     implementation(project(path = ":portData"))
     implementation(project(path = ":featureLocalStorage"))
     implementation(project(path = ":featureRemoteApi"))
-    Depend.dagger.forEach { implementation(it) }
+    implementation(Depend.inject)
     //RX
     Depend.rxAndroid.forEach { implementation(it) }
     //Apache

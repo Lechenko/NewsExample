@@ -58,15 +58,11 @@ android {
 }
 
 dependencies {
-    // Dagger
-    Depend.dagger.forEach { implementation(it) }
-    Depend.daggerAnnotationProcessor.forEach { kapt(it) }
+    implementation(Depend.inject)
     //RX
     Depend.rxAndroid.forEach { implementation(it) }
     //Retrofit and okHttp
     Depend.okHttpLibraries.forEach { implementation(it) }
-
     //Log
     implementation(Depend.timberJava)
-
 }

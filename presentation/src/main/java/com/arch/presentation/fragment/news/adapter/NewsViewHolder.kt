@@ -21,6 +21,7 @@ class NewsViewHolder constructor(private val view : View,
                 GlideApp.with(view.context)
                     .load(urlToImage)
                     .fitCenter()
+                    .circleCrop()
                     .into(it.ivItemNewsImage)
             }
             item.title?.let {title -> it.tvItemNewsTitle.text = title}

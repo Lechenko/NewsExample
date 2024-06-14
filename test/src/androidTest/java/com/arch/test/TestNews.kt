@@ -44,10 +44,7 @@ class TestNews {
     fun startTest() {
         val repositoryApi: IRepositoryApi = RepositoryApi()
         val repositoryDAO: IRepositoryDAO = appContext?.let {
-            RepositoryDAO(
-                context = it,
-                gson = DependencyTest.gsonApp()
-            )
+            RepositoryDAO(context = it)
         } ?: error("context is Null")
         domain = NewsUseCase(repositoryApi, repositoryDAO)
     }
@@ -93,7 +90,7 @@ class TestNews {
             subscriber.assertValue{it.modelNews.size == 10}
             subscriber.assertValue{it.status == 105}
             subscriber.onComplete()
-            subscriber.assertComplete()
+            subscriber.assertComplete().values()
 
         }
     }

@@ -58,6 +58,7 @@ dependencies {
     implementation(project(path = ":domain"))
     implementation(project(path = ":featureLocalStorage"))
     implementation(project(path = ":featureRemoteApi"))
+    implementation(project(path = ":dependency"))
     //RX
     Depend.rxAndroid.forEach { implementation(it) }
     implementation(Depend.gson)

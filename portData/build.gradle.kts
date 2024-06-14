@@ -1,5 +1,6 @@
 import org.jetbrains.kotlin.gradle.dsl.kotlinExtension
 
+
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
@@ -50,7 +51,7 @@ android {
 }
 
 dependencies {
-    Depend.dagger.forEach { implementation(it) }
+ //   kapt(Depend.inject)
     //RX
     Depend.rxAndroid.forEach { implementation(it) }
 }

@@ -14,7 +14,7 @@ android {
         minSdk = Versions.minSdk
         consumerProguardFiles("consumer-rules.pro")
     }
-
+    kapt.includeCompileClasspath = false
     buildTypes {
         getByName("debug") {
             buildConfigField ("Boolean", "TEST_MODE_SCHEDULERS","false")
@@ -60,14 +60,11 @@ dependencies {
     implementation(project(path = ":comm"))
     implementation(project(path = ":portDomain"))
     implementation(project(path = ":portData"))
-    Depend.dagger.forEach { implementation(it) }
+    implementation(Depend.inject)
     //RX
     Depend.rxAndroid.forEach { implementation(it) }
     //Log
     implementation(Depend.timberJava)
-
-    implementation(Depend.glide)
-    kapt(Depend.glideAnnotationProcessor)
 }
 kapt {
     mapDiagnosticLocations = true

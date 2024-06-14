@@ -55,7 +55,7 @@ android {
 }
 
 dependencies {
-     Depend.dagger.forEach { implementation(it) }
+    implementation(Depend.inject)
     //RX
     Depend.rxAndroid.forEach { implementation(it) }
     //Room

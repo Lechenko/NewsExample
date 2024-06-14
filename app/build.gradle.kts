@@ -95,26 +95,14 @@ android {
 dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
     Depend.kotlinDependency.forEach { implementation(it) }
+    implementation(Depend.rxPermission)
     // Dagger
     Depend.dagger.forEach { implementation(it) }
     Depend.daggerAnnotationProcessor.forEach { kapt(it) }
-    //RX
-    Depend.rxAndroid.forEach { implementation(it) }
-    implementation(Depend.rxPermission)
     //Log
     implementation(Depend.timberJava)
-
-    implementation(Depend.gson)
 //    //Module
-    api(project(path = ":comm"))
-    implementation(project(path = ":portData"))
-    implementation(project(path = ":data"))
-    implementation(project(path = ":domain"))
-    implementation(project(path = ":presentation"))
-    implementation(project(path = ":portDomain"))
-    implementation(project(path = ":domain"))
-    implementation(project(path = ":featureLocalStorage"))
-    implementation(project(path = ":featureRemoteApi"))
+    implementation(project(path = ":dependency"))
 }
 kapt {
     mapDiagnosticLocations = true // include the Kotlin files into error reports

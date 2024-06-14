@@ -29,6 +29,7 @@ object StringUtils {
         return ""
     }
 
+    @Suppress("DEPRECATION")
     private fun timeDisplay(time: Long, now: Long): String {
         if (abs(now - time) > DateUtils.MINUTE_IN_MILLIS && abs(now - time) < DateUtils.WEEK_IN_MILLIS) {
             return getRelativeTimeSpanString(time, now, DateUtils.MINUTE_IN_MILLIS).toString()
