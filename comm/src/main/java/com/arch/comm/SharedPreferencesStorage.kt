@@ -4,17 +4,15 @@ import android.content.Context
 import android.content.SharedPreferences
 
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class SharedPreferencesStorage @Inject constructor(context: Context) {
-    private val pref: SharedPreferences
-    private val editor: SharedPreferences.Editor
-    init {
-        pref = context.applicationContext.getSharedPreferences(
-            BuildConfig.SHARED_NAME,
-            Context.MODE_PRIVATE
-        )
-        editor = pref.edit()
-    }
+    private val pref: SharedPreferences = context.applicationContext.getSharedPreferences(
+        BuildConfig.SHARED_NAME,
+        Context.MODE_PRIVATE
+    )
+    private val editor: SharedPreferences.Editor = pref.edit()
 
     fun saveDataString(key: String, value: String) {
         editor.putString(key, value)

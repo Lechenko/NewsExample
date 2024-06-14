@@ -1,8 +1,6 @@
 package com.arch.dependency
 
 import android.annotation.SuppressLint
-import android.os.Parcel
-import android.os.Parcelable
 import androidx.lifecycle.ViewModel
 import com.arch.presentation.base.ViewModelFactory
 import org.jetbrains.annotations.NotNull
