@@ -1,4 +1,4 @@
-package com.arch.news
+package com.arch.test
 
 import android.content.Context
 import dagger.Module
@@ -10,6 +10,6 @@ import javax.inject.Singleton
 object  ModuleContext {
      @Singleton
      @Provides
-     fun contextApp(app : App) : Context = app.applicationContext
+     fun contextApp(app : AppTest) : Context = app.applicationContext
 
 }

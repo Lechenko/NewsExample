@@ -1,7 +1,7 @@
 import org.jetbrains.kotlin.gradle.dsl.kotlinExtension
 
 plugins {
-    id("com.android.library")
+    id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("kotlin-kapt")
     id("kotlin-parcelize")
@@ -50,6 +50,8 @@ tasks.withType<Test> {
 
 
 dependencies {
+    implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
+    implementation(project(path = ":dependency"))
     api(project(path = ":comm"))
     implementation(project(path = ":portData"))
     implementation(project(path = ":data"))
@@ -58,7 +60,11 @@ dependencies {
     implementation(project(path = ":domain"))
     implementation(project(path = ":featureLocalStorage"))
     implementation(project(path = ":featureRemoteApi"))
-    implementation(project(path = ":dependency"))
+    Depend.kotlinDependency.forEach { implementation(it) }
+    // Dagger
+    Depend.dagger.forEach { implementation(it) }
+    Depend.daggerAnnotationProcessor.forEach { kapt(it) }
+    implementation(Depend.rxPermission)
     //RX
     Depend.rxAndroid.forEach { implementation(it) }
     implementation(Depend.gson)
@@ -66,4 +72,7 @@ dependencies {
     Depend.testUnit.forEach { testImplementation(it) }
     androidTestImplementation(Depend.testEspresso)
     implementation(Depend.timberJava)
+}
+kapt {
+    mapDiagnosticLocations = true // include the Kotlin files into error reports
 }

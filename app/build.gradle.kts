@@ -95,10 +95,10 @@ android {
 dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
     Depend.kotlinDependency.forEach { implementation(it) }
-    implementation(Depend.rxPermission)
     // Dagger
     Depend.dagger.forEach { implementation(it) }
     Depend.daggerAnnotationProcessor.forEach { kapt(it) }
+    implementation(Depend.rxPermission)
     //Log
     implementation(Depend.timberJava)
 //    //Module

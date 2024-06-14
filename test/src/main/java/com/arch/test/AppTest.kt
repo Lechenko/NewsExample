@@ -1,4 +1,9 @@
-package com.arch.test;
+package com.arch.test
 
-public class AppTest {
+class AppTest : BaseTestApplication() {
+    override fun onCreateApp() {
+
+    }
+
+    override fun appInject(): AppTest = this
 }
