@@ -4,6 +4,8 @@ import org.jetbrains.kotlin.gradle.dsl.kotlinExtension
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
+    id("kotlin-kapt")
+    id("kotlin-parcelize")
 }
 
 android {
@@ -12,6 +14,9 @@ android {
         compileSdk = Versions.compileSdk
         minSdk = Versions.minSdk
         consumerProguardFiles("consumer-rules.pro")
+    }
+    buildFeatures {
+        buildConfig = true
     }
     buildTypes {
         getByName("debug") {
@@ -37,10 +42,6 @@ android {
                 "proguard-rules.pro"
             )
         }
-        create("auto_test"){
-            isMinifyEnabled = false
-            isJniDebuggable = true
-        }
     }
     java.toolchain {
         languageVersion.set(JavaLanguageVersion.of(Versions.varsionJava))
@@ -51,7 +52,7 @@ android {
 }
 
 dependencies {
- //   kapt(Depend.inject)
+    kapt(Depend.inject)
     //RX
     Depend.rxAndroid.forEach { implementation(it) }
 }

@@ -14,8 +14,12 @@ data class NewsModel(
     val urlToImage: String?,
     val publishedAt: String?
 ) : StateEntity,Parcelable {
+
     @Suppress("UNCHECKED_CAST")
     override fun <NewsModel> getModel(): NewsModel = this as NewsModel
+    override fun toString(): String {
+        return "NewsModel(id=$id, name=$name, author=$author, title=$title, description=$description, url=$url, urlToImage=$urlToImage, publishedAt=$publishedAt)"
+    }
 
 
 }

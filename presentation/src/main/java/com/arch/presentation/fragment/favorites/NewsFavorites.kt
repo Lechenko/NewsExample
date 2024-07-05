@@ -4,8 +4,8 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.arch.portdomain.model.EnumStateFlow
-import com.arch.portdomain.model.StateFlow
+import com.arch.portdomain.model.EnumStateLayer
+import com.arch.portdomain.model.StateLayer
 import com.arch.presentation.R
 import com.arch.presentation.base.BaseFragment
 import com.arch.presentation.base.IState
@@ -24,19 +24,19 @@ class NewsFavorites : BaseFragment<FragmentNewsFavoritesBinding, NewsFavoritesVM
 
     override fun listenerViewModel() {
         disposable?.clear()
-        byViewModel(viewModel as IState, object : ActionState<StateFlow> {
-            override fun <T : StateFlow> action(model: T) {
+        byViewModel(viewModel as IState, object : ActionState<StateLayer> {
+            override fun <T : StateLayer> action(model: T) {
                 when (model.status) {
-                    EnumStateFlow.STATUS_OK_NEWS.const -> {
+                    EnumStateLayer.STATUS_OK_NEWS.const -> {
                         adapter.deleteItem(model.modelNews[0])
                         showMessage("delete ok")
                     }
 
-                    EnumStateFlow.STATUS_OK_NEWS_LIST.const -> {
+                    EnumStateLayer.STATUS_OK_NEWS_LIST.const -> {
                         adapter.updateListAdapter(model.modelNews)
                     }
 
-                    EnumStateFlow.STATUS_MGS.const -> {
+                    EnumStateLayer.STATUS_MGS.const -> {
                         showMessage(model.message)
                     }
                 }

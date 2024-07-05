@@ -1,9 +1,9 @@
 package com.arch.presentation.fragment.favorites
 
 import com.arch.portdomain.favorites.IFavoritesUseCase
-import com.arch.portdomain.model.EnumStateFlow
+import com.arch.portdomain.model.EnumStateLayer
 import com.arch.portdomain.model.NewsModel
-import com.arch.portdomain.model.StateFlow
+import com.arch.portdomain.model.StateLayer
 import com.arch.presentation.base.BaseVM
 import com.arch.presentation.base.IState
 import com.arch.presentation.router.ConstRouter
@@ -15,12 +15,12 @@ class NewsFavoritesVM @Inject constructor(
     private val router: IRouter,
     private val useCase: IFavoritesUseCase.UseCaseFavorites
 ) : BaseVM(), IState {
-    override fun state(): Observable<StateFlow> = Observable.defer {
+    override fun state(): Observable<StateLayer> = Observable.defer {
         Observable.merge(publisherStateView(), useCase.byDomain())
     }.observeOn(provideSchedulersMain())
         .map { state ->
-            if (EnumStateFlow.STATUS_OK_NEWS.const == state.status ||
-                EnumStateFlow.STATUS_MGS.const == state.status) {
+            if (EnumStateLayer.STATUS_OK_NEWS.const == state.status ||
+                EnumStateLayer.STATUS_MGS.const == state.status) {
                 router.isProgress(false)
             }
             state
@@ -34,8 +34,8 @@ class NewsFavoritesVM @Inject constructor(
     fun shareLink(item: NewsModel) {
         item.url?.let {
             onNext(
-                StateFlow(
-                    EnumStateFlow.STATUS_LINK.const,
+                StateLayer(
+                    EnumStateLayer.STATUS_LINK.const,
                     message = it
                 )
             )

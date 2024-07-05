@@ -7,7 +7,7 @@ class Article(
     @field:SerializedName("author") var author: String?,
     @field:SerializedName("description") var description: String?,
     @field:SerializedName("publishedAt") var publishedAt: String?,
-    @field:SerializedName("source") var source: Source?,
+    @field:SerializedName("source") var source: SourceArticle?,
     @field:SerializedName("title") var title: String?,
     @field:SerializedName("url") var url: String?,
     @field:SerializedName("urlToImage") var urlToImage: String?

@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 
 class ResponseCategory {
     @SerializedName("sources")
-    var sources: List<Source> = ArrayList()
+    var sources: List<SourceCategory> = ArrayList()
 
     @SerializedName("status")
     var status: String? = null

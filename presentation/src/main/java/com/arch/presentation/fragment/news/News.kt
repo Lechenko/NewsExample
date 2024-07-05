@@ -4,8 +4,8 @@ import android.os.Build
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.arch.portdomain.model.ArgObject
-import com.arch.portdomain.model.EnumStateFlow
-import com.arch.portdomain.model.StateFlow
+import com.arch.portdomain.model.EnumStateLayer
+import com.arch.portdomain.model.StateLayer
 import com.arch.presentation.R
 import com.arch.presentation.base.BaseFragment
 import com.arch.presentation.base.IState
@@ -79,18 +79,18 @@ class News : BaseFragment<FragmentNewsBinding, NewsViewModel>() {
 
     override fun listenerViewModel() {
         disposable?.clear()
-        byViewModel(viewModel as IState, object : ActionState<StateFlow> {
-            override fun <T : StateFlow> action(model: T) {
+        byViewModel(viewModel as IState, object : ActionState<StateLayer> {
+            override fun <T : StateLayer> action(model: T) {
                 when (model.status) {
-                    EnumStateFlow.STATUS_OK_NEWS_LIST.const -> {
+                    EnumStateLayer.STATUS_OK_NEWS_LIST.const -> {
                         adapter?.updateList(model.modelNews)
                     }
 
-                    EnumStateFlow.STATUS_MGS.const -> {
+                    EnumStateLayer.STATUS_MGS.const -> {
                         showMessage(model.message)
                     }
 
-                    EnumStateFlow.STATUS_LINK.const -> {
+                    EnumStateLayer.STATUS_LINK.const -> {
                         shareFile(model.message)
                     }
                 }

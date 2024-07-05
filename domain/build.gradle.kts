@@ -14,10 +14,12 @@ android {
         minSdk = Versions.minSdk
         consumerProguardFiles("consumer-rules.pro")
     }
+    buildFeatures {
+        buildConfig = true
+    }
     kapt.includeCompileClasspath = false
     buildTypes {
         getByName("debug") {
-            buildConfigField ("Boolean", "TEST_MODE_SCHEDULERS","false")
             isMinifyEnabled = false
             manifestPlaceholders["versionCode"] = Versions.versionCode
             manifestPlaceholders["appName"] = Versions.appName
@@ -30,7 +32,6 @@ android {
             )
         }
         getByName("release") {
-            buildConfigField ("Boolean", "TEST_MODE_SCHEDULERS","false")
             isMinifyEnabled = true
             manifestPlaceholders["versionCode"] = Versions.versionCode
             manifestPlaceholders["appName"] =  Versions.appName
@@ -40,12 +41,6 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-        }
-        create("auto_test"){
-            isMinifyEnabled = false
-            isJniDebuggable = true
-            buildConfigField ("Boolean", "TEST_MODE_SCHEDULERS","true")
-
         }
     }
     java.toolchain {

@@ -7,7 +7,7 @@ import com.arch.data.RepositoryDAO
 import com.arch.domain.news.NewsUseCase
 import com.arch.portdata.IRepositoryApi
 import com.arch.portdata.IRepositoryDAO
-import com.arch.portdomain.model.StateFlow
+import com.arch.portdomain.model.StateLayer
 import com.arch.portdomain.news.INewsUseCase
 import io.reactivex.rxjava3.observers.TestObserver
 import org.junit.After
@@ -19,9 +19,8 @@ import timber.log.Timber
 import java.util.concurrent.TimeUnit
 
 
-class TestNews {
-    private var domain: INewsUseCase.UseCaseNews? = null
-
+class TestNews{
+   private var domain: INewsUseCase.UseCaseNews?=null
 
     companion object {
         var appContext: Context? = null
@@ -29,7 +28,7 @@ class TestNews {
         @BeforeClass
         fun stepUp() {
             Timber.plant(Timber.DebugTree())
-            appContext = InstrumentationRegistry.getInstrumentation().targetContext
+            appContext =  InstrumentationRegistry.getInstrumentation().targetContext.applicationContext as AppTest
         }
 
         @JvmStatic
@@ -51,7 +50,10 @@ class TestNews {
 
     @After
     fun stopTest() {
+
     }
+
+
     @Test
     fun testLoadNewsCountry() {
         domain?.let {
@@ -80,7 +82,7 @@ class TestNews {
     @Test
     fun testLoadNewsChannel() {
         domain?.let {dom ->
-            val subscriber: TestObserver<StateFlow> = TestObserver.create()
+            val subscriber: TestObserver<StateLayer> = TestObserver.create()
             dom.loadNewsChannel("abc-news")
             dom.byDomain()
                 .doOnNext { Timber.tag("TestNews")

@@ -7,7 +7,7 @@ import javax.inject.Singleton
 
 
 @Module
-object  ModuleContext {
+object  ModuleContextTest {
      @Singleton
      @Provides
      fun contextApp(app : AppTest) : Context = app.applicationContext

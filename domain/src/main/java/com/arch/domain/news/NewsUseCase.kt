@@ -4,9 +4,9 @@ import com.arch.comm.ErrorType
 import com.arch.domain.BaseInteractor
 import com.arch.portdata.IRepositoryApi
 import com.arch.portdata.IRepositoryDAO
-import com.arch.portdomain.model.EnumStateFlow
+import com.arch.portdomain.model.EnumStateLayer
 import com.arch.portdomain.model.NewsModel
-import com.arch.portdomain.model.StateFlow
+import com.arch.portdomain.model.StateLayer
 import com.arch.portdomain.news.INewsUseCase
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single
@@ -28,14 +28,14 @@ class NewsUseCase @Inject constructor(
                 Timber.tag(NewsUseCase::class.java.name.toString())
                     .i("list size newModule".plus(it.size))
                 onSuccess(
-                    StateFlow(
-                        status = EnumStateFlow.STATUS_OK_NEWS_LIST.const,
+                    StateLayer(
+                        status = EnumStateLayer.STATUS_OK_NEWS_LIST.const,
                         modelNews = it.toMutableList())
                 )
             },{
                 onError(
-                    StateFlow(
-                        status = EnumStateFlow.STATUS_MGS.const,
+                    StateLayer(
+                        status = EnumStateLayer.STATUS_MGS.const,
                         message = ErrorType.ERROR.type.plus(" ")
                             .plus(it.message))
                 )
@@ -49,13 +49,13 @@ class NewsUseCase @Inject constructor(
             .subscribeOn(provideSchedulersIO())
             .flatMap { mapperNews(it) }
             .doOnSuccess{
-                onSuccess(StateFlow(
-                    status = EnumStateFlow.STATUS_OK_NEWS_LIST.const,
+                onSuccess(StateLayer(
+                    status = EnumStateLayer.STATUS_OK_NEWS_LIST.const,
                     modelNews = it.toMutableList()))
             }
             .doOnError {
-                onError(StateFlow(
-                    status = EnumStateFlow.STATUS_MGS.const,
+                onError(StateLayer(
+                    status = EnumStateLayer.STATUS_MGS.const,
                     message = ErrorType.ERROR.type.plus(" ")
                         .plus(it.message)))
             }
@@ -73,13 +73,13 @@ class NewsUseCase @Inject constructor(
             .subscribeOn(provideSchedulersIO())
             .flatMap { mapperNews(it) }
             .doOnSuccess{
-                onSuccess(StateFlow(
-                    status = EnumStateFlow.STATUS_OK_NEWS_LIST.const,
+                onSuccess(StateLayer(
+                    status = EnumStateLayer.STATUS_OK_NEWS_LIST.const,
                     modelNews = it.toMutableList()))
             }
             .doOnError {
-                onError(StateFlow(
-                    status = EnumStateFlow.STATUS_MGS.const,
+                onError(StateLayer(
+                    status = EnumStateLayer.STATUS_MGS.const,
                     message = ErrorType.ERROR.type.plus(" ")
                         .plus(it.message)))
             }
@@ -99,14 +99,14 @@ class NewsUseCase @Inject constructor(
             .subscribe({
                 Timber.tag(NewsUseCase::class.java.name.toString())
                     .i("save ok")
-                onSuccess(StateFlow(
-                    status = EnumStateFlow.STATUS_MGS.const,
+                onSuccess(StateLayer(
+                    status = EnumStateLayer.STATUS_MGS.const,
                     message = "save ok"))
             },{
                 Timber.tag(NewsUseCase::class.java.name.toString())
                     .i("error loadLocalNews ".plus(it.message.toString()))
-                onError(StateFlow(
-                    status = EnumStateFlow.STATUS_MGS.const,
+                onError(StateLayer(
+                    status = EnumStateLayer.STATUS_MGS.const,
                     message = ErrorType.ERROR.type.plus(" ")
                         .plus(it.message)))
             }))
@@ -121,6 +121,6 @@ class NewsUseCase @Inject constructor(
          if (!disposable.isDisposed) disposable.dispose()
     }
 
-    override fun byDomain(): Observable<StateFlow> = observationState()
+    override fun byDomain(): Observable<StateLayer> = observationState()
 
 }

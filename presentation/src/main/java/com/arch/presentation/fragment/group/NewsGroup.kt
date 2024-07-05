@@ -2,9 +2,9 @@ package com.arch.presentation.fragment.group
 
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.arch.portdomain.model.EnumStateFlow
+import com.arch.portdomain.model.EnumStateLayer
 import com.arch.portdomain.model.EventState
-import com.arch.portdomain.model.StateFlow
+import com.arch.portdomain.model.StateLayer
 import com.arch.presentation.R
 import com.arch.presentation.base.BaseFragment
 import com.arch.presentation.base.IState
@@ -25,18 +25,18 @@ class NewsGroup : BaseFragment<FragmentNewsGroupBinding,NewsGroupVM>() {
 
     override fun listenerViewModel(){
        disposable?.clear()
-        byViewModel(viewModel as IState, object : ActionState<StateFlow> {
-            override fun <T : StateFlow> action(model: T) {
+        byViewModel(viewModel as IState, object : ActionState<StateLayer> {
+            override fun <T : StateLayer> action(model: T) {
                 when (model.status) {
-                    EnumStateFlow.STATUS_OK_GROUP_LIST.const -> {
+                    EnumStateLayer.STATUS_OK_GROUP_LIST.const -> {
                         adapterNewsGroup.updateAdapter(model.modelGroup)
                     }
 
-                    EnumStateFlow.STATUS_MGS.const -> {
+                    EnumStateLayer.STATUS_MGS.const -> {
                         showMessage(model.message)
                     }
 
-                    EnumStateFlow.STATUS_EVENT.const -> {
+                    EnumStateLayer.STATUS_EVENT.const -> {
                         model.message.let {msg -> if (EventState.UPDATE_ADAPTER.const == msg)
                             adapterLanguage.updateAdapter() }
                     }

@@ -1,6 +1,6 @@
 package com.arch.presentation.fragment.search
 
-import com.arch.portdomain.model.StateFlow
+import com.arch.portdomain.model.StateLayer
 import com.arch.presentation.base.BaseVM
 import com.arch.presentation.base.IState
 import com.arch.presentation.router.IRouter
@@ -11,7 +11,7 @@ class SearchVM @Inject constructor(
     private val router : IRouter
 ): BaseVM(),IState {
 
-    override fun state(): Observable<StateFlow> = Observable.defer {
+    override fun state(): Observable<StateLayer> = Observable.defer {
         publisherStateView()
     }.observeOn(provideSchedulersMain())
      fun onClickDataFrom() {

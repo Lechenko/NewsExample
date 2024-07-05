@@ -3,7 +3,7 @@ package com.arch.presentation.activity
 
 import androidx.drawerlayout.widget.DrawerLayout
 import com.arch.portdomain.main.IMainUseCase
-import com.arch.portdomain.model.StateFlow
+import com.arch.portdomain.model.StateLayer
 import com.arch.presentation.base.BaseVM
 import com.arch.presentation.router.ConstRouter
 import com.arch.presentation.router.IRouter
@@ -18,7 +18,7 @@ class MainViewModel @Inject constructor(
 
      fun initDrawerLayout(drawer: DrawerLayout) = router.init(drawer)
 
-     fun state() : Observable<StateFlow> = useCase.byDomain()
+     fun state() : Observable<StateLayer> = useCase.byDomain()
           .observeOn(provideSchedulersMain())
 
      fun startFragmentMain() = router.transaction(ConstRouter.NEWS_GROUP_FRAGMENT.route)
@@ -27,6 +27,9 @@ class MainViewModel @Inject constructor(
           router.onStopView()
           super.onCleared()
      }
-     fun onDestroyView() = useCase.stopCase()
+     fun onDestroyView() {
+          useCase.stopCase()
+          router.onStopView()
+     }
 
 }

@@ -3,9 +3,9 @@ package com.arch.domain.web
 import com.arch.comm.ErrorType
 import com.arch.domain.BaseInteractor
 import com.arch.portdata.IRepositoryDAO
-import com.arch.portdomain.model.EnumStateFlow
+import com.arch.portdomain.model.EnumStateLayer
 import com.arch.portdomain.model.NewsModel
-import com.arch.portdomain.model.StateFlow
+import com.arch.portdomain.model.StateLayer
 import com.arch.portdomain.web.IWebUseCase
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single
@@ -25,8 +25,8 @@ class WebUseCase @Inject constructor(
             .flatMapCompletable { repositoryDao.saveFavorites(it) }
             .subscribe({
                 onSuccess(
-                    StateFlow(
-                        status = EnumStateFlow.STATUS_MGS.const,
+                    StateLayer(
+                        status = EnumStateLayer.STATUS_MGS.const,
                         message = ErrorType.ERROR.type.plus(" ")
                             .plus("save ok")
                     )
@@ -34,8 +34,8 @@ class WebUseCase @Inject constructor(
             }, {
                 Timber.tag(WebUseCase::class.simpleName.toString()).e(it)
                 onError(
-                    StateFlow(
-                        status = EnumStateFlow.STATUS_MGS.const,
+                    StateLayer(
+                        status = EnumStateLayer.STATUS_MGS.const,
                         message = ErrorType.ERROR.type.plus(" ")
                             .plus(it.message)
                     )
@@ -52,5 +52,5 @@ class WebUseCase @Inject constructor(
         disposable = null
     }
 
-    override fun byDomain(): Observable<StateFlow> = observationState()
+    override fun byDomain(): Observable<StateLayer> = observationState()
 }

@@ -14,7 +14,9 @@ android {
         minSdk = Versions.minSdk
         consumerProguardFiles("consumer-rules.pro")
     }
-
+    buildFeatures {
+        buildConfig = true
+    }
     buildTypes {
         getByName("debug") {
             isMinifyEnabled = false
@@ -38,10 +40,6 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-        }
-        create("auto_test"){
-            isMinifyEnabled = false
-            isJniDebuggable = true
         }
     }
     java.toolchain {

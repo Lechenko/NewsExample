@@ -3,7 +3,7 @@ package com.arch.featureremoteapi.model.response_news
 import com.arch.featureremoteapi.BuildConfig
 import com.google.gson.annotations.SerializedName
 
-class Source(
+class SourceArticle(
     @field:SerializedName("id") var id: Any?,
     @field:SerializedName("name") var name: String?
 ) {

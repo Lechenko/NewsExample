@@ -2,7 +2,7 @@ package com.arch.domain.main
 
 import com.arch.domain.BaseInteractor
 import com.arch.portdomain.main.IMainUseCase
-import com.arch.portdomain.model.StateFlow
+import com.arch.portdomain.model.StateLayer
 import io.reactivex.rxjava3.core.Observable
 import javax.inject.Inject
 
@@ -16,6 +16,6 @@ class MainUseCase @Inject constructor() : BaseInteractor(),
 
     }
 
-    override fun byDomain(): Observable<StateFlow> = observationState()
+    override fun byDomain(): Observable<StateLayer> = observationState()
 
 }

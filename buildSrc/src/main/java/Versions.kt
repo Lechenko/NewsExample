@@ -10,7 +10,7 @@
     const val dao_name = "dao_"
     const val servicesPlugin = "3.2.0"
     const val compileSdk = 34
-    const val minSdk = 26
+    const val minSdk = 28
     const val targetSdk = 34
     const val buildTools = "34.0.0"
     const val sharedName = "shared_app"
@@ -43,6 +43,7 @@
     }
     object KotlinDependency     {
         const val std = "1.8.0"
+        const val ktx = "1.13.1"
     }
     object Google {
         const val playServices = "21.0.1"

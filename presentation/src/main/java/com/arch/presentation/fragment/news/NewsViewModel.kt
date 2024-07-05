@@ -2,9 +2,9 @@ package com.arch.presentation.fragment.news
 
 
 import com.arch.portdomain.model.ArgObject
-import com.arch.portdomain.model.EnumStateFlow
+import com.arch.portdomain.model.EnumStateLayer
 import com.arch.portdomain.model.NewsModel
-import com.arch.portdomain.model.StateFlow
+import com.arch.portdomain.model.StateLayer
 import com.arch.portdomain.news.INewsUseCase
 import com.arch.presentation.base.BaseVM
 import com.arch.presentation.base.IState
@@ -17,7 +17,7 @@ class NewsViewModel @Inject constructor(
     private val router: IRouter,
     private val useCase: INewsUseCase.UseCaseNews
 ) : BaseVM(), IState {
-   override fun state(): Observable<StateFlow> = Observable.defer {
+   override fun state(): Observable<StateLayer> = Observable.defer {
         Observable.merge(
             publisherStateView(), useCase.byDomain()
         )
@@ -47,8 +47,8 @@ class NewsViewModel @Inject constructor(
     fun shareContent(news: NewsModel) {
         news.url?.let {
             onNext(
-                StateFlow(
-                    EnumStateFlow.STATUS_LINK.const,
+                StateLayer(
+                    EnumStateLayer.STATUS_LINK.const,
                     message = it
                 )
             )

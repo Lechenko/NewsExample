@@ -8,7 +8,7 @@ import javax.inject.Inject
 import javax.inject.Provider
 import javax.inject.Singleton
 
-@Singleton
+
 class NewsViewModelFactory @Inject constructor(
     @SuppressLint("KotlinNullnessAnnotation") @NotNull private val provider: MutableMap<@JvmSuppressWildcards
 Class<out ViewModel>, Provider<ViewModel>>

@@ -3,7 +3,7 @@ package com.arch.featureremoteapi.model.response_category
 import com.arch.featureremoteapi.BuildConfig
 import com.google.gson.annotations.SerializedName
 
-class Source(
+class SourceCategory(
     @field:SerializedName("category") var category: String?,
     @field:SerializedName("country") var country: String?,
     @field:SerializedName("description") var description: String?,

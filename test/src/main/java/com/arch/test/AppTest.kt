@@ -1,9 +1,16 @@
 package com.arch.test
 
-class AppTest : BaseTestApplication() {
+import com.arch.dependency.BaseApplication
+import dagger.android.AndroidInjector
+import dagger.android.support.DaggerApplication
+
+class AppTest : BaseApplication() {
+
     override fun onCreateApp() {
 
     }
 
-    override fun appInject(): AppTest = this
+    override fun applicationInjector(): AndroidInjector<out DaggerApplication> =
+        DaggerAppTestComponent.factory()
+            .create(this)
 }

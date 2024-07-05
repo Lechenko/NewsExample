@@ -22,6 +22,8 @@ object Depend {
         "androidx.camera:camera-camera2:${Versions.CameraX.cameraView}"
     )
    const val inject = "javax.inject:javax.inject:1"
+
+    const val javax_annotation = "javax.annotation:javax.annotation-api:1.3.2"
     //Worker
     val workerAndroidLibs = arrayOf(
         "androidx.work:work-runtime:${Versions.SupportAndroidLibs.worker}",
@@ -34,7 +36,7 @@ object Depend {
     // The same here in Kotlin Libraries
      val kotlinDependency = arrayOf(
         "org.jetbrains.kotlin:kotlin-stdlib:${Versions.KotlinDependency.std}",
-        "androidx.core:core-ktx:${Versions.KotlinDependency.std}"
+        "androidx.core:core-ktx:${Versions.KotlinDependency.ktx}"
     )
 
 //    const val kotlinKTX = "androidx.core:core-ktx:${Versions.KotlinDependency.std}"
@@ -115,13 +117,13 @@ object Depend {
     const val guava = "com.google.guava:guava:31.1-jre"
     // Test unit testImplementation
      val testUnit = arrayOf(
-        "androidx.test.ext:junit:${Versions.TestLibraries.junitAndroidX}",
         "junit:junit:${Versions.TestLibraries.junit}"
     )
 //androidTestImplementation
      val testRunner = arrayOf(
     "androidx.test:runner:${Versions.TestLibraries.runner}",
-    "androidx.test.ext:junit:${Versions.TestLibraries.ext}"
+    "androidx.test.ext:junit:${Versions.TestLibraries.ext}",
+            "com.android.support.test:rules:1.0.2"
 )
 
     //Test Espresso

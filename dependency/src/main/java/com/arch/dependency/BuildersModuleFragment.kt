@@ -1,6 +1,11 @@
 package com.arch.dependency
 
 
+import com.arch.dependency.module_domain.ModuleFavoritesDomain
+import com.arch.dependency.module_domain.ModuleNewsDomain
+import com.arch.dependency.module_domain.ModuleNewsGroupDomain
+import com.arch.dependency.module_domain.ModuleSearchDomain
+import com.arch.dependency.module_domain.ModuleWebDomain
 import com.arch.dependency.module_fragment.ModuleFavorites
 import com.arch.dependency.module_fragment.ModuleNews
 import com.arch.dependency.module_fragment.ModuleNewsGroup
@@ -20,23 +25,23 @@ import dagger.android.ContributesAndroidInjector
 public  abstract class BuildersModuleFragment {
 
     @FragmentScope
-    @ContributesAndroidInjector(modules = [ModuleNewsGroup::class])
+    @ContributesAndroidInjector(modules = [ModuleNewsGroup::class,ModuleNewsGroupDomain::class])
     public  abstract fun bindNewsGroupFragment() : NewsGroup
 
     @FragmentScope
-    @ContributesAndroidInjector(modules = [ModuleNews::class])
+    @ContributesAndroidInjector(modules = [ModuleNews::class,ModuleNewsDomain::class])
     public  abstract fun bindNewsFragment() : News
 
     @FragmentScope
-    @ContributesAndroidInjector(modules = [ModuleFavorites::class])
+    @ContributesAndroidInjector(modules = [ModuleFavorites::class,ModuleFavoritesDomain::class])
     public  abstract fun bindFavoritesFragment() : NewsFavorites
 
     @FragmentScope
-    @ContributesAndroidInjector(modules = [ModuleSearch::class])
+    @ContributesAndroidInjector(modules = [ModuleSearch::class,ModuleSearchDomain::class])
     public  abstract fun bindSearchFragment() : Search
 
     @FragmentScope
-    @ContributesAndroidInjector(modules = [ModuleWeb::class])
+    @ContributesAndroidInjector(modules = [ModuleWeb::class,ModuleWebDomain::class])
     public  abstract fun bindWebFragment() : WebFragment
 
 }

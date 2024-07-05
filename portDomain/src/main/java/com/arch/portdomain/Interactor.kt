@@ -1,6 +1,6 @@
 package com.arch.portdomain
 
-import com.arch.portdomain.model.StateFlow
+import com.arch.portdomain.model.StateLayer
 import io.reactivex.rxjava3.core.Observable
 
 
@@ -9,6 +9,6 @@ interface Interactor {
 
     fun stopCase()
 
-    fun byDomain() : Observable<StateFlow>
+    fun byDomain() : Observable<StateLayer>
 
 }

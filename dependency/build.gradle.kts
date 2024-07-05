@@ -10,7 +10,9 @@ plugins {
 
 android {
     namespace = "com.arch.dependency"
-
+    buildFeatures {
+        buildConfig = true
+    }
     defaultConfig {
         compileSdk = Versions.compileSdk
         minSdk = Versions.minSdk
@@ -19,7 +21,6 @@ android {
 
     buildTypes {
         getByName("debug") {
-            buildConfigField ("Boolean", "TEST_MODE_SCHEDULERS","false")
             isMinifyEnabled = false
             manifestPlaceholders["versionCode"] = Versions.versionCode
             manifestPlaceholders["appName"] = Versions.appName
@@ -32,7 +33,6 @@ android {
             )
         }
         getByName("release") {
-            buildConfigField ("Boolean", "TEST_MODE_SCHEDULERS","false")
             isMinifyEnabled = true
             manifestPlaceholders["versionCode"] = Versions.versionCode
             manifestPlaceholders["appName"] =  Versions.appName
@@ -42,12 +42,6 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-        }
-        create("auto_test"){
-            isMinifyEnabled = false
-            isJniDebuggable = true
-            buildConfigField ("Boolean", "TEST_MODE_SCHEDULERS","true")
-
         }
     }
     java.toolchain {
@@ -59,10 +53,12 @@ android {
 }
 
 dependencies {
-    // Dagger
-    Depend.dagger.forEach { implementation(it) }
+    Depend.dagger.forEach { api(it) }
     Depend.daggerAnnotationProcessor.forEach { kapt(it) }
-    implementation(Depend.rxPermission)
+    api(Depend.rxPermission)
+    api(Depend.timberJava)
+    Depend.rxAndroid.forEach { api(it) }
+    Depend.kotlinDependency.forEach { api(it) }
     //Module
     api(project(path = ":comm"))
     api(project(path = ":portData"))
@@ -73,4 +69,7 @@ dependencies {
     api(project(path = ":domain"))
     api(project(path = ":featureLocalStorage"))
     api(project(path = ":featureRemoteApi"))
+}
+kapt {
+    mapDiagnosticLocations = true // include the Kotlin files into error reports
 }

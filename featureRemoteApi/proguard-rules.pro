@@ -19,3 +19,8 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+-dontwarn com.arch.portdomain.model.ResponseCategory
+-dontwarn com.arch.portdomain.model.SourceCategory
+-dontwarn com.arch.portdomain.model.SourceArticle
+-dontwarn com.arch.portdomain.model.Article
+-dontwarn com.arch.portdomain.model.ResponseNews

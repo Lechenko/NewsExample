@@ -18,7 +18,6 @@ plugins {
     id("org.gradle.toolchains.foojay-resolver-convention") version("0.6.0")
 }
 rootProject.name = "News"
-
 include(":dependency")
 include(":app")
 include(":data")
@@ -30,3 +29,4 @@ include(":featureLocalStorage")
 include(":comm")
 include(":featureRemoteApi")
 include(":test")
+

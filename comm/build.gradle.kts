@@ -16,6 +16,9 @@ android {
         buildConfigField ("String", "SHARED_NAME","\"${sharedName}\"")
         consumerProguardFiles("consumer-rules.pro")
     }
+    buildFeatures {
+        buildConfig = true
+    }
     buildTypes {
         getByName("debug") {
             isMinifyEnabled = false
@@ -40,10 +43,6 @@ android {
                 "proguard-rules.pro"
             )
         }
-        create("auto_test"){
-            isMinifyEnabled = false
-            isJniDebuggable = true
-        }
     }
     java.toolchain {
         languageVersion.set(JavaLanguageVersion.of(Versions.varsionJava))
@@ -54,8 +53,7 @@ android {
 }
 
 dependencies {
-    Depend.dagger.forEach { implementation(it) }
-    Depend.apache.forEach { implementation(it) }
+    implementation(Depend.inject)
     //Gson
     implementation(Depend.gson)
     kapt(Depend.AutoValueAnnotationProcessor)

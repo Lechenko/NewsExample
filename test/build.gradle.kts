@@ -8,28 +8,33 @@ plugins {
 }
 
 android {
+    lint {
+        abortOnError = false
+    }
     namespace = "com.arch.test"
     testOptions.unitTests.isIncludeAndroidResources = true
+    compileOptions.incremental = false
+    buildFeatures.dataBinding = true
     defaultConfig {
         compileSdk = Versions.compileSdk
         minSdk = Versions.minSdk
         val apiKey = Versions.api_key
+     //   testInstrumentationRunner = "com.arch.test.CustomTestRunner"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField ("String", "API_KEY","\"${apiKey}\"")
         testFunctionalTest = true
         testHandleProfiling = true
-      //  testApplicationId = "test_news"
+    }
+    buildFeatures {
+        buildConfig = true
     }
     buildTypes {
         getByName("debug") {
+            isDebuggable = true
             isMinifyEnabled = false
         }
         getByName("release") {
             isMinifyEnabled = false
-        }
-        create("auto_test"){
-            isMinifyEnabled = false
-            isJniDebuggable = true
         }
     }
 
@@ -39,39 +44,29 @@ android {
     kotlinExtension.jvmToolchain {
         languageVersion.set(JavaLanguageVersion.of(Versions.varsionJava))
     }
+    configurations.all {
+        resolutionStrategy {
+            force("androidx.core:core-ktx:1.8.0")
+        }
+    }
 }
+
 tasks.withType<Test> {
     testLogging.showExceptions = true
     useJUnitPlatform {
         includeEngines("spek")
     }
-   // useJUnit()
+        //useJUnit()
 }
 
 
 dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
     implementation(project(path = ":dependency"))
-    api(project(path = ":comm"))
-    implementation(project(path = ":portData"))
-    implementation(project(path = ":data"))
-    implementation(project(path = ":domain"))
-    implementation(project(path = ":portDomain"))
-    implementation(project(path = ":domain"))
-    implementation(project(path = ":featureLocalStorage"))
-    implementation(project(path = ":featureRemoteApi"))
-    Depend.kotlinDependency.forEach { implementation(it) }
-    // Dagger
-    Depend.dagger.forEach { implementation(it) }
     Depend.daggerAnnotationProcessor.forEach { kapt(it) }
-    implementation(Depend.rxPermission)
-    //RX
-    Depend.rxAndroid.forEach { implementation(it) }
-    implementation(Depend.gson)
     Depend.testRunner.forEach { androidTestImplementation(it) }
     Depend.testUnit.forEach { testImplementation(it) }
     androidTestImplementation(Depend.testEspresso)
-    implementation(Depend.timberJava)
 }
 kapt {
     mapDiagnosticLocations = true // include the Kotlin files into error reports

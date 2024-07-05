@@ -11,6 +11,9 @@ android {
     lint {
         abortOnError = false
     }
+    buildFeatures {
+        buildConfig = true
+    }
     compileOptions.incremental = false
     buildFeatures.dataBinding = true
     namespace = Versions.applicationId
@@ -59,10 +62,6 @@ android {
             )
            // signingConfig = signingConfigs.getByName("debug")
         }
-        create("auto_test") {
-            isDebuggable = true
-            isJniDebuggable = true
-        }
         getByName("release") {
             isDebuggable = false
             isMinifyEnabled = true
@@ -94,15 +93,8 @@ android {
 
 dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
-    Depend.kotlinDependency.forEach { implementation(it) }
-    // Dagger
-    Depend.dagger.forEach { implementation(it) }
-    Depend.daggerAnnotationProcessor.forEach { kapt(it) }
-    implementation(Depend.rxPermission)
-    //Log
-    implementation(Depend.timberJava)
-//    //Module
     implementation(project(path = ":dependency"))
+    Depend.daggerAnnotationProcessor.forEach { kapt(it) }
 }
 kapt {
     mapDiagnosticLocations = true // include the Kotlin files into error reports

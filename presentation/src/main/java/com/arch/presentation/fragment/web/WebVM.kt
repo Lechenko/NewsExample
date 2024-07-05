@@ -2,7 +2,7 @@ package com.arch.presentation.fragment.web
 
 
 import com.arch.portdomain.model.NewsModel
-import com.arch.portdomain.model.StateFlow
+import com.arch.portdomain.model.StateLayer
 import com.arch.portdomain.web.IWebUseCase
 import com.arch.presentation.base.BaseVM
 import com.arch.presentation.router.IRouter
@@ -14,7 +14,7 @@ class WebVM @Inject constructor(
     private val useCase: IWebUseCase.UseCaseWeb
 ) : BaseVM() {
 
-    fun state(): Observable<StateFlow> = Observable.defer {
+    fun state(): Observable<StateLayer> = Observable.defer {
         Observable.merge(
             publisherStateView(), useCase.byDomain()
         )

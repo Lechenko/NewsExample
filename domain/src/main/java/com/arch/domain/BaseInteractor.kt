@@ -2,10 +2,10 @@ package com.arch.domain
 
 import com.arch.portdata.model.DataGroup
 import com.arch.portdata.model.DataNews
-import com.arch.portdomain.model.EnumStateFlow
+import com.arch.portdomain.model.EnumStateLayer
 import com.arch.portdomain.model.NewsGroupModel
 import com.arch.portdomain.model.NewsModel
-import com.arch.portdomain.model.StateFlow
+import com.arch.portdomain.model.StateLayer
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Scheduler
 import io.reactivex.rxjava3.core.Single
@@ -14,18 +14,17 @@ import io.reactivex.rxjava3.subjects.PublishSubject
 
 
 abstract class BaseInteractor  {
-    private val publish : PublishSubject<StateFlow> = PublishSubject.create()
-    private var jobThread: Scheduler = if (!BuildConfig.TEST_MODE_SCHEDULERS)Schedulers.io()
-    else Schedulers.trampoline()
+    private val publish : PublishSubject<StateLayer> = PublishSubject.create()
+    private var jobThread: Scheduler = Schedulers.io()
     protected open fun provideSchedulersIO() : Scheduler = jobThread
-    fun onSuccess(state : StateFlow) = publish.onNext(state)
-    fun onError(state : StateFlow) = state.message.let {publish.onError(Throwable(it))}
-    abstract fun byDomain() : Observable<StateFlow>
-    fun observationState(): Observable<StateFlow> =
+    fun onSuccess(state : StateLayer) = publish.onNext(state)
+    fun onError(state : StateLayer) = state.message.let {publish.onError(Throwable(it))}
+    abstract fun byDomain() : Observable<StateLayer>
+    fun observationState(): Observable<StateLayer> =
         Observable.defer{publish}
             .subscribeOn(provideSchedulersIO())
             .filter{it.status != 0}
-    fun reset() = publish.onNext(StateFlow(EnumStateFlow.RESET.const))
+    fun reset() = publish.onNext(StateLayer(EnumStateLayer.RESET.const))
 
     fun mapperGroup(listGroup: List<DataGroup>): Single<List<NewsGroupModel>> =
         Single.just(listGroup)

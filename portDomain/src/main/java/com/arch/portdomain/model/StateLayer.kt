@@ -2,13 +2,13 @@ package com.arch.portdomain.model
 
 
 
-data class StateFlow(
+data class StateLayer(
     val status: Int = 0,
     val message: String = "",
     val modelGroup: MutableList<NewsGroupModel> = mutableListOf(),
     val modelNews: MutableList<NewsModel> = mutableListOf()
 )
-enum class EnumStateFlow(val const : Int) {
+enum class EnumStateLayer(val const : Int) {
     RESET(0),
     STATUS_OK(101),
     STATUS_OK_GROUP(102),
