@@ -42,7 +42,7 @@
         const val junitPlatform = "1.1.3"
     }
     object KotlinDependency     {
-        const val std = "1.8.0"
+        const val std = "1.9.23"
         const val ktx = "1.13.1"
     }
     object Google {

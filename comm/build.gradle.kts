@@ -16,9 +16,6 @@ android {
         buildConfigField ("String", "SHARED_NAME","\"${sharedName}\"")
         consumerProguardFiles("consumer-rules.pro")
     }
-    buildFeatures {
-        buildConfig = true
-    }
     buildTypes {
         getByName("debug") {
             isMinifyEnabled = false
@@ -43,6 +40,9 @@ android {
                 "proguard-rules.pro"
             )
         }
+    }
+    buildFeatures {
+        buildConfig = true
     }
     java.toolchain {
         languageVersion.set(JavaLanguageVersion.of(Versions.varsionJava))

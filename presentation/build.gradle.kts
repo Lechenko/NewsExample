@@ -17,12 +17,6 @@ android {
         vectorDrawables.useSupportLibrary = true
         consumerProguardFiles("consumer-rules.pro")
     }
-    buildFeatures {
-        buildConfig = true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.13"
-    }
     buildTypes {
         getByName("debug") {
             isMinifyEnabled = false

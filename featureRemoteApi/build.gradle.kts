@@ -19,9 +19,6 @@ android {
         buildConfigField ("String", "API_KEY","\"${apiKey}\"")
         consumerProguardFiles("consumer-rules.pro")
     }
-    buildFeatures {
-        buildConfig = true
-    }
     buildTypes {
         getByName("debug") {
             isMinifyEnabled = false
@@ -46,6 +43,9 @@ android {
                 "proguard-rules.pro"
             )
         }
+    }
+    buildFeatures {
+        buildConfig = true
     }
     java.toolchain {
         languageVersion.set(JavaLanguageVersion.of(Versions.varsionJava))

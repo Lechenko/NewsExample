@@ -13,8 +13,7 @@ android {
     }
     namespace = "com.arch.test"
     testOptions.unitTests.isIncludeAndroidResources = true
-    compileOptions.incremental = false
-    buildFeatures.dataBinding = true
+    buildFeatures.buildConfig = true
     defaultConfig {
         compileSdk = Versions.compileSdk
         minSdk = Versions.minSdk
@@ -24,9 +23,6 @@ android {
         buildConfigField ("String", "API_KEY","\"${apiKey}\"")
         testFunctionalTest = true
         testHandleProfiling = true
-    }
-    buildFeatures {
-        buildConfig = true
     }
     buildTypes {
         getByName("debug") {
@@ -46,7 +42,7 @@ android {
     }
     configurations.all {
         resolutionStrategy {
-            force("androidx.core:core-ktx:1.8.0")
+            force("androidx.core:core-ktx:1.13.1")
         }
     }
 }
@@ -63,6 +59,7 @@ tasks.withType<Test> {
 dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
     implementation(project(path = ":dependency"))
+    implementation("androidx.databinding:databinding-runtime:8.5.0")
     Depend.daggerAnnotationProcessor.forEach { kapt(it) }
     Depend.testRunner.forEach { androidTestImplementation(it) }
     Depend.testUnit.forEach { testImplementation(it) }

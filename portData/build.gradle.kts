@@ -15,9 +15,6 @@ android {
         minSdk = Versions.minSdk
         consumerProguardFiles("consumer-rules.pro")
     }
-    buildFeatures {
-        buildConfig = true
-    }
     buildTypes {
         getByName("debug") {
             isMinifyEnabled = false

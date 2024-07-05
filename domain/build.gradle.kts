@@ -14,9 +14,6 @@ android {
         minSdk = Versions.minSdk
         consumerProguardFiles("consumer-rules.pro")
     }
-    buildFeatures {
-        buildConfig = true
-    }
     kapt.includeCompileClasspath = false
     buildTypes {
         getByName("debug") {

@@ -8,15 +8,12 @@ plugins {
 }
 
 android {
-    lint {
-        abortOnError = false
-    }
-    buildFeatures {
-        buildConfig = true
-    }
-    compileOptions.incremental = false
-    buildFeatures.dataBinding = true
+//    lint {
+//        abortOnError = false
+//    }
+//    compileOptions.incremental = false
     namespace = Versions.applicationId
+    buildFeatures.dataBinding = true
     buildFeatures.buildConfig = true
 //    signingConfigs {
 //        create("release") {
@@ -43,9 +40,6 @@ android {
         buildConfigField ("String", "APP_NAME","\"${appName}\"")
         setProperty("archivesBaseName", appName + "_" + versionName)
         vectorDrawables.useSupportLibrary = true
-    }
-    buildFeatures {
-        buildConfig = true
     }
     buildTypes {
         getByName("debug") {
@@ -85,7 +79,7 @@ android {
     }
     configurations.all {
         resolutionStrategy {
-            force("androidx.core:core-ktx:1.8.0")
+            force("androidx.core:core-ktx:1.13.1")
         }
     }
     packagingOptions.resources.excludes += setOf("META-INF/*")
@@ -95,6 +89,7 @@ dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
     implementation(project(path = ":dependency"))
     Depend.daggerAnnotationProcessor.forEach { kapt(it) }
+        // implementation("androidx.databinding:databinding-runtime:8.5.0")
 }
 kapt {
     mapDiagnosticLocations = true // include the Kotlin files into error reports

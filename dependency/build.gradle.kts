@@ -10,9 +10,6 @@ plugins {
 
 android {
     namespace = "com.arch.dependency"
-    buildFeatures {
-        buildConfig = true
-    }
     defaultConfig {
         compileSdk = Versions.compileSdk
         minSdk = Versions.minSdk
@@ -43,6 +40,9 @@ android {
                 "proguard-rules.pro"
             )
         }
+    }
+    buildFeatures {
+        buildConfig = true
     }
     java.toolchain {
         languageVersion.set(JavaLanguageVersion.of(Versions.varsionJava))
