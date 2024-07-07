@@ -19,16 +19,20 @@ import timber.log.Timber
 import java.util.concurrent.TimeUnit
 
 
-class TestNews{
-   private var domain: INewsUseCase.UseCaseNews?=null
+class TestNews {
+    private var domain: INewsUseCase.UseCaseNews? = null
 
     companion object {
         var appContext: Context? = null
+
         @JvmStatic
         @BeforeClass
         fun stepUp() {
             Timber.plant(Timber.DebugTree())
-            appContext =  InstrumentationRegistry.getInstrumentation().targetContext.applicationContext as AppTest
+            appContext = InstrumentationRegistry
+                .getInstrumentation()
+                .targetContext
+                .applicationContext as AppTest
         }
 
         @JvmStatic
@@ -53,16 +57,15 @@ class TestNews{
 
     }
 
-
     @Test
     fun testLoadNewsCountry() {
         domain?.let {
             it.loadNewsCountry("ru")
             it.byDomain()
                 .test()
-                .awaitDone(5,TimeUnit.SECONDS)
-            .assertValue{model -> model.modelNews.size == 20}
-            .assertValue{model -> model.status == 105}
+                .awaitDone(5, TimeUnit.SECONDS)
+                .assertValue { model -> model.modelNews.size == 20 }
+                .assertValue { model -> model.status == 105 }
         }
     }
 
@@ -72,8 +75,8 @@ class TestNews{
             it.loadNewsCountry("")
             it.byDomain()
                 .test()
-                .awaitDone(5,TimeUnit.SECONDS)
-                .assertError{
+                .awaitDone(5, TimeUnit.SECONDS)
+                .assertError {
                     it.message == "error HTTP 400 "
                 }
         }
@@ -81,16 +84,18 @@ class TestNews{
 
     @Test
     fun testLoadNewsChannel() {
-        domain?.let {dom ->
+        domain?.let { dom ->
             val subscriber: TestObserver<StateLayer> = TestObserver.create()
             dom.loadNewsChannel("abc-news")
             dom.byDomain()
-                .doOnNext { Timber.tag("TestNews")
-                    .e("value status : " + it.status + " value size: " + it.modelNews.size) }
+                .doOnNext {
+                    Timber.tag("TestNews")
+                        .e("value status : " + it.status + " value size: " + it.modelNews.size)
+                }
                 .subscribe(subscriber)
-            subscriber.awaitDone(5,TimeUnit.SECONDS)
-            subscriber.assertValue{it.modelNews.size == 10}
-            subscriber.assertValue{it.status == 105}
+            subscriber.awaitDone(5, TimeUnit.SECONDS)
+            subscriber.assertValue { it.modelNews.size == 10 }
+            subscriber.assertValue { it.status == 105 }
             subscriber.onComplete()
             subscriber.assertComplete().values()
 

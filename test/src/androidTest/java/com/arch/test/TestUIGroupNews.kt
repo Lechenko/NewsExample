@@ -13,12 +13,8 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.arch.presentation.R.*
 import com.arch.presentation.activity.MainActivity
 import com.arch.test.util.*
-import com.squareup.rx3.idler.Rx3Idler
-
 import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.contrib.RecyclerViewActions
 import com.arch.test.util.RecyclerViewMatcher.Companion.recyclerViewWithId
-import io.reactivex.rxjava3.plugins.RxJavaPlugins
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -36,45 +32,34 @@ class TestUIGroupNews {
     var activityRule = ActivityScenarioRule(MainActivity::class.java)
 
     @Before
-    fun setUp() {
+    fun setUp() =
         activityRule.scenario.onActivity {
             activity = it
         }
-       RxJavaPlugins.setInitComputationSchedulerHandler(
-            Rx3Idler.create("RxJava 3.x Computation Scheduler"));
-        RxJavaPlugins.setInitIoSchedulerHandler(
-            Rx3Idler.create("RxJava 3.x IO Scheduler"))
-    }
-
     @After
     fun downUp() {
-     //   IdlingRegistry.getInstance().unregister(signInIdlingResource)
-    }
 
+    }
     @Test
-    fun isDisplayRecyclerView() {
+    fun isDisplayRecyclerView() =
         onView(recyclerView)
         .check(matches(isDisplayed()))
-    }
-
-
     @Test
-    fun testRv_position_0_withText(){
+    fun testRv_position_0_withText() =
         onView(recyclerViewMatcher
             .viewHolderViewAtPosition(0, id.contentItem))
             .check(matches(isDisplayed()))
             .check(matches(withText("ABS News")))
             .perform(click())
-    }
 
     @Test
-    fun testRv_scroll_position_20(){
+    fun testRv_scroll_position_20() =
         onView(recyclerViewMatcher
             .viewHolderViewAtPosition(20, id.contentItem))
             .check(matches(isDisplayed()))
             .perform( RVScroll())
 
-    }
+
 }
 
 
