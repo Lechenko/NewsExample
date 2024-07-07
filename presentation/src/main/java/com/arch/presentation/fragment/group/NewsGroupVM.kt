@@ -23,6 +23,7 @@ class NewsGroupVM @Inject constructor(
             publisherStateView(), useCase.byDomain()
         )
     }.observeOn(provideSchedulersMain())
+        .doOnNext{ }
 
     init {
         useCase.startCase()

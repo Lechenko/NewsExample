@@ -20,7 +20,7 @@ import javax.inject.Inject
 
 
 abstract class BaseActivity<Binding : ViewDataBinding,VIEW_MODEL : ViewModel> : DaggerAppCompatActivity() {
-    protected  var binding: Binding? = null
+    var binding: Binding? = null
         private set
     @Inject
     lateinit var viewModel: VIEW_MODEL

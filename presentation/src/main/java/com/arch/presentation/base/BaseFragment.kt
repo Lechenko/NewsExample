@@ -20,9 +20,13 @@ import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.ViewModel
 import androidx.window.layout.WindowMetrics
 import androidx.window.layout.WindowMetricsCalculator
+import com.arch.comm.BuildConfig
 import com.arch.presentation.fragment.news.News
 import dagger.android.support.DaggerFragment
+import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.disposables.CompositeDisposable
+import io.reactivex.rxjava3.subjects.PublishSubject
 import timber.log.Timber
 import java.io.File
 import java.util.Objects
@@ -30,17 +34,27 @@ import javax.inject.Inject
 import kotlin.math.min
 
 
+abstract class BaseFragment<Binding : ViewDataBinding, ViewModelType : ViewModel> :
+    DaggerFragment() {
+    protected var disposable: CompositeDisposable? = CompositeDisposable()
+    protected var binding: Binding? = null
+    var subjetTestVMStatus: PublishSubject<Boolean>? = null
 
-abstract class BaseFragment<Binding : ViewDataBinding,ViewModelType : ViewModel> : DaggerFragment() {
-    protected var disposable : CompositeDisposable? = CompositeDisposable()
-    protected  var binding: Binding ? = null
+
+    init {
+        if (BuildConfig.DEBUG) subjetTestVMStatus = PublishSubject.create()
+    }
+
+    fun testStatusVM(): Single<Boolean>? {
+        return subjetTestVMStatus?.lastOrError()
+    }
+
     @Inject
     lateinit var viewModel: ViewModelType
     override fun onAttach(context: Context) {
         super.onAttach(context)
         attachFragment()
     }
-
 
 
     override fun onStop() {
@@ -63,25 +77,33 @@ abstract class BaseFragment<Binding : ViewDataBinding,ViewModelType : ViewModel>
         resume()
     }
 
-    protected abstract fun  listenerViewModel()
+    protected abstract fun listenerViewModel()
 
     @FunctionalInterface
-    protected interface ActionState<V>{
-        fun <T : V>action(model: T)
+    protected interface ActionState<V> {
+        fun <T : V> action(model: T)
     }
 
     @FunctionalInterface
-    protected interface ActionError{
-        fun error(msg : String)
+    protected interface ActionError {
+        fun error(msg: String)
     }
-   @Suppress("UNCHECKED_CAST")
-   protected open fun <T> byViewModel(viewModel: IState, actionState: ActionState<T>, actionError : ActionError) {
-       disposable?.add(viewModel.state().subscribe({ actionState.action(model = it as T) },{
-           actionError.error(it.message.toString())
-           Timber.tag(News::class.java.name.toString())
-               .i("error observationState : ".plus(it.message.toString()))
-           showMessage("error ".plus(it.message))
-       }))
+
+    @Suppress("UNCHECKED_CAST")
+    protected open fun <T> byViewModel(
+        viewModel: IState,
+        actionState: ActionState<T>,
+        actionError: ActionError
+    ) {
+        disposable?.add(viewModel.state().subscribe({
+            actionState.action(model = it as T)
+            if (BuildConfig.DEBUG) subjetTestVMStatus?.onNext(true)
+        }, {
+            actionError.error(it.message.toString())
+            Timber.tag(News::class.java.name.toString())
+                .i("error observationState : ".plus(it.message.toString()))
+            showMessage("error ".plus(it.message))
+        }))
     }
 
     override fun onCreateView(
@@ -103,7 +125,7 @@ abstract class BaseFragment<Binding : ViewDataBinding,ViewModelType : ViewModel>
         Toast.makeText(activity?.applicationContext, message, Toast.LENGTH_LONG).show()
     }
 
-    fun showMessage(message: String){
+    fun showMessage(message: String) {
         toastShort(message)
     }
 
@@ -133,14 +155,14 @@ abstract class BaseFragment<Binding : ViewDataBinding,ViewModelType : ViewModel>
     }
 
     fun shareLink(url: String) {
-            val sendIntent = Intent()
-            sendIntent.action = Intent.ACTION_SEND
-            sendIntent.putExtra(Intent.EXTRA_TEXT, url)
-            sendIntent.type = "text/plain"
-            startActivity(sendIntent)
+        val sendIntent = Intent()
+        sendIntent.action = Intent.ACTION_SEND
+        sendIntent.putExtra(Intent.EXTRA_TEXT, url)
+        sendIntent.type = "text/plain"
+        startActivity(sendIntent)
     }
 
-    fun shareFile(path : String){
+    fun shareFile(path: String) {
         val f = File(path)
         val intentShareFile = Intent(Intent.ACTION_SEND)
         if (f.exists()) {
@@ -171,7 +193,7 @@ abstract class BaseFragment<Binding : ViewDataBinding,ViewModelType : ViewModel>
         }
     }
 
-    fun openIntent(pair : Pair<String,String>){
+    fun openIntent(pair: Pair<String, String>) {
         val file = File(pair.second)
         val intent = Intent(Intent.ACTION_VIEW)
             .setDataAndType(
@@ -184,12 +206,12 @@ abstract class BaseFragment<Binding : ViewDataBinding,ViewModelType : ViewModel>
         startActivity(Intent.createChooser(intent, "Share Via"))
     }
 
-     fun getDimension(activity : Activity): Int {
-         val windowMetrics: WindowMetrics =
-             WindowMetricsCalculator.getOrCreate().computeCurrentWindowMetrics(activity)
-         val height: Int = windowMetrics.bounds.height()
-         val width: Int = windowMetrics.bounds.width()
-        return min(height,width)
+    fun getDimension(activity: Activity): Int {
+        val windowMetrics: WindowMetrics =
+            WindowMetricsCalculator.getOrCreate().computeCurrentWindowMetrics(activity)
+        val height: Int = windowMetrics.bounds.height()
+        val width: Int = windowMetrics.bounds.width()
+        return min(height, width)
     }
 
     fun hideKeyboard() {
@@ -205,6 +227,7 @@ abstract class BaseFragment<Binding : ViewDataBinding,ViewModelType : ViewModel>
         Objects.requireNonNull(imm)
             .showSoftInput(requireActivity().window.decorView, InputMethodManager.SHOW_IMPLICIT)
     }
+
     @Suppress("DEPRECATION")
     protected open fun getDimension(): Int {
         val point = Point()
@@ -213,17 +236,15 @@ abstract class BaseFragment<Binding : ViewDataBinding,ViewModelType : ViewModel>
     }
 
 
-
-
     fun getDimensionA(): Int {
-       var size = 0
-       activity?.let {
-           val windowMetrics =
-               WindowMetricsCalculator.getOrCreate().computeCurrentWindowMetrics(it)
-           val height: Int = windowMetrics.bounds.height()
-           val width: Int = windowMetrics.bounds.width()
-           size =  min(height, width)
-       }
+        var size = 0
+        activity?.let {
+            val windowMetrics =
+                WindowMetricsCalculator.getOrCreate().computeCurrentWindowMetrics(it)
+            val height: Int = windowMetrics.bounds.height()
+            val width: Int = windowMetrics.bounds.width()
+            size = min(height, width)
+        }
         return size
     }
 

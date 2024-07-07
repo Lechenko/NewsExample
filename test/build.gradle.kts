@@ -13,12 +13,14 @@ android {
     }
     namespace = "com.arch.test"
     testOptions.unitTests.isIncludeAndroidResources = true
+    buildFeatures.dataBinding = true
     buildFeatures.buildConfig = true
     defaultConfig {
         compileSdk = Versions.compileSdk
         minSdk = Versions.minSdk
         val apiKey = Versions.api_key
-     //   testInstrumentationRunner = "com.arch.test.CustomTestRunner"
+       // testInstrumentationRunner = "com.arch.test.CustomTestRunner"
+
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField ("String", "API_KEY","\"${apiKey}\"")
         testFunctionalTest = true
@@ -45,6 +47,17 @@ android {
             force("androidx.core:core-ktx:1.13.1")
         }
     }
+//    sourceSets {
+//        getByName("main") {
+//            java.srcDirs("src/main/java")
+//        }
+//        getByName("test") {
+//            java.srcDirs("src/test/java")
+//        }
+//        getByName("androidTest") {
+//            java.srcDirs("src/androidTest/java")
+//        }
+//    }
 }
 
 tasks.withType<Test> {
@@ -59,11 +72,20 @@ tasks.withType<Test> {
 dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
     implementation(project(path = ":dependency"))
-    implementation("androidx.databinding:databinding-runtime:8.5.0")
+    implementation("androidx.test.espresso:espresso-core:3.6.1")
+    debugImplementation("androidx.fragment:fragment-testing:1.2.5") {
+        exclude(group = "androidx.test", module = "core")
+    }
+    Depend.supportAndroidLibs.forEach { implementation(it) }
     Depend.daggerAnnotationProcessor.forEach { kapt(it) }
     Depend.testRunner.forEach { androidTestImplementation(it) }
-    Depend.testUnit.forEach { testImplementation(it) }
-    androidTestImplementation(Depend.testEspresso)
+    Depend.testJUnit.forEach { testImplementation(it) }
+    Depend.androidJUnit.forEach { androidTestImplementation(it) }
+    androidTestImplementation(Depend.androidTest)
+    Depend.testEspresso.forEach { androidTestImplementation(it) }
+    kaptTest(Depend.daggerJunit)
+    kaptAndroidTest(Depend.daggerJunit)
+    androidTestImplementation("com.squareup.rx.idler:rx3-idler:0.11.0")
 }
 kapt {
     mapDiagnosticLocations = true // include the Kotlin files into error reports

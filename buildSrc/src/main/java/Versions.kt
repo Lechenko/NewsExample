@@ -81,8 +81,8 @@
     object TestLibraries{
         const val junit = "4.13.2"
         const val junitAndroidX = "1.1.5"
-        const val runner = "1.4.0"
-        const val ext = "1.1.3"
-        const val espresso = "3.5.1"
+        const val runner = "1.6.1"
+        const val ext = "1.1.5"
+        const val espresso = "3.6.1"
     }
 }

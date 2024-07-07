@@ -116,16 +116,26 @@ object Depend {
 
     const val guava = "com.google.guava:guava:31.1-jre"
     // Test unit testImplementation
-     val testUnit = arrayOf(
+     val testJUnit = arrayOf(
         "junit:junit:${Versions.TestLibraries.junit}"
     )
 //androidTestImplementation
      val testRunner = arrayOf(
     "androidx.test:runner:${Versions.TestLibraries.runner}",
-    "androidx.test.ext:junit:${Versions.TestLibraries.ext}",
-            "com.android.support.test:rules:1.0.2"
+    "androidx.test:rules:${Versions.TestLibraries.runner}"
 )
 
+    val daggerJunit = "com.google.dagger:dagger-compiler:${Versions.Google.dagger}"
+    val androidTest = "androidx.test:core:1.6.1"
+    val androidJUnit = arrayOf("androidx.test.ext:junit:1.2.1",
+        "androidx.test.ext:truth:1.6.0")
+
     //Test Espresso
-  const  val testEspresso = "androidx.test.espresso:espresso-core:${Versions.TestLibraries.espresso}"
+    val testEspresso = arrayOf("androidx.test.espresso:espresso-core:${Versions.TestLibraries.espresso}",
+        "androidx.test.espresso:espresso-contrib:${Versions.TestLibraries.espresso}",
+        "androidx.test.espresso:espresso-intents:${Versions.TestLibraries.espresso}",
+        "androidx.test.espresso:espresso-accessibility:${Versions.TestLibraries.espresso}",
+        "androidx.test.espresso:espresso-web:${Versions.TestLibraries.espresso}",
+        "androidx.test.espresso.idling:idling-concurrent:${Versions.TestLibraries.espresso}",
+        "androidx.test.espresso:espresso-idling-resource:${Versions.TestLibraries.espresso}")
 }
