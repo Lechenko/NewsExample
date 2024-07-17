@@ -39,7 +39,6 @@ class TestNews {
         @AfterClass
         fun stepDown() {
             appContext = null
-
         }
     }
 
@@ -54,7 +53,7 @@ class TestNews {
 
     @After
     fun stopTest() {
-
+        domain = null
     }
 
     @Test

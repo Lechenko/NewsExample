@@ -19,3 +19,23 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+-keep class com.arch.test.** { *; }
+-keep class org.conscrypt.Conscrypt.** { *; }
+-keep class org.openjsse.** { *; }
+-dontwarn org.bouncycastle.jsse.BCSSLParameters
+-dontwarn org.bouncycastle.jsse.BCSSLSocket
+-dontwarn org.bouncycastle.jsse.provider.BouncyCastleJsseProvider
+-dontwarn org.conscrypt.Conscrypt$Version
+-dontwarn org.conscrypt.Conscrypt
+-dontwarn org.conscrypt.ConscryptHostnameVerifier
+-dontwarn org.openjsse.javax.net.ssl.SSLParameters
+-dontwarn org.openjsse.javax.net.ssl.SSLSocket
+-dontwarn org.openjsse.net.ssl.OpenJSSE
+-dontwarn com.arch.dependency.BaseApplication
+-dontwarn com.arch.portdomain.favorites.IFavoritesUseCase$UseCaseFavorites
+-dontwarn com.arch.portdomain.main.IMainUseCase
+-dontwarn com.arch.portdomain.model.EnumStateLayer
+-dontwarn com.arch.portdomain.model.NewsModel
+-dontwarn com.arch.portdomain.model.StateLayer
+-dontwarn com.arch.portdomain.web.IWebUseCase$UseCaseWeb
+-dontwarn com.arch.presentation.BR

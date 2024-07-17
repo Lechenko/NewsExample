@@ -9,36 +9,13 @@ plugins {
 
 android {
     namespace = "com.arch.domain"
+    buildFeatures.buildConfig = true
     defaultConfig {
         compileSdk = Versions.compileSdk
-        minSdk = Versions.minSdk
-        consumerProguardFiles("consumer-rules.pro")
     }
-    kapt.includeCompileClasspath = false
     buildTypes {
-        getByName("debug") {
-            isMinifyEnabled = false
-            manifestPlaceholders["versionCode"] = Versions.versionCode
-            manifestPlaceholders["appName"] = Versions.appName
-                .plus("_")
-                .plus(Versions.versionName)
-                .plus("_debug")
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
-        }
-        getByName("release") {
-            isMinifyEnabled = true
-            manifestPlaceholders["versionCode"] = Versions.versionCode
-            manifestPlaceholders["appName"] =  Versions.appName
-                .plus("_")
-                .plus(Versions.versionName)
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
-        }
+        getByName("debug")
+        getByName("release")
     }
     java.toolchain {
         languageVersion.set(JavaLanguageVersion.of(Versions.varsionJava))

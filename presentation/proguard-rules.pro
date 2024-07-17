@@ -20,3 +20,8 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 -dontwarn com.arch.portdomain.model.NewsModel
+-dontwarn com.arch.portdomain.favorites.IFavoritesUseCase$UseCaseFavorites
+-dontwarn com.arch.portdomain.main.IMainUseCase
+-dontwarn com.arch.portdomain.model.EnumStateLayer
+-dontwarn com.arch.portdomain.model.StateLayer
+-dontwarn com.arch.portdomain.web.IWebUseCase$UseCaseWeb

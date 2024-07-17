@@ -9,43 +9,17 @@ plugins {
 
 android {
     namespace = "com.arch.featureremoteapi"
-
+    buildFeatures.buildConfig = true
     defaultConfig {
-        minSdk = Versions.minSdk
         compileSdk = Versions.compileSdk
         val baseUrl = Versions.base_url
         val apiKey = Versions.api_key
         buildConfigField ("String", "BASE_URL","\"${baseUrl}\"")
         buildConfigField ("String", "API_KEY","\"${apiKey}\"")
-        consumerProguardFiles("consumer-rules.pro")
     }
     buildTypes {
-        getByName("debug") {
-            isMinifyEnabled = false
-            manifestPlaceholders["versionCode"] = Versions.versionCode
-            manifestPlaceholders["appName"] = Versions.appName
-                .plus("_")
-                .plus(Versions.versionName)
-                .plus("_debug")
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
-        }
-        getByName("release") {
-            isMinifyEnabled = true
-            manifestPlaceholders["versionCode"] = Versions.versionCode
-            manifestPlaceholders["appName"] =  Versions.appName
-                .plus("_")
-                .plus(Versions.versionName)
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
-        }
-    }
-    buildFeatures {
-        buildConfig = true
+        getByName("debug")
+        getByName("release")
     }
     java.toolchain {
         languageVersion.set(JavaLanguageVersion.of(Versions.varsionJava))
@@ -56,7 +30,6 @@ android {
 }
 
 dependencies {
-    implementation(Depend.inject)
     //RX
     Depend.rxAndroid.forEach { implementation(it) }
     //Retrofit and okHttp

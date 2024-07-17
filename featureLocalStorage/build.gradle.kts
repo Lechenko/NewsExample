@@ -9,40 +9,15 @@ plugins {
 
 android {
     namespace = "com.arch.featurelocalstorage"
+    buildFeatures.buildConfig = true
     defaultConfig {
         compileSdk = Versions.compileSdk
-        minSdk = Versions.minSdk
         val daoName = Versions.dao_name
-        buildConfigField ("String", "DAO_NAME","\"${daoName}\"")
-        consumerProguardFiles("consumer-rules.pro")
+        buildConfigField("String", "DAO_NAME","\"${daoName}\"")
     }
     buildTypes {
-        getByName("debug") {
-            isMinifyEnabled = false
-            manifestPlaceholders["versionCode"] = Versions.versionCode
-            manifestPlaceholders["appName"] = Versions.appName
-                .plus("_")
-                .plus(Versions.versionName)
-                .plus("_debug")
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
-        }
-        getByName("release") {
-            isMinifyEnabled = true
-            manifestPlaceholders["versionCode"] = Versions.versionCode
-            manifestPlaceholders["appName"] =  Versions.appName
-                .plus("_")
-                .plus(Versions.versionName)
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
-        }
-    }
-    buildFeatures {
-        buildConfig = true
+        getByName("debug")
+        getByName("release")
     }
     java.toolchain {
         languageVersion.set(JavaLanguageVersion.of(Versions.varsionJava))
@@ -53,7 +28,6 @@ android {
 }
 
 dependencies {
-    implementation(Depend.inject)
     //RX
     Depend.rxAndroid.forEach { implementation(it) }
     //Room

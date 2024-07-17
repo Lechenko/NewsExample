@@ -14,22 +14,25 @@ import com.arch.presentation.R.*
 import com.arch.presentation.activity.MainActivity
 import com.arch.test.util.*
 import androidx.test.espresso.assertion.ViewAssertions.matches
+import androidx.test.filters.SmallTest
 import com.arch.test.util.RecyclerViewMatcher.Companion.recyclerViewWithId
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+
 import org.junit.runner.RunWith
 
 
 @RunWith(AndroidJUnit4::class)
+@SmallTest
 class TestUIGroupNews {
     private val recyclerViewMatcher: RecyclerViewMatcher = recyclerViewWithId(id.rvNewsCategoriesDisplay)
     private val recyclerView: Matcher<View> = withId(id.rvNewsCategoriesDisplay)
-    private lateinit var activity: MainActivity
+    private var activity: MainActivity? = null
 
     @get:Rule
-    var activityRule = ActivityScenarioRule(MainActivity::class.java)
+    val activityRule = ActivityScenarioRule(MainActivity::class.java)
 
     @Before
     fun setUp() =
@@ -38,7 +41,7 @@ class TestUIGroupNews {
         }
     @After
     fun downUp() {
-
+        activity = null
     }
     @Test
     fun isDisplayRecyclerView() =

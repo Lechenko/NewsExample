@@ -24,3 +24,4 @@
 -dontwarn com.arch.portdomain.model.SourceArticle
 -dontwarn com.arch.portdomain.model.Article
 -dontwarn com.arch.portdomain.model.ResponseNews
+-keep class com.arch.featureremoteapi.model.** { *; }

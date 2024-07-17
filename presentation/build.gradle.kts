@@ -6,44 +6,19 @@ plugins {
     id("kotlin-kapt")
     id("kotlin-parcelize")
 }
-
 android {
     namespace = "com.arch.presentation"
-    buildFeatures.dataBinding = true
+    buildFeatures {
+        buildConfig = true
+        dataBinding = true
+    }
     defaultConfig {
-        Versions.applicationId
         compileSdk = Versions.compileSdk
-        minSdk = Versions.minSdk
         vectorDrawables.useSupportLibrary = true
-        consumerProguardFiles("consumer-rules.pro")
     }
     buildTypes {
-        getByName("debug") {
-            isMinifyEnabled = false
-            manifestPlaceholders["versionCode"] = Versions.versionCode
-            manifestPlaceholders["appName"] = Versions.appName
-                .plus("_")
-                .plus(Versions.versionName)
-                .plus("_debug")
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
-        }
-        getByName("release") {
-            isMinifyEnabled = true
-            manifestPlaceholders["versionCode"] = Versions.versionCode
-            manifestPlaceholders["appName"] =  Versions.appName
-                .plus("_")
-                .plus(Versions.versionName)
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
-        }
-    }
-    defaultConfig {
-        vectorDrawables.useSupportLibrary = true
+        getByName("debug")
+        getByName("release")
     }
     java.toolchain {
         languageVersion.set(JavaLanguageVersion.of(Versions.varsionJava))
@@ -56,10 +31,9 @@ android {
 dependencies {
     implementation(project(path = ":comm"))
     implementation(project(path = ":portDomain"))
-    Depend.kotlinDependency.forEach { implementation(it) }
+
     Depend.lifecycle_viewmodel.forEach { implementation(it) }
     kapt(Depend.lifecycleKpt)
-
     Depend.supportAndroidLibs.forEach { implementation(it) }
     // Dagger
     Depend.dagger.forEach { implementation(it) }

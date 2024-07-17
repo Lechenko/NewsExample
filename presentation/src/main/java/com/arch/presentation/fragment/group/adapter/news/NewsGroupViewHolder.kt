@@ -1,15 +1,17 @@
 package com.arch.presentation.fragment.group.adapter.news
 
-import android.content.Context
+
 import android.view.View
+import androidx.core.content.ContextCompat
 import com.arch.portdomain.model.NewsGroupModel
-import com.arch.presentation.ConstPresentation
+import com.arch.presentation.R
 import com.arch.presentation.base.BaseViewHolder
 import com.arch.presentation.databinding.ItemGroupBinding
 import com.arch.presentation.fragment.group.NewsGroupVM
 import com.arch.presentation.glide.GlideApp
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 
-import timber.log.Timber
+
 
 class NewsGroupViewHolder(private val  view : View,private val viewModel: NewsGroupVM)
     : BaseViewHolder<ItemGroupBinding>(view){
@@ -18,21 +20,22 @@ class NewsGroupViewHolder(private val  view : View,private val viewModel: NewsGr
         binding?.let { it.event = viewModel }
     }
 
-    fun bind(item : NewsGroupModel){
-        binding?.let {
-            item.url?.let { url ->
-                GlideApp.with(view.context)
-                    .load(ConstPresentation.LOGO_DOMAIN.const + url + ConstPresentation.SIZE_ICON.const)
-                    .fitCenter()
-                    .circleCrop()
-                    .into(it.rivCategoryLogoDomain)
-            }
-            Timber.e("NewsGroupViewHolder url %s",item)
-            item.name?.let {name -> it.tvCategoryDescription.text = name}
-            it.contentItem.setOnClickListener {
-                viewModel.selectedItem(item)
-            }
-        }
 
-    }
+    fun bind(item : NewsGroupModel) {
+        binding?.let {
+            GlideApp.with(view.context)
+                .load(ContextCompat.getDrawable(view.context, R.drawable.news_logo_rv))
+                .fitCenter()
+                .circleCrop()
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .skipMemoryCache(false)
+                .override(300, 200)
+                .into(it.rivCategoryLogoDomain)
+                item.name?.let { name -> it.tvCategoryDescription.text = name }
+                it.contentItem.setOnClickListener {
+                    viewModel.selectedItem(item)
+                }
+            }
+
+        }
 }

@@ -1,6 +1,7 @@
 package com.arch.presentation.fragment.group.adapter.lang
 
 import android.view.View
+import androidx.core.content.ContextCompat
 import com.arch.presentation.R
 import com.arch.presentation.base.BaseViewHolder
 import com.arch.presentation.databinding.ItemLangBinding
@@ -20,15 +21,15 @@ class NewsLangViewHolder(private val view : View,private val viewModel: NewsGrou
             it.tvItemLanguage.setOnClickListener { _ ->
                 Language.flag = langKey
                 it.tvItemLanguage.setBackgroundColor(
-                    view.resources.getColor(R.color.select_language_ok,null)
+                    ContextCompat.getColor(view.context,R.color.select_language_ok)
                 )
                 viewModel.onClickLanguage(langValue)
             }
             Timber.tag(NewsLangViewHolder::class.simpleName.toString()).e(Language.flag)
             it.tvItemLanguage.setBackgroundColor(
-                if (Language.isSelectLang(langKey)) view.resources
-                    .getColor(R.color.select_language_ok,null) else view.resources
-                    .getColor(R.color.select_language_not,null)
+                if (Language.isSelectLang(langKey))
+                        ContextCompat.getColor(view.context,R.color.select_language_ok) else
+                    ContextCompat.getColor(view.context,R.color.select_language_not)
             )
         }
     }

@@ -15,7 +15,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class RepositoryDAO @Inject constructor(context: Context) : BaseDAO(),
+class RepositoryDAO @Inject constructor(private val context: Context) : BaseDAO(),
     IRepositoryDAO {
     private val storage: Dao = LocaleStorage(context)
     private val gson: Gson =
