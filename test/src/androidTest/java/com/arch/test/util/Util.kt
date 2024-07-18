@@ -21,13 +21,5 @@ inline fun <reified T : Fragment> FragmentManager.getFragment(args: Bundle? = nu
     }
 }
 
-fun <VIEW_BINDING : ViewDataBinding> getBaseFragmentClass(fragmentPath : String)
-        : BaseFragment<*, *> {
-    val fragmentClass = Class.forName(fragmentPath) as Class<out BaseFragment<*, *>>
-    val fragmentInstance = fragmentClass.newInstance() as BaseFragment<*, *>
-//    val bindingField = fragmentClass.getDeclaredField("binding")
-//    bindingField.isAccessible = true
-//    val binding = bindingField.get(fragmentInstance) as VIEW_BINDING
-    return fragmentInstance
-}
+
 
