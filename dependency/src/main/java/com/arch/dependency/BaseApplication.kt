@@ -9,6 +9,7 @@ abstract class BaseApplication : DaggerApplication() {
         if (BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())
         }
+        onCreateApp()
     }
 
     abstract fun onCreateApp()
