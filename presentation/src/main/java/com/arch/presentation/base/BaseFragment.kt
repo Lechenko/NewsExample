@@ -193,18 +193,6 @@ abstract class BaseFragment<Binding : ViewDataBinding, ViewModelType : ViewModel
         }
     }
 
-    fun openIntent(pair: Pair<String, String>) {
-        val file = File(pair.second)
-        val intent = Intent(Intent.ACTION_VIEW)
-            .setDataAndType(
-                FileProvider.getUriForFile(
-                    requireActivity(), requireActivity()
-                        .packageName + ".provider", file
-                ),
-                if ("mp4" == pair.first || "m4v" == pair.first) "video/*" else "image/*"
-            ).addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-        startActivity(Intent.createChooser(intent, "Share Via"))
-    }
 
     fun getDimension(activity: Activity): Int {
         val windowMetrics: WindowMetrics =
@@ -213,28 +201,6 @@ abstract class BaseFragment<Binding : ViewDataBinding, ViewModelType : ViewModel
         val width: Int = windowMetrics.bounds.width()
         return min(height, width)
     }
-
-    fun hideKeyboard() {
-        val imm =
-            requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        Objects.requireNonNull(imm)
-            .hideSoftInputFromWindow(requireActivity().window.decorView.windowToken, 0)
-    }
-
-    fun showKeyboard() {
-        val imm =
-            requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        Objects.requireNonNull(imm)
-            .showSoftInput(requireActivity().window.decorView, InputMethodManager.SHOW_IMPLICIT)
-    }
-
-    @Suppress("DEPRECATION")
-    protected open fun getDimension(): Int {
-        val point = Point()
-        requireActivity().windowManager.defaultDisplay.getSize(point)
-        return min(point.x, point.y)
-    }
-
 
     fun getDimensionA(): Int {
         var size = 0

@@ -1,7 +1,7 @@
  object Versions {
     const val varsionJava = 17
-    const val versionName = "1.0"
-    const val versionCode = 1
+    const val versionName = "2.0"
+    const val versionCode = 2
     const val appName = "News"
     const val applicationId = "com.arch.news"
     const val base_url = "https://newsapi.org"
@@ -10,9 +10,8 @@
     const val dao_name = "dao_"
     const val servicesPlugin = "3.2.0"
     const val compileSdk = 34
-    const val minSdk = 30
+    const val minSdk = 28
     const val targetSdk = 34
-    const val buildTools = "34.0.0"
     const val sharedName = "shared_app"
     object SupportAndroidLibs {
         const val supportLibraryAppCompat = "1.7.0"

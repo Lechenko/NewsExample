@@ -11,21 +11,21 @@ android {
     namespace = "com.arch.data"
     buildFeatures.buildConfig = true
     defaultConfig {
+        minSdk = Versions.minSdk
         compileSdk = Versions.compileSdk
+        //multiDexEnabled = true
     }
     buildTypes {
         getByName("debug")
         getByName("release")
     }
-    java.toolchain {
-        languageVersion.set(JavaLanguageVersion.of(Versions.varsionJava))
-    }
-    kotlinExtension.jvmToolchain {
-        languageVersion.set(JavaLanguageVersion.of(Versions.varsionJava))
+    kotlin {
+        jvmToolchain(Versions.varsionJava)
     }
 }
 
 dependencies {
+  //  implementation(Depend.multidexAndroidLib)
     implementation(project(path = ":comm"))
     implementation(project(path = ":portData"))
     implementation(project(path = ":featureLocalStorage"))

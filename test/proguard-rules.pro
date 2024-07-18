@@ -19,5 +19,7 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+#noinspection ShrinkerUnresolvedReference
 -keep class io.reactivex.rxjava3.plugins.RxJavaPlugins { *; }
+#noinspection ShrinkerUnresolvedReference
 -keep class io.reactivex.rxjava3.disposables.CompositeDisposable { *; }

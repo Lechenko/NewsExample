@@ -46,6 +46,7 @@ object StringUtils {
         } else ""
     }
 
+    @SuppressLint("NewApi")
     private fun getRelativeTimeSpanString(
         time: Long,
         now: Long,

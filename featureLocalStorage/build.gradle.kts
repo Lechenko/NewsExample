@@ -11,6 +11,7 @@ android {
     namespace = "com.arch.featurelocalstorage"
     buildFeatures.buildConfig = true
     defaultConfig {
+        minSdk = Versions.minSdk
         compileSdk = Versions.compileSdk
         val daoName = Versions.dao_name
         buildConfigField("String", "DAO_NAME","\"${daoName}\"")
@@ -19,15 +20,13 @@ android {
         getByName("debug")
         getByName("release")
     }
-    java.toolchain {
-        languageVersion.set(JavaLanguageVersion.of(Versions.varsionJava))
-    }
-    kotlinExtension.jvmToolchain {
-        languageVersion.set(JavaLanguageVersion.of(Versions.varsionJava))
+    kotlin {
+        jvmToolchain(Versions.varsionJava)
     }
 }
 
 dependencies {
+  //  implementation(Depend.multidexAndroidLib)
     //RX
     Depend.rxAndroid.forEach { implementation(it) }
     //Room

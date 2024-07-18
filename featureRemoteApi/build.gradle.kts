@@ -11,6 +11,7 @@ android {
     namespace = "com.arch.featureremoteapi"
     buildFeatures.buildConfig = true
     defaultConfig {
+        minSdk = Versions.minSdk
         compileSdk = Versions.compileSdk
         val baseUrl = Versions.base_url
         val apiKey = Versions.api_key
@@ -21,15 +22,13 @@ android {
         getByName("debug")
         getByName("release")
     }
-    java.toolchain {
-        languageVersion.set(JavaLanguageVersion.of(Versions.varsionJava))
-    }
-    kotlinExtension.jvmToolchain {
-        languageVersion.set(JavaLanguageVersion.of(Versions.varsionJava))
+    kotlin {
+        jvmToolchain(Versions.varsionJava)
     }
 }
 
 dependencies {
+  //  implementation(Depend.multidexAndroidLib)
     //RX
     Depend.rxAndroid.forEach { implementation(it) }
     //Retrofit and okHttp

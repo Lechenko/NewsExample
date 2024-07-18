@@ -11,17 +11,16 @@ plugins {
 android {
     namespace = "com.arch.portdata"
     defaultConfig {
+        minSdk = Versions.minSdk
         compileSdk = Versions.compileSdk
     }
-    java.toolchain {
-        languageVersion.set(JavaLanguageVersion.of(Versions.varsionJava))
-    }
-    kotlinExtension.jvmToolchain {
-        languageVersion.set(JavaLanguageVersion.of(Versions.varsionJava))
+    kotlin {
+        jvmToolchain(Versions.varsionJava)
     }
 }
 
 dependencies {
+  //  implementation(Depend.multidexAndroidLib)
     //RX
     Depend.rxAndroid.forEach { implementation(it) }
 }

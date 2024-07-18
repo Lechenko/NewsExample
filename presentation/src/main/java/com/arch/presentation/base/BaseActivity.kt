@@ -3,11 +3,13 @@ import android.util.Pair
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.annotation.LayoutRes
+import androidx.annotation.RequiresApi
 import androidx.core.content.FileProvider
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
@@ -54,6 +56,7 @@ abstract class BaseActivity<Binding : ViewDataBinding,VIEW_MODEL : ViewModel> : 
 
 
     override fun onBackPressed() {
+        super.onBackPressed()
         val manager = supportFragmentManager
         if (manager.backStackEntryCount == 1) {
             finish()
@@ -95,11 +98,13 @@ abstract class BaseActivity<Binding : ViewDataBinding,VIEW_MODEL : ViewModel> : 
         resumeActivity()
     }
 
+    @SuppressLint("NewApi")
     fun hideKeyboard() {
         val imm = this.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
         Objects.requireNonNull(imm).hideSoftInputFromWindow(this.window.decorView.windowToken, 0)
     }
 
+    @SuppressLint("NewApi")
     fun showKeyboard() {
         val imm = this.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
         Objects.requireNonNull(imm)
@@ -134,6 +139,7 @@ abstract class BaseActivity<Binding : ViewDataBinding,VIEW_MODEL : ViewModel> : 
             startActivity(chooser)
         }
     }
+    @RequiresApi(Build.VERSION_CODES.ECLAIR)
     protected fun openIntent(path: Pair<String,String>){
         val file = File(path.second)
         val intent = Intent(Intent.ACTION_VIEW)

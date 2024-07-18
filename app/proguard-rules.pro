@@ -19,7 +19,6 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
--keep class com.arch.test.** { *; }
 -keep class org.conscrypt.Conscrypt.** { *; }
 -keep class org.openjsse.** { *; }
 -dontwarn org.bouncycastle.jsse.BCSSLParameters

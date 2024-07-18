@@ -7,6 +7,7 @@ import com.arch.presentation.databinding.ItemNewsBinding
 import com.arch.presentation.fragment.news.NewsViewModel
 import com.arch.presentation.glide.GlideApp
 import com.arch.presentation.util.StringUtils
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 
 class NewsViewHolder constructor(private val view : View,
                                  private val viewModel: NewsViewModel)
@@ -22,6 +23,9 @@ class NewsViewHolder constructor(private val view : View,
                     .load(urlToImage)
                     .fitCenter()
                     .circleCrop()
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .skipMemoryCache(false)
+                    .override(300, 200)
                     .into(it.ivItemNewsImage)
             }
             item.title?.let {title -> it.tvItemNewsTitle.text = title}

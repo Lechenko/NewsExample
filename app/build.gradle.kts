@@ -1,4 +1,3 @@
-import org.jetbrains.kotlin.gradle.dsl.kotlinExtension
 
 plugins {
     id("com.android.application")
@@ -9,7 +8,11 @@ plugins {
 android {
     val appName: String = Versions.appName
     val versionName : String = Versions.versionName
-
+    lint {
+        abortOnError = false
+        absolutePaths = false
+        lintConfig =  file("lint.xml")
+    }
     namespace = Versions.applicationId
     buildFeatures {
         buildConfig = true
@@ -29,6 +32,7 @@ android {
         targetSdk = Versions.targetSdk
         versionCode = Versions.versionCode
         compileSdk = Versions.compileSdk
+        multiDexEnabled = true
         buildConfigField ("String", "VERSION_NAME","\"${versionName}\"")
         buildConfigField ("String", "APP_NAME","\"${appName}\"")
         setProperty("archivesBaseName", appName + "_" + versionName)
@@ -61,11 +65,14 @@ android {
         }
 
     }
-    java.toolchain {
-        languageVersion.set(JavaLanguageVersion.of(Versions.varsionJava))
-    }
-    kotlinExtension.jvmToolchain {
-        languageVersion.set(JavaLanguageVersion.of(Versions.varsionJava))
+//    java.toolchain {
+//        languageVersion.set(JavaLanguageVersion.of(Versions.varsionJava))
+//    }
+//    kotlinExtension.jvmToolchain {
+//        languageVersion.set(JavaLanguageVersion.of(Versions.varsionJava))
+//    }
+    kotlin {
+        jvmToolchain(Versions.varsionJava)
     }
     configurations.all {
         resolutionStrategy {

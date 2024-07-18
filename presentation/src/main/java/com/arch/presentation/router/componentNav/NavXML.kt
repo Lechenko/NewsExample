@@ -1,5 +1,6 @@
 package com.arch.presentation.router.componentNav
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
@@ -105,6 +106,7 @@ class NavXML (private val activity: DaggerAppCompatActivity) : IComponentNav {
     }
 
 
+     @SuppressLint("NewApi")
      private fun restartAppBase() {
         val packageManager = activity.packageManager
         val intent = packageManager.getLaunchIntentForPackage(activity.packageName)

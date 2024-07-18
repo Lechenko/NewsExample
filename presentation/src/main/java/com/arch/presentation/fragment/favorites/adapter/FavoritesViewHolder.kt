@@ -7,6 +7,7 @@ import com.arch.presentation.databinding.ItemFavoritesBinding
 import com.arch.presentation.fragment.favorites.NewsFavoritesVM
 import com.arch.presentation.glide.GlideApp
 import com.arch.presentation.util.StringUtils
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 
 class FavoritesViewHolder constructor(private val view : View,private val viewModel : NewsFavoritesVM)
     : BaseViewHolder<ItemFavoritesBinding>(view)  {
@@ -21,6 +22,11 @@ class FavoritesViewHolder constructor(private val view : View,private val viewMo
             item.urlToImage?.let {
                 GlideApp.with(view)
                     .load(it)
+                    .fitCenter()
+                    .circleCrop()
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .skipMemoryCache(false)
+                    .override(300, 200)
                     .into(bind.ivItemFavoritesImage)
             }
             item.title?.let { bind.tvItemFavoritesTitle.text = it}

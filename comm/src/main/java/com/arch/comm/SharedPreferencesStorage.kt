@@ -1,5 +1,6 @@
 package com.arch.comm
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
 
@@ -41,6 +42,7 @@ class SharedPreferencesStorage @Inject constructor(context: Context) {
         return pref.getLong(key, -1)
     }
 
+    @SuppressLint("NewApi")
     fun clearAll() {
         pref.edit().clear().apply()
     }

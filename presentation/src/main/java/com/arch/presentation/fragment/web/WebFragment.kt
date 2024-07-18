@@ -73,7 +73,7 @@ class WebFragment : BaseFragment<FragmentWebBinding,WebVM>() {
         }
     }
 
-    @SuppressLint("SetJavaScriptEnabled")
+    @SuppressLint("SetJavaScriptEnabled", "NewApi")
     private fun setupBrowser(url: String) {
 //        binding?.let { bind ->{
 //            val webSettings: WebSettings = bind.wvsWeb.settings
@@ -111,7 +111,7 @@ class WebFragment : BaseFragment<FragmentWebBinding,WebVM>() {
                     if (context != null) {
                         bind.pbWebProgressBar.progress = newProgress
                         bind.pbWebProgressBar.progressDrawable =
-                            context?.resources?.getDrawable(R.drawable.progress_indicator,null)
+                            context?.resources?.getDrawable(R.drawable.progress_indicator)
                         bind.pbWebProgressBar.visibility = if (newProgress == 100) View.GONE else View.VISIBLE
                     }
                 }

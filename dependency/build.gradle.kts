@@ -11,21 +11,21 @@ android {
     namespace = "com.arch.dependency"
     buildFeatures.buildConfig = true
     defaultConfig {
+        minSdk = Versions.minSdk
         compileSdk = Versions.compileSdk
+        multiDexEnabled = true
     }
     buildTypes {
         getByName("debug")
         getByName("release")
     }
-    java.toolchain {
-        languageVersion.set(JavaLanguageVersion.of(Versions.varsionJava))
-    }
-    kotlinExtension.jvmToolchain {
-        languageVersion.set(JavaLanguageVersion.of(Versions.varsionJava))
+    kotlin {
+        jvmToolchain(Versions.varsionJava)
     }
 }
 
 dependencies {
+    api(Depend.multidexAndroidLib)
     Depend.dagger.forEach { api(it) }
     Depend.daggerAnnotationProcessor.forEach { kapt(it) }
     api(Depend.rxPermission)
