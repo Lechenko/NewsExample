@@ -95,7 +95,10 @@ abstract class BaseFragment<Binding : ViewDataBinding, ViewModelType : ViewModel
         actionState: ActionState<T>,
         actionError: ActionError
     ) {
-        disposable?.add(viewModel.state().subscribe({
+        disposable?.add(viewModel.state()
+            .doOnNext {  Timber.tag(News::class.java.name.toString())
+                .i("observationState doOnNext : ".plus(it.status)) }
+            .subscribe({
             actionState.action(model = it as T)
             if (BuildConfig.DEBUG) subjetTestVMStatus?.onNext(true)
         }, {

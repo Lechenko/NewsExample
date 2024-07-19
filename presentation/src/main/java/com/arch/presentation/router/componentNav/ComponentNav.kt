@@ -11,8 +11,6 @@ class ComponentNav(private val component : IComponentNav) : IComponentNav{
         component.onBackPressed()
     }
 
-
-
     override fun transaction(cmd: String, obj: Any) {
         component.transaction(cmd,obj)
     }

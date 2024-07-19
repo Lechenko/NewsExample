@@ -91,7 +91,7 @@ class News : BaseFragment<FragmentNewsBinding, NewsViewModel>() {
                     }
 
                     EnumStateLayer.STATUS_LINK.const -> {
-                        shareFile(model.message)
+                        shareLink(model.message)
                     }
                 }
             }

@@ -31,13 +31,14 @@ class NewsFavorites : BaseFragment<FragmentNewsFavoritesBinding, NewsFavoritesVM
                         adapter.deleteItem(model.modelNews[0])
                         showMessage("delete ok")
                     }
-
                     EnumStateLayer.STATUS_OK_NEWS_LIST.const -> {
                         adapter.updateListAdapter(model.modelNews)
                     }
-
                     EnumStateLayer.STATUS_MGS.const -> {
                         showMessage(model.message)
+                    }
+                    EnumStateLayer.STATUS_LINK.const -> {
+                        shareLink(model.message)
                     }
                 }
             }

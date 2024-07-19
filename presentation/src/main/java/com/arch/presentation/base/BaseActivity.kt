@@ -55,6 +55,7 @@ abstract class BaseActivity<Binding : ViewDataBinding,VIEW_MODEL : ViewModel> : 
     }
 
 
+    @Deprecated("Deprecated in Java")
     override fun onBackPressed() {
         super.onBackPressed()
         val manager = supportFragmentManager
