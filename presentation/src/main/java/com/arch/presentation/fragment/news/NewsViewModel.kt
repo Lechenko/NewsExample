@@ -42,6 +42,12 @@ class NewsViewModel @Inject constructor(
 
     fun saveNews(news: NewsModel) {
         useCase.saveNews(news)
+        onNext(
+            StateLayer(
+                EnumStateLayer.STATUS_MGS.const,
+                message = "save ok"
+            )
+        )
     }
 
     fun shareContent(news: NewsModel) {

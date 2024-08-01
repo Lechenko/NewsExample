@@ -13,8 +13,10 @@ android {
     }
     namespace = "com.arch.test"
     testOptions.unitTests.isIncludeAndroidResources = true
-    buildFeatures.dataBinding = true
-    buildFeatures.buildConfig = true
+    buildFeatures {
+        buildConfig = true
+        dataBinding = true
+    }
     defaultConfig {
         compileSdk = Versions.compileSdk
         minSdk = Versions.minSdk
@@ -72,7 +74,7 @@ tasks.withType<Test> {
 dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
     implementation(project(path = ":dependency"))
-    implementation("androidx.test.espresso:espresso-core:3.6.1")
+    implementation("androidx.test:monitor:1.7.1")
     debugImplementation("androidx.fragment:fragment-testing:1.2.5") {
         exclude(group = "androidx.test", module = "core")
     }

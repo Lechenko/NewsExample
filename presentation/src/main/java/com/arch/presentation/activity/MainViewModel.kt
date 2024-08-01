@@ -14,6 +14,7 @@ import javax.inject.Inject
 class MainViewModel @Inject constructor(
      private val router : IRouter,
      private val useCase : IMainUseCase):  BaseVM() {
+
      fun funBindingRouter(): IRouter = router
 
      fun initDrawerLayout(drawer: DrawerLayout) = router.init(drawer)
