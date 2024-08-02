@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.arch.dependency.scope.FragmentScope
 import com.arch.dependency.scope.ViewModelKey
 import com.arch.presentation.base.ViewModelFactory
+import com.arch.presentation.fragment.group.NewsGroup
 import com.arch.presentation.fragment.group.NewsGroupVM
 import com.arch.presentation.fragment.news.News
 import dagger.Module
@@ -17,7 +18,7 @@ abstract class ModuleNewsGroup {
         @Provides
         @IntoMap
         @ViewModelKey(NewsGroupVM::class)
-        fun bindNewsGroupViewModel(factory: ViewModelFactory, fragment: News): NewsGroupVM =
+        fun bindNewsGroupViewModel(factory: ViewModelFactory, fragment: NewsGroup): NewsGroupVM =
             ViewModelProvider(fragment, factory)[NewsGroupVM::class.java]
     }
 

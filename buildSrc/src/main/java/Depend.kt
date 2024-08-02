@@ -1,4 +1,12 @@
+
+
+
+
 object Depend {
+    val compose = arrayOf("androidx.compose.runtime:runtime",
+        "androidx.compose.ui:ui","androidx.compose.ui:ui-graphics","androidx.compose.ui:ui-tooling-preview",
+        "androidx.compose.material3:material3","androidx.activity:activity-compose:${Versions.Compose.composeActivity}")
+    const val composeBom = "androidx.compose:compose-bom:${Versions.Compose.composeBom}"
     val supportAndroidLibs = arrayOf(
         "androidx.annotation:annotation:${Versions.SupportAndroidLibs.supportLibraryAnnotation}",
         "androidx.appcompat:appcompat:${Versions.SupportAndroidLibs.supportLibraryAppCompat}",
@@ -98,7 +106,8 @@ object Depend {
 
     //TimberJava
     const val timberJava = "com.jakewharton.timber:timber:${Versions.Libraries.timber}"
-
+    const val glideCompose = "com.github.bumptech.glide:compose:1.0.0-beta01"
+    const val glideComposeKapt = "com.github.bumptech.glide:compiler:4.16.0"
     // Glide
     const val glide = "com.github.bumptech.glide:glide:${Versions.Libraries.glide}"
 
@@ -138,4 +147,11 @@ object Depend {
         "androidx.test.espresso:espresso-web:${Versions.TestLibraries.espresso}",
         "androidx.test.espresso.idling:idling-concurrent:${Versions.TestLibraries.espresso}",
         "androidx.test.espresso:espresso-idling-resource:${Versions.TestLibraries.espresso}")
+
+    const val composeAndroidTest = "androidx.compose.ui:ui-test-junit4"
+    val composeDebugImpl = arrayOf("androidx.compose.ui:ui-tooling",
+        "androidx.compose.ui:ui-test-manifest")
 }
+
+
+

@@ -5,13 +5,10 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Point
 import android.os.Bundle
-import android.util.Pair
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.annotation.LayoutRes
 import androidx.core.content.FileProvider
@@ -23,13 +20,11 @@ import androidx.window.layout.WindowMetricsCalculator
 import com.arch.comm.BuildConfig
 import com.arch.presentation.fragment.news.News
 import dagger.android.support.DaggerFragment
-import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.subjects.PublishSubject
 import timber.log.Timber
 import java.io.File
-import java.util.Objects
 import javax.inject.Inject
 import kotlin.math.min
 

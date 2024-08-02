@@ -1,8 +1,8 @@
-import org.jetbrains.kotlin.gradle.dsl.kotlinExtension
 
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
+    //id("com.google.devtools.ksp")
     id("kotlin-kapt")
     id("kotlin-parcelize")
 }
@@ -27,7 +27,7 @@ android {
 dependencies {
     api(Depend.multidexAndroidLib)
     Depend.dagger.forEach { api(it) }
-    Depend.daggerAnnotationProcessor.forEach { kapt(it) }
+    Depend.daggerAnnotationProcessor.forEach {kapt(it) }
     api(Depend.rxPermission)
     api(Depend.timberJava)
     Depend.rxAndroid.forEach { api(it) }
@@ -41,7 +41,4 @@ dependencies {
     api(project(path = ":domain"))
     api(project(path = ":featureLocalStorage"))
     api(project(path = ":featureRemoteApi"))
-}
-kapt {
-    mapDiagnosticLocations = true // include the Kotlin files into error reports
 }

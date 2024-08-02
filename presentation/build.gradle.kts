@@ -1,4 +1,3 @@
-import org.jetbrains.kotlin.gradle.dsl.kotlinExtension
 
 plugins {
     id("com.android.library")
@@ -12,6 +11,10 @@ android {
     buildFeatures {
         buildConfig = true
         dataBinding = true
+        compose = true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.5.14"
     }
     defaultConfig {
         minSdk = Versions.minSdk
@@ -28,10 +31,12 @@ android {
 }
 
 dependencies {
-   // implementation(Depend.multidexAndroidLib)
     implementation(project(path = ":comm"))
     implementation(project(path = ":portDomain"))
-
+    implementation(platform(Depend.composeBom))
+  //  implementation("androidx.lifecycle:lifecycle-runtime-android:2.8.4")
+    Depend.compose.forEach { implementation(it) }
+    androidTestImplementation(platform(Depend.composeBom))
     Depend.lifecycle_viewmodel.forEach { implementation(it) }
     kapt(Depend.lifecycleKpt)
     Depend.supportAndroidLibs.forEach { implementation(it) }
@@ -45,6 +50,7 @@ dependencies {
     implementation(Depend.timberJava)
     implementation(Depend.glide)
     kapt(Depend.glideAnnotationProcessor)
+    //kapt("com.android.databinding:compiler:7.0.0")
 }
 kapt {
     mapDiagnosticLocations = true

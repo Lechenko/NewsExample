@@ -2,6 +2,7 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+   // id("com.google.devtools.ksp")
     id("kotlin-kapt")
     id("kotlin-parcelize")
 }
@@ -65,12 +66,6 @@ android {
         }
 
     }
-//    java.toolchain {
-//        languageVersion.set(JavaLanguageVersion.of(Versions.varsionJava))
-//    }
-//    kotlinExtension.jvmToolchain {
-//        languageVersion.set(JavaLanguageVersion.of(Versions.varsionJava))
-//    }
     kotlin {
         jvmToolchain(Versions.varsionJava)
     }
@@ -87,7 +82,5 @@ dependencies {
     implementation(project(path = ":dependency"))
     Depend.kotlinDependency.forEach { implementation(it) }
     Depend.daggerAnnotationProcessor.forEach { kapt(it) }
-}
-kapt {
-    mapDiagnosticLocations = true // include the Kotlin files into error reports
+
 }

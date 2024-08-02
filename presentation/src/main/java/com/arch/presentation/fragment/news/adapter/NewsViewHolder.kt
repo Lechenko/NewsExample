@@ -5,8 +5,8 @@ import com.arch.portdomain.model.NewsModel
 import com.arch.presentation.base.BaseViewHolder
 import com.arch.presentation.databinding.ItemNewsBinding
 import com.arch.presentation.fragment.news.NewsViewModel
-import com.arch.presentation.glide.GlideApp
 import com.arch.presentation.util.StringUtils
+import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 
 class NewsViewHolder constructor(private val view : View,
@@ -19,7 +19,7 @@ class NewsViewHolder constructor(private val view : View,
     fun bind(item: NewsModel){
         binding?.let {
             item.urlToImage?.let {urlToImage ->
-                GlideApp.with(view.context)
+                Glide.with(view.context)
                     .load(urlToImage)
                     .fitCenter()
                     .circleCrop()

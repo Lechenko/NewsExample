@@ -5,6 +5,7 @@ import com.arch.dependency.scope.FragmentScope
 import com.arch.dependency.scope.ViewModelKey
 import com.arch.presentation.base.ViewModelFactory
 import com.arch.presentation.fragment.news.News
+import com.arch.presentation.fragment.web.WebFragment
 import com.arch.presentation.fragment.web.WebVM
 import dagger.Module
 import dagger.Provides
@@ -17,7 +18,7 @@ abstract class ModuleWeb {
         @Provides
         @IntoMap
         @ViewModelKey(WebVM::class)
-        fun bindWebViewModel(factory: ViewModelFactory, fragment: News): WebVM =
+        fun bindWebViewModel(factory: ViewModelFactory, fragment: WebFragment): WebVM =
             ViewModelProvider(fragment, factory)[WebVM::class.java]
     }
 }

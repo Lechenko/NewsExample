@@ -5,8 +5,8 @@ import com.arch.portdomain.model.NewsModel
 import com.arch.presentation.base.BaseViewHolder
 import com.arch.presentation.databinding.ItemFavoritesBinding
 import com.arch.presentation.fragment.favorites.NewsFavoritesVM
-import com.arch.presentation.glide.GlideApp
 import com.arch.presentation.util.StringUtils
+import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 
 class FavoritesViewHolder constructor(private val view : View,private val viewModel : NewsFavoritesVM)
@@ -20,7 +20,7 @@ class FavoritesViewHolder constructor(private val view : View,private val viewMo
         binding?.let {bind ->
             bind.item = item
             item.urlToImage?.let {
-                GlideApp.with(view)
+                Glide.with(view)
                     .load(it)
                     .fitCenter()
                     .circleCrop()

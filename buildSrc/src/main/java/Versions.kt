@@ -24,6 +24,11 @@
         const val worker = "2.8"
         const val androidWindow = "1.1.0"
     }
+
+     object Compose{
+         const val composeActivity = "1.9.1"
+         const val composeBom = "2024.06.00"
+     }
      object ComponentJetPackVM{
          const val lifecycle_version = "2.7.0"
      }
@@ -45,7 +50,7 @@
         const val playServices = "21.0.1"
         const val firebase = "12.0.1"
        // const val dagger = "2.44.2"
-        const val dagger = "2.47"
+        const val dagger = "2.49"
     }
     object Libraries {
         // RxJava and RxAndroid
@@ -64,7 +69,7 @@
             // const val timber = "4.7.1"
         const val timber = "5.0.1"
         // Glide
-        const val glide = "4.14.2"
+        const val glide = "4.16.0"
 
         const val autoValueGoogle = "1.10.1"
         //Apache

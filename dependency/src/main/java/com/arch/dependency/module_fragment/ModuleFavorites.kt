@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.arch.dependency.scope.FragmentScope
 import com.arch.dependency.scope.ViewModelKey
 import com.arch.presentation.base.ViewModelFactory
+import com.arch.presentation.fragment.favorites.NewsFavorites
 import com.arch.presentation.fragment.favorites.NewsFavoritesVM
 import com.arch.presentation.fragment.news.News
 import dagger.Module
@@ -18,7 +19,7 @@ abstract class ModuleFavorites {
         @Provides
         @IntoMap
         @ViewModelKey(NewsFavoritesVM::class)
-        fun bindFavoritesViewModel(factory: ViewModelFactory, fragment: News): NewsFavoritesVM =
+        fun bindFavoritesViewModel(factory: ViewModelFactory, fragment: NewsFavorites): NewsFavoritesVM =
             ViewModelProvider(fragment, factory)[NewsFavoritesVM::class.java]
     }
 
